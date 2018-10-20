@@ -16,6 +16,7 @@ class CreateTopicsTable extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('channel_id');
             $table->string('title', 128);
             $table->text('content');
             $table->timestamps();
@@ -23,6 +24,7 @@ class CreateTopicsTable extends Migration
 
         Schema::table('topics', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('channel_id')->references('id')->on('channels');
         });
     }
 
