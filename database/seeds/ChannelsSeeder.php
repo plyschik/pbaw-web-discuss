@@ -19,9 +19,6 @@ class ChannelsSeeder extends Seeder
                 'name' => $faker->unique()->word
             ]);
         }
-//        Channel::create([
-//            'name' => $faker->word
-//        ]);
     }
 }
 
