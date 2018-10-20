@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('threads');
-})->name('threads');
+Auth::routes(['verify' => true]);
+
+Route::get('/', 'HomeController@index')->name('home');
