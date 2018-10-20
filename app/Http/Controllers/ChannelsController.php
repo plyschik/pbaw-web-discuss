@@ -30,23 +30,23 @@ class ChannelsController extends Controller
         return redirect('/');
     }
 
-    public function show($id)
+    public function edit(Channel $channel)
     {
-        //
+        return view('channels.edit', compact('channel'));
     }
 
-    public function edit($id)
+    public function update(Request $request, Channel $channel)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $channel->update(request(['name']));
     }
 
-    public function update(Request $request, $id)
+    public function destroy(Channel $channel)
     {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        $channel->delete();
+        return redirect('/');
     }
 }
