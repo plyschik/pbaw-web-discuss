@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-2 offset-md-5">
-            <h1>Add channel</h1>
+            <h1>Edit channel</h1>
 
             <hr>
 

@@ -13,7 +13,9 @@
 
 Auth::routes(['verify' => true]);
 
-Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/', 'TopicsController@index')->name('home');
 
 Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('/channels/create', 'ChannelsController@create');
