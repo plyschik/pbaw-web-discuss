@@ -9,7 +9,7 @@
                         {{$topic->title}} ({{$topic->channel->name}})
                     </h5>
                     <div class="card-body">
-                        {{ str_limit($topic->content, $limit = 150, $end = '...') }}
+                        {{ $topic->content }}
                     </div>
                     <div class="card-footer">
                         Added by <a href="#">{{$topic->user->name}}</a>, {{ $topic->created_at->diffForHumans()}}.

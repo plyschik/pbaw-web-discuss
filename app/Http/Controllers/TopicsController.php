@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
-use App\Reply;
 use App\Topic;
+use App\Channel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TopicsController extends Controller
 {
     public function index()
     {
-        $topics = Topic::latest()->paginate(10);
+        $topics = (new Topic)
+            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->with(['user:id,name', 'channel:id,name'])
+            ->paginate(10);
 
         return view('topics.index', compact('topics'));
     }
