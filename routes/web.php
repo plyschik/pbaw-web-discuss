@@ -18,6 +18,10 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'TopicsController@index')->name('home');
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/topic/{topic}', 'TopicsController@store')->name('topics.store');
+});
+
 Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('/channels/create', 'ChannelsController@create');
     Route::post('/channels', 'ChannelsController@store');
