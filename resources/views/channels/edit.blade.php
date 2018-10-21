@@ -14,7 +14,11 @@
                 {{ csrf_field() }}
 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" id="name" name="name" value="{{$channel->name}}">
+                    <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Name" id="name" name="name" value="{{$channel->name}}">
+                    @if ($errors->has('name'))
+                        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                    @endif
+
                 </div>
 
                 <div class="form-group">

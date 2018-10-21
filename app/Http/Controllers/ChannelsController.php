@@ -20,7 +20,7 @@ class ChannelsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required|max:32'
         ]);
 
         Channel::create([
@@ -38,10 +38,12 @@ class ChannelsController extends Controller
     public function update(Request $request, Channel $channel)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required|max:32'
         ]);
 
         $channel->update(request(['name']));
+
+        return redirect('/');
     }
 
     public function destroy(Channel $channel)
