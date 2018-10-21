@@ -45,7 +45,10 @@ class TopicsController extends Controller
 
     public function show($id)
     {
-        $topic = Topic::with('replies')->findOrFail($id);
+        $topic = (new Topic)
+            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->with(['user:id,name', 'channel:id,name', 'replies:id,user_id,topic_id,content,created_at', 'replies.user:id,name'])
+            ->findOrFail($id);
 
         return view('topics.show', compact('topic'));
     }
