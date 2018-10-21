@@ -26,7 +26,9 @@ class TopicsController extends Controller
 
     public function show($id)
     {
-        //
+        $topic = Topic::with('replies')->findOrFail($id);
+
+        return view('topics.show', compact('topic'));
     }
 
     public function edit($id)

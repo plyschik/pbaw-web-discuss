@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-7 ml-5">
-            @foreach($topics as $topic)
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
                 <div class="card mb-3">
                     <h5 class="card-header">
                         <a href="{{ route('topics.show', ['topic' => $topic->id]) }}">{{$topic->title}}</a>
@@ -15,12 +15,7 @@
                         {{ str_limit($topic->content, $limit = 150, $end = '...') }}
                     </div>
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
-
-    <div class="mx-auto pagination" style="width: 0px;">
-        {{ $topics->links() }}
-    </div>
-
 @endsection
