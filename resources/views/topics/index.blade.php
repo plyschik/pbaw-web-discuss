@@ -4,8 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                <a class="btn btn-primary btn-lg mb-3" href="#">New topic</a>
-
+                @if (Auth::check())
+                    <a class="btn btn-primary btn-lg mb-3" href="{{ route('topics.create') }}">New topic</a>
+                @endif
+                
                 @foreach($topics as $topic)
                     <div class="card mb-3">
                         <h5 class="card-header">
