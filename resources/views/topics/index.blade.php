@@ -6,7 +6,7 @@
             @foreach($topics as $topic)
                 <div class="card mb-3">
                     <h5 class="card-header">
-                        <a href="#">{{$topic->title}}</a>
+                        <a href="{{ route('topics.show', ['topic' => $topic->id]) }}">{{$topic->title}}</a>
                         -
                         <a href="#">{{$topic->channel->name}}</a> - {{ $topic->created_at->diffForHumans()}}
                         by <a href="#">{{$topic->user->name}}</a>

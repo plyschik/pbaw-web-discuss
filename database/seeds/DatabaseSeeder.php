@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             UsersSeeder::class,
             ChannelsSeeder::class,
-            TopicsSeeder::class
+            TopicsSeeder::class,
+            RepliesSeeder::class
         ]);
     }
 }
