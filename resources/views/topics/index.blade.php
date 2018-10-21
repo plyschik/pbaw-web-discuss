@@ -11,7 +11,7 @@
                 @foreach($topics as $topic)
                     <div class="card mb-3">
                         <h5 class="card-header">
-                            <a href="#">{{ $topic->title }}</a> (<a href="#">{{ $topic->channel->name }}</a>)
+                            <a href="{{ route('topics.show', ['topic' => $topic->id]) }}">{{ $topic->title }}</a> (<a href="#">{{ $topic->channel->name }}</a>)
                         </h5>
                         <div class="card-body">
                             {{ str_limit($topic->content, 150, '...') }}
