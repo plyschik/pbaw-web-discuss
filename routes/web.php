@@ -19,7 +19,7 @@ Route::get('/', 'TopicsController@index')->name('home');
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::post('/topic/{topic}', 'TopicsController@store')->name('topics.store');
+    Route::post('/topic/{topic}', 'RepliesController@store')->name('replies.store');
 });
 
 Route::group(['middleware' => ['role:administrator']], function () {

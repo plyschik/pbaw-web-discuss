@@ -32,7 +32,7 @@
 
             @if (Auth::check())
                 <div class="col-md-7">
-                    <form action="" method="POST">
+                    <form action="{{ route('replies.store', ['topic' => $topic->id]) }}" method="POST">
                         <input type="hidden" name="topic_id" value="{{ $topic->id }}">
                         <div class="form-group">
                             <label for="reply">Your reply:</label>
