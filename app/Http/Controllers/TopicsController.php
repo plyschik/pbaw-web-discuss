@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Reply;
 use App\Topic;
 use Illuminate\Http\Request;
@@ -18,24 +19,27 @@ class TopicsController extends Controller
 
     public function create()
     {
-        //
+        $channels = Channel::all();
+
+        return view('topics.create', compact('channels'));
     }
 
-    public function store(Topic $topic, Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'reply' => 'required'
+            'channel_id' => 'required|exists:channels,id',
+            'title' => 'required|min:4|max:128',
+            'content' => 'required|min:8|max:65535'
         ]);
 
-        $reply = Reply::create([
+        $topic = Topic::create([
             'user_id' => auth()->id(),
-            'topic_id' => $topic->id,
-            'content' => $request->get('reply')
+            'channel_id' => $request->get('channel_id'),
+            'title' => $request->get('title'),
+            'content' => $request->get('content')
         ]);
 
-        Auth::user()->replies()->save($reply);
-
-        return redirect()->route('topics.show', ['id' => $topic->id]);
+        return redirect()->route('topics.show', ['topic' => $topic->id]);
     }
 
     public function show($id)

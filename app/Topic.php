@@ -11,7 +11,7 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['user_id', 'channel_id', 'title', 'content'];
 
     public function user()
     {
