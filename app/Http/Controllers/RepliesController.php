@@ -38,6 +38,13 @@ class RepliesController extends Controller
         ]);
 
         $reply->update(request(['content']));
+
+        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+    }
+
+    public function destroy(Reply $reply)
+    {
+        $reply->delete();
         return redirect()->route('topics.show', ['id' => $reply->topic->id]);
     }
 }

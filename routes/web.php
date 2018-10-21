@@ -34,4 +34,5 @@ Route::group(['middleware' => ['role:administrator']], function () {
 Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::get('replies/{reply}/edit','RepliesController@edit')->name('replies.edit');
     Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
+    Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
 });

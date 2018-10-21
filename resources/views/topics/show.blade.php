@@ -28,9 +28,24 @@
                                 <div class="col-md-6">
                                     Posted by <a href="#">{{ $reply->user->name }}</a>, {{ $reply->created_at->diffForHumans()}}.
                                 </div>
+                                @hasrole('administrator|moderator')
                                 <div class="col-md-3 offset-md-3">
-                                    <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}" class="btn btn-outline-info">Edit</a>
+                                    <div class="row">
+                                        <div class="col-xs-5 mr-1 ml-2">
+                                            <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}" class="btn btn-outline-info">Edit</a>
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <form action="{{ route('replies.destroy', $reply->id) }}" class="form-inline" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-outline-danger" type="submit">Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
                                 </div>
+                                @endhasrole
                             </div>
                         </div>
                     </div>
