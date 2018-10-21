@@ -24,7 +24,14 @@
                             {{ $reply->content }}
                         </div>
                         <div class="card-footer">
-                            Posted by <a href="#">{{ $reply->user->name }}</a>, {{ $reply->created_at->diffForHumans()}}.
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Posted by <a href="#">{{ $reply->user->name }}</a>, {{ $reply->created_at->diffForHumans()}}.
+                                </div>
+                                <div class="col-md-3 offset-md-3">
+                                    <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}" class="btn btn-outline-info">Edit</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

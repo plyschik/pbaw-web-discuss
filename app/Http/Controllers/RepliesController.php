@@ -25,4 +25,19 @@ class RepliesController extends Controller
 
         return redirect()->route('topics.show', ['id' => $topic->id]);
     }
+
+    public function edit(Reply $reply)
+    {
+        return view('replies.edit', compact('reply'));
+    }
+
+    public function update(Request $request, Reply $reply)
+    {
+        $request->validate([
+            'content' => 'required'
+        ]);
+
+        $reply->update(request(['content']));
+        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+    }
 }
