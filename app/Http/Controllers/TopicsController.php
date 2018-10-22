@@ -53,7 +53,8 @@ class TopicsController extends Controller
             ->findOrFail($id);
 
         $replies = (new Reply)
-            ->with('user')
+            ->select(['id', 'user_id', 'content', 'created_at'])
+            ->with('user:id,name')
             ->where('topic_id', $id)
             ->paginate(3);
 
