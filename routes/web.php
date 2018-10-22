@@ -15,6 +15,8 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'TopicsController@index')->name('home');
 
+Route::get('/channels/{channel}', 'TopicsController@channel')->name('topics.channel');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/topic/create', 'TopicsController@create')->name('topics.create');
     Route::post('/topic/create', 'TopicsController@store')->name('topics.store');

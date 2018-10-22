@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Reply;
 use App\Topic;
+use App\Reply;
 use App\Channel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TopicsController extends Controller
 {
@@ -74,5 +73,18 @@ class TopicsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function channel(Channel $channel)
+    {
+        $topics = $channel->topics()
+            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->with(['user:id,name', 'channel:id,name'])
+            ->paginate(10);
+
+        return view('topics.channel', [
+            'channel' => $channel->name,
+            'topics' => $topics
+        ]);
     }
 }
