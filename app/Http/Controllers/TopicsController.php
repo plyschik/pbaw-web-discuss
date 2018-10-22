@@ -70,9 +70,10 @@ class TopicsController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(Topic $topic)
     {
-        //
+        $topic->delete();
+        return redirect('/');
     }
 
     public function channel(Channel $channel)
