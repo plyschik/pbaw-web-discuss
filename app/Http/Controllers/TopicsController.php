@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Reply;
 use App\Topic;
 use App\Channel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TopicsController extends Controller
 {
@@ -46,11 +48,16 @@ class TopicsController extends Controller
     public function show($id)
     {
         $topic = (new Topic)
-            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
-            ->with(['user:id,name', 'channel:id,name', 'replies:id,user_id,topic_id,content,created_at', 'replies.user:id,name'])
+            ->select(['user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->with(['user:id,name', 'channel:id,name'])
             ->findOrFail($id);
 
-        return view('topics.show', compact('topic'));
+        $replies = (new Reply)
+            ->with('user')
+            ->where('topic_id', $id)
+            ->paginate(3);
+
+        return view('topics.show', compact('topic', 'replies'));
     }
 
     public function edit($id)
