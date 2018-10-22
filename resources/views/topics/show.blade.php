@@ -21,7 +21,7 @@
                 <div class="col-md-7">
                     <div class="card mb-3">
                         <div class="card-body">
-                            [#{{ $reply->id }}] {{ $reply->content }}
+                            {{ $reply->content }}
                         </div>
                         <div class="card-footer">
                             <div class="row">
