@@ -2,7 +2,7 @@
 
 use App\Channel;
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
+use Faker\Factory as FakerFactory;
 
 class ChannelsSeeder extends Seeder
 {
@@ -13,10 +13,11 @@ class ChannelsSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        $faker = resolve(FakerFactory::class);
+
         for ($i = 0; $i < 10; $i++) {
             Channel::create([
-                'name' => $faker->unique()->word
+                'name' => ucfirst($faker->unique()->word)
             ]);
         }
     }

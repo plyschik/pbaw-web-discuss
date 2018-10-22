@@ -2,7 +2,7 @@
 
 use App\Topic;
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
+use Faker\Factory as FakerFactory;
 
 class TopicsSeeder extends Seeder
 {
@@ -13,34 +13,18 @@ class TopicsSeeder extends Seeder
      */
     public function run()
     {
-        Topic::create([
-            'user_id' => 1,
-            'channel_id' => rand(1, 10),
-            'title' => 'User topic',
-            'content' => 'User topic content.'
-        ]);
+        $faker = resolve(FakerFactory::class);
 
-        Topic::create([
-            'user_id' => 2,
-            'channel_id' => rand(1, 10),
-            'title' => 'Moderator topic',
-            'content' => 'Moderator topic content.'
-        ]);
+        for ($i = 0; $i < 30; $i++) {
+            $randomDateTime = $faker->dateTimeBetween('-30 days', 'now', 'Europe/Warsaw');
 
-        Topic::create([
-            'user_id' => 3,
-            'channel_id' => rand(1, 10),
-            'title' => 'Administrator topic',
-            'content' => 'Administrator topic content.'
-        ]);
-
-        $faker = Faker::create();
-        for ($i = 0; $i < 20; $i++) {
             Topic::create([
-                 'user_id' => rand(1, 3),
-                 'channel_id' => rand(1, 10),
-                 'title' => $faker->unique()->text(30),
-                 'content' => $faker->text(400)
+                'user_id' => rand(1, 3),
+                'channel_id' => rand(1, 10),
+                'title' => rtrim($faker->unique()->sentence(), '.'),
+                'content' => $faker->text(mt_rand(200, 500)),
+                'created_at' => $randomDateTime,
+                'updated_at' => $randomDateTime
             ]);
         }
     }
