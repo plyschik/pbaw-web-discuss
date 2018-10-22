@@ -79,7 +79,8 @@
                     </div>
                     <div class="row justify-content-around mb-3 mt-3">
                         <div class="col-md-5">
-
+                            <a href="{{ route('topics.edit', ['topic' => $topic->id]) }}"
+                               class="btn btn-sm btn-block btn-outline-info">Edit</a>
                         </div>
                         <div class="col-md-5">
                             <form action="{{ route('topics.destroy', $topic->id) }}" class="form-inline" method="POST">
