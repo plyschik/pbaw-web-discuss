@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            @foreach ($topic->replies as $reply)
+            @foreach ($replies as $reply)
                 <div class="col-md-7">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -26,31 +26,33 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-6">
-                                    Posted by <a href="#">{{ $reply->user->name }}</a>, {{ $reply->created_at->diffForHumans()}}.
+                                    Posted by <a href="#">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans()}}</time>.
                                 </div>
                                 @hasrole('administrator|moderator')
-                                <div class="col-md-3 offset-md-3">
-                                    <div class="row">
-                                        <div class="col-xs-5 mr-1 ml-2">
-                                            <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}" class="btn btn-outline-info">Edit</a>
-                                        </div>
-                                        <div class="col-xs-5">
-                                            <form action="{{ route('replies.destroy', $reply->id) }}" class="form-inline" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-outline-danger" type="submit">Delete
-                                                </button>
-                                            </form>
+                                    <div class="col-md-3 offset-md-3">
+                                        <div class="row">
+                                            <div class="col-xs-5 mr-1 ml-2">
+                                                <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}" class="btn btn-outline-info">Edit</a>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <form action="{{ route('replies.destroy', $reply->id) }}" class="form-inline" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-
-                                </div>
                                 @endhasrole
                             </div>
                         </div>
                     </div>
                 </div>
             @endforeach
+
+            <div class="col-md-7">
+                {{ $replies->links() }}
+            </div>
 
             @if (Auth::check())
                 <div class="col-md-7">
