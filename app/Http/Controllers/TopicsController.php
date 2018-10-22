@@ -47,7 +47,7 @@ class TopicsController extends Controller
     public function show($id)
     {
         $topic = (new Topic)
-            ->select(['user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
             ->with(['user:id,name', 'channel:id,name'])
             ->findOrFail($id);
 

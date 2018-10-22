@@ -6,7 +6,7 @@
 
         <form action="{{ route('topics.store') }}" method="POST">
             @csrf
-            
+
             <div class="form-group">
                 <label for="channel">Channel:</label>
                 <select class="form-control{{ $errors->has('channel_id') ? ' is-invalid' : '' }}" id="channel" name="channel_id">
