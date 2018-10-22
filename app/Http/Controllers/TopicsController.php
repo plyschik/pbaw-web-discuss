@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Reply;
 use App\Topic;
+use App\Reply;
 use App\Channel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TopicsController extends Controller
 {
