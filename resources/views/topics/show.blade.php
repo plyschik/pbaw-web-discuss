@@ -71,7 +71,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         @foreach ($channels as $channel)
-                            <a href="#" class="list-group-item list-group-item-action">{{ $channel->name }} ({{ $channel->topics_count }})</a>
+                            <a href="{{ route('topics.channel', ['channel' => $channel->id]) }}" class="list-group-item list-group-item-action">{{ $channel->name }} ({{ $channel->topics_count }})</a>
                         @endforeach
                     </ul>
                 </div>

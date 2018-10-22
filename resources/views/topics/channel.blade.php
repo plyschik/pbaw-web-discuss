@@ -4,6 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                <h2>Topics from channel: {{ $channel }}</h2>
+
                 @if (Auth::check())
                     <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create') }}">New topic</a>
                 @endif
@@ -11,7 +13,7 @@
                 @foreach ($topics as $topic)
                     <div class="card mb-3">
                         <h5 class="card-header">
-                            <a href="{{ route('topics.show', ['topic' => $topic->id]) }}">{{ $topic->title }}</a> (<a href="{{ route('topics.channel', ['channel' => $topic->channel->id]) }}">{{ $topic->channel->name }}</a>)
+                            <a href="{{ route('topics.show', ['topic' => $topic->id]) }}">{{ $topic->title }}</a> ({{ $topic->channel->name }})
                         </h5>
                         <div class="card-body">
                             {{ str_limit($topic->content, 150, '...') }}

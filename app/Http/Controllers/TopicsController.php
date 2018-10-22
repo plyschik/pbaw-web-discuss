@@ -74,4 +74,17 @@ class TopicsController extends Controller
     {
         //
     }
+
+    public function channel(Channel $channel)
+    {
+        $topics = $channel->topics()
+            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->with(['user:id,name', 'channel:id,name'])
+            ->paginate(10);
+
+        return view('topics.channel', [
+            'channel' => $channel->name,
+            'topics' => $topics
+        ]);
+    }
 }
