@@ -163,7 +163,9 @@ return [
         /*
          * Custom Service Providers...
          */
-        App\Providers\ComposerServiceProvider::class
+        App\Providers\ComposerServiceProvider::class,
+        App\Providers\FakerProvider::class,
+
     ],
 
     /*
@@ -214,5 +216,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    'faker' => [
+        'seed' => 88077
+    ]
 
 ];
