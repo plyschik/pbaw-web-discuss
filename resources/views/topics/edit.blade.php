@@ -36,7 +36,7 @@
                 @endif
             </div>
 
-            <input class="btn btn-primary" type="submit" value="Add new topic">
+            <input class="btn btn-primary" type="submit" value="Update">
         </form>
     </div>
 @endsection
