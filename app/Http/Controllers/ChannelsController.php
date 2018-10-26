@@ -23,6 +23,13 @@ class ChannelsController extends Controller
         return view('channels.index', compact('channels'));
     }
 
+    public function show(Channel $channel)
+    {
+        $topics = $channel->topics()->paginate(3);
+
+        return view('channels.show', compact('channel', 'topics'));
+    }
+
     public function create()
     {
         return view('channels.create');

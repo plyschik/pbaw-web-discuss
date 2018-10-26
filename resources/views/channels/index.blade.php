@@ -15,7 +15,7 @@
                 @foreach ($channels as $channel)
                     <tr>
                         <td class="align-middle">
-                            <a href="#{{ $channel->id }}">{{ $channel->name }}</a>
+                            <a href="{{ route('channels.show', ['channel' => $channel->id]) }}">{{ $channel->name }}</a>
                         </td>
                         <td class="text-center align-middle">{{ $channel->topics_count }}</td>
                         <td class="text-center align-middle">{{ $channel->replies_count }}</td>
