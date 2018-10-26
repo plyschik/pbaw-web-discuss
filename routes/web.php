@@ -13,7 +13,7 @@
 
 Auth::routes(['verify' => true]);
 
-Route::get('/', 'TopicsController@index')->name('home');
+Route::get('/', 'ChannelsController@index')->name('home');
 
 Route::get('/channels/{channel}', 'TopicsController@channel')->name('topics.channel');
 
