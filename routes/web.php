@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/topic/create', 'TopicsController@create')->name('topics.create');
     Route::post('/topic/create', 'TopicsController@store')->name('topics.store');
     Route::post('/topic/{topic}', 'RepliesController@store')->name('replies.store');
+    Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('response.store');
+    Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('response.create');
 });
 
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');

@@ -55,9 +55,16 @@ class TopicsController extends Controller
             ->select(['id', 'user_id', 'content', 'created_at'])
             ->with('user:id,name')
             ->where('topic_id', $id)
+            ->whereNull('parent_id')
             ->paginate(3);
 
-        return view('topics.show', compact('topic', 'replies'));
+        $responses = (new Reply)
+            ->select(['id', 'user_id', 'content', 'created_at', 'parent_id'])
+            ->with('user:id,name')
+            ->where('topic_id', $id)
+            ->whereNotNull('parent_id')->get();
+
+        return view('topics.show', compact('topic', 'replies', 'responses'));
     }
 
     public function edit(Topic $topic)

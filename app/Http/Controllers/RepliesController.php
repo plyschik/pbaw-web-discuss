@@ -47,4 +47,27 @@ class RepliesController extends Controller
         $reply->delete();
         return redirect()->route('topics.show', ['id' => $reply->topic->id]);
     }
+
+    public function createResponse(Reply $reply)
+    {
+        return view('replies.create_response', compact('reply'));
+    }
+
+    public function storeResponse(Reply $reply, Request $request)
+    {
+        $this->validate($request, [
+            'reply' => 'required'
+        ]);
+
+        $reply = Reply::create([
+            'user_id' => auth()->id(),
+            'topic_id' => $reply->topic->id,
+            'parent_id' => $reply->id,
+            'content' => $request->get('reply')
+        ]);
+
+        Auth::user()->replies()->save($reply);
+
+        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+    }
 }

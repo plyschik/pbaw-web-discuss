@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -13,7 +14,8 @@
                     </div>
                     <div class="card-footer">
                         Added by <a href="#">{{ $topic->user->name }}</a>,
-                        <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>.
+                        <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>
+                        .
                     </div>
                 </div>
 
@@ -27,6 +29,10 @@
                                 <div class="col-md align-bottom">
                                     Posted by <a href="#">{{ $reply->user->name }}</a>,
                                     <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans()}}</time>.
+                                </div>
+                                <div class="col-md-2">
+                                <a href="{{ route('response.create', ['reply' => $reply->id]) }}"
+                                   class="btn btn-block btn-sm btn-outline-success">Reply</a>
                                 </div>
                                 @hasrole('moderator|administrator')
                                 <div class="col-md-2">
@@ -46,6 +52,38 @@
                             </div>
                         </div>
                     </div>
+                        @foreach($responses as $response)
+                            @if(isset($response->parent->id) && ($response->parent->id == $reply->id))
+                            <div class="card mb-3 ml-5">
+                                <div class="card-body">
+                                    {{ $response->content }}
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row d-flex align-items-center h-100">
+                                        <div class="col-md align-bottom">
+                                            Posted by <a href="#">{{ $response->user->name }}</a>,
+                                            <time title="{{ $response->created_at }}">{{ $response->created_at->diffForHumans()}}</time>.
+                                        </div>
+                                        @hasrole('moderator|administrator')
+                                        <div class="col-md-2">
+                                            <a href="{{ route('replies.edit', ['reply' => $response->id]) }}"
+                                               class="btn btn-sm btn-block btn-outline-info">Edit</a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <form action="{{ route('replies.destroy', $response->id) }}" class="form-inline"
+                                                  method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-sm btn-block btn-outline-danger" type="submit">Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                        @endhasrole
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                        @endforeach
                 @endforeach
 
                 {{ $replies->links() }}
