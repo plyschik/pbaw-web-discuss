@@ -132,18 +132,7 @@
                     </div>
                 </div>
                 @endhasrole
-                <div class="card">
-                    <div class="card-header">
-                        Channels
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @foreach ($channels as $channel)
-                            <a href="{{ route('topics.channel', ['channel' => $channel->id]) }}"
-                               class="list-group-item list-group-item-action">{{ $channel->name }}
-                                ({{ $channel->topics_count }})</a>
-                        @endforeach
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
