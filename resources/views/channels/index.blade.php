@@ -23,11 +23,11 @@
                             @if ($channel->topics_count == 0)
                                 ---
                             @else
-                                <a href="#">Topic</a>
+                                <a href="{{ route('topics.show', ['topic' => $channel->topic->topic_id]) }}">{{ $channel->topic->topic_title }}</a>
                                 <br />
-                                Author: <a href="#">user</a>
+                                Author: <a href="#">{{ $channel->topic->user_name }}</a>
                                 <br />
-                                <small class="text-muted">datetime</small>
+                                <small class="text-muted">{{ $channel->topic->topic_created_at }}</small>
                             @endif
                         </td>
                     </tr>
