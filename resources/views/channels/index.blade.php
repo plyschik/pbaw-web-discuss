@@ -8,7 +8,7 @@
                     <th>Channel</th>
                     <th class="col-1 text-center">Topics</th>
                     <th class="col-1 text-center">Replies</th>
-                    <th class="col-5">Last reply</th>
+                    <th class="col-4">Last reply</th>
                 </tr>
             </thead>
             <tbody>

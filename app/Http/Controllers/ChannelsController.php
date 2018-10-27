@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Database\DatabaseManager;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class ChannelsController extends Controller
 {
@@ -56,11 +57,42 @@ class ChannelsController extends Controller
         return view('channels.index', compact('channels'));
     }
 
-    public function show(Channel $channel)
+    public function show($id, DatabaseManager $db)
     {
-        $topics = $channel->topics()->paginate(3);
+        $topics = $db->table('topics')
+            ->select([
+                'topics.id AS id',
+                'topics.title AS title',
+                'topics.created_at AS created_at',
+                'users.id AS user_id',
+                'users.name AS user_name',
+                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.topic_id = topics.id) AS replies_count")
+            ])
+            ->join('users', 'topics.user_id', '=', 'users.id')
+            ->where('channel_id', $id)
+            ->paginate(4);
 
-        return view('channels.show', compact('channel', 'topics'));
+        $topicsLastReplyIds = $db->table('replies')
+            ->select($db->raw("MAX(replies.id) AS topic_last_reply_id"))
+            ->whereIn('replies.topic_id', array_column($topics->items(), 'id'))
+            ->groupBy('replies.topic_id')
+            ->get()
+            ->pluck('topic_last_reply_id')
+            ->toArray();
+
+        $replies = $db->table('replies')
+            ->select([
+                'replies.topic_id',
+                'replies.created_at',
+                'users.id AS user_id',
+                'users.name AS user_name'
+            ])
+            ->join('users', 'replies.user_id', '=', 'users.id')
+            ->whereIn('replies.id', $topicsLastReplyIds)
+            ->get()
+            ->keyBy('topic_id');
+
+        return view('channels.show', compact('topics', 'replies'));
     }
 
     public function create()
