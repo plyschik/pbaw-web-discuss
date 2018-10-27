@@ -41,7 +41,7 @@
                         </h5>
                         <ul class="list-group list-group-flush">
                             @foreach($popularChannels as $channel)
-                                <a href="{{route('topics.channel', $channel)}}"
+                                <a href="{{route('channels.show', $channel)}}"
                                    class="list-group-item list-group-item-action">
                                     {{$channel->name}} ({{$channel->topics_count}})
                                 </a>
