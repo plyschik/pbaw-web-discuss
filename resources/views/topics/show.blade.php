@@ -30,10 +30,12 @@
                                     Posted by <a href="#">{{ $reply->user->name }}</a>,
                                     <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans()}}</time>.
                                 </div>
+                                @if (Auth::check())
                                 <div class="col-md-2">
                                 <a href="{{ route('response.create', ['reply' => $reply->id]) }}"
                                    class="btn btn-block btn-sm btn-outline-success">Reply</a>
                                 </div>
+                                @endif
                                 @hasrole('moderator|administrator')
                                 <div class="col-md-2">
                                     <a href="{{ route('replies.edit', ['reply' => $reply->id]) }}"
