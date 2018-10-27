@@ -16,17 +16,19 @@
                             <li class="list-group-item"> Total posts: {{count($user->topics)}}
                             </li>
                             <li class="list-group-item"> Posts per
-                                day: {{($user->created_at->diffInDays() >0 ) ? count($user->topics)/$user->created_at->diffInDays() : count($user->topics)}}
+                                day: {{($user->created_at->diffInDays() > 0 ) ? count($user->topics)/$user->created_at->diffInDays() : count($user->topics)}}
                             </li>
-                            <li class="list-group-item"> Last seen: Today 11:36 AM
+                            <li class="list-group-item"> Last seen:
                             </li>
+                            <li class="list-group-item"> Age: {{$user->date_of_birth->diffInYears()}}
+                            </li>
+                            @hasrole('administrator')
                             <li class="list-group-item"> Ip address: {{Request::ip()}}
                             </li>
                             <li class="list-group-item"> User agent: {{Request::server('HTTP_USER_AGENT')}}
                             </li>
-                            <li class="list-group-item"> Country:
-                            </li>
-                            <li class="list-group-item"> Age:
+                            @endhasrole
+
                         </ul>
                     </div>
                 </div>

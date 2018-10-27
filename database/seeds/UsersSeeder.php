@@ -2,6 +2,8 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Faker\Factory as FakerFactory;
+
 
 class UsersSeeder extends Seeder
 {
@@ -12,10 +14,13 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        $faker = resolve(FakerFactory::class);
+
         User::create([
             'name' => 'user',
             'email' => 'user@webdiscuss',
             'password' => bcrypt('password'),
+            'date_of_birth' => $faker->dateTimeThisCentury,
             'email_verified_at' => now()
         ])->assignRole('user');
 
@@ -23,6 +28,7 @@ class UsersSeeder extends Seeder
             'name' => 'moderator',
             'email' => 'moderator@webdiscuss',
             'password' => bcrypt('password'),
+            'date_of_birth' => $faker->dateTimeThisCentury,
             'email_verified_at' => now()
         ])->assignRole('moderator');
 
@@ -30,6 +36,7 @@ class UsersSeeder extends Seeder
             'name' => 'administrator',
             'email' => 'administrator@webdiscuss',
             'password' => bcrypt('password'),
+            'date_of_birth' => $faker->dateTimeThisCentury,
             'email_verified_at' => now()
         ])->assignRole('administrator');
     }
