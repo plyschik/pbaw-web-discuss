@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-
         <div class="row justify-content-md-center">
             <div class="col-md-7">
                 <div class="card mb-3">
@@ -81,7 +80,5 @@
                 @endif
             </div>
         </div>
-    </div>
-
     </div>
 @endsection

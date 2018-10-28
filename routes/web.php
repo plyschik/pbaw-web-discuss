@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('response.store');
     Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('response.create');
     Route::get('/user/{user}', 'UsersController@show')->name('users.show');
+    Route::get('/reports/{topic}', 'ReportsController@create')->name('reports.create');
+    Route::post('/reports/{topic}', 'ReportsController@store')->name('reports.store');
 });
 
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
@@ -42,4 +44,6 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::get('replies/{reply}/edit','RepliesController@edit')->name('replies.edit');
     Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
     Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
+    Route::get('/reports', 'ReportsController@index')->name('reports.index');
+    Route::delete('/reports/{report}', 'ReportsController@destroy')->name('reports.destroy');
 });
