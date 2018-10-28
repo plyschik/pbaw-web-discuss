@@ -25,7 +25,7 @@
                             @else
                                 <a href="{{ route('topics.show', ['topic' => $channel->topic->topic_id]) }}">{{ $channel->topic->topic_title }}</a>
                                 <br />
-                                Author: <a href="#">{{ $channel->topic->user_name }}</a>
+                                Author: <a href="{{ route('users.show', ['user' => $channel->topic->user_id]) }}">{{ $channel->topic->user_name }}</a>
                                 <br />
                                 <small class="text-muted">{{ $channel->topic->topic_created_at }}</small>
                             @endif

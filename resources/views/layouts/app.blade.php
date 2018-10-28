@@ -66,6 +66,9 @@
                                 @hasrole('administrator|moderator')
                                 <a class="dropdown-item" href="{{ route('reports.index')}}">Reported posts</a>
                                 @endhasrole
+                                @hasrole('administrator')
+                                <a class="dropdown-item" href="{{ route('channels.create') }}">Create channel</a>
+                                @endhasrole
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

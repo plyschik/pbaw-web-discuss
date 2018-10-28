@@ -26,7 +26,7 @@
                         <tr>
                             <td>
                                 <a class="d-block" href="{{ route('topics.show', ['id' => $topic->id]) }}">{{ $topic->title }}</a>
-                                <small>Author: <a href="#{{ $topic->user_id }}">{{ $topic->user_name }}</a>, {{ $topic->created_at }}</small>
+                                <small>Author: <a href="{{ route('users.show', ['user' => $topic->user_id]) }}">{{ $topic->user_name }}</a>, {{ $topic->created_at }}</small>
                             </td>
                             <td class="text-center align-middle">{{ $topic->replies_count }}</td>
                             <td class="text-center align-middle">-</td>
@@ -36,7 +36,7 @@
                                 @else
                                     {{ $replies[$topic->id]->created_at }}
                                     <br>
-                                    Author: <a href="#{{ $replies[$topic->id]->user_id }}">{{ $replies[$topic->id]->user_name }}</a>
+                                    Author: <a href="{{ route('users.show', ['user' => $replies[$topic->id]->user_id]) }}">{{ $replies[$topic->id]->user_name }}</a>
                                 @endif
                             </td>
                         </tr>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Database\DatabaseManager;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 class ChannelsController extends Controller
 {

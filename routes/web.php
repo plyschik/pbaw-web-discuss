@@ -1,20 +1,9 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
-
-Route::get('/', 'ChannelsController@index')->name('home');
-Route::get('/channels/{channel}', 'ChannelsController@show')->name('channels.show');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/topic/create', 'TopicsController@create')->name('topics.create');
@@ -27,12 +16,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/reports/{topic}', 'ReportsController@store')->name('reports.store');
 });
 
-Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
-
 Route::group(['middleware' => ['role:administrator']], function () {
-    Route::get('/channels/create', 'ChannelsController@create');
-    Route::post('/channels', 'ChannelsController@store');
-    Route::get('channels/{channel}/edit','ChannelsController@edit');
+    Route::get('/channels/create', 'ChannelsController@create')->name('channels.create');
+    Route::post('/channels', 'ChannelsController@store')->name('channels.store');
+    Route::get('channels/{channel}/edit','ChannelsController@edit')->name('channels.edit');
     Route::patch('channels/{channel}','ChannelsController@update')->name('channels.update');
     Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('channels.destroy');
     Route::get('topics/{topic}/edit','TopicsController@edit')->name('topics.edit');
@@ -47,3 +34,8 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::get('/reports', 'ReportsController@index')->name('reports.index');
     Route::delete('/reports/{report}', 'ReportsController@destroy')->name('reports.destroy');
 });
+
+
+Route::get('/', 'ChannelsController@index')->name('home');
+Route::get('/channels/{channel}', 'ChannelsController@show')->name('channels.show');
+Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
