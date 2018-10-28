@@ -19,10 +19,10 @@ class TopicsSeeder extends Seeder
             $randomDateTime = $faker->dateTimeBetween('-30 days', 'now', 'Europe/Warsaw');
 
             Topic::create([
-                'user_id' => rand(1, 3),
-                'channel_id' => rand(1, 10),
+                'user_id' => $faker->numberBetween(1, 3),
+                'channel_id' => $faker->numberBetween(1, 10),
                 'title' => rtrim($faker->unique()->sentence(), '.'),
-                'content' => $faker->text(mt_rand(200, 500)),
+                'content' => $faker->text($faker->numberBetween(200, 500)),
                 'created_at' => $randomDateTime,
                 'updated_at' => $randomDateTime
             ]);

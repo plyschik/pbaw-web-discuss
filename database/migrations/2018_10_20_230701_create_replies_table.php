@@ -17,10 +17,10 @@ class CreateRepliesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('topic_id');
+            $table->unsignedInteger('parent_id')->nullable();
             $table->text('content');
-            $table->integer('parent_id')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('replies', function (Blueprint $table) {
