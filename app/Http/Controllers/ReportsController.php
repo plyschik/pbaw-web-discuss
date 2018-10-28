@@ -10,7 +10,7 @@ class ReportsController extends Controller
 {
     public function index()
     {
-        $reports = Report::paginate(2);
+        $reports = Report::paginate(5);
 
         return view('reports.index', compact('reports'));
     }
