@@ -15,14 +15,15 @@ class ChannelsController extends Controller
             ->select([
                 'id',
                 'name',
-                $db->raw("(SELECT COUNT(topics.id) FROM topics WHERE topics.channel_id = channels.id) AS topics_count"),
-                $db->raw("(SELECT COUNT(replies.id) FROM replies INNER JOIN topics ON replies.topic_id = topics.id WHERE topics.channel_id = channels.id) AS replies_count")
+                $db->raw("(SELECT COUNT(topics.id) FROM topics WHERE topics.deleted_at is null and topics.channel_id = channels.id) AS topics_count"),
+                $db->raw("(SELECT COUNT(replies.id) FROM replies INNER JOIN topics ON replies.topic_id = topics.id WHERE replies.deleted_at is null and topics.channel_id = channels.id) AS replies_count")
             ])
             ->get()
             ->keyBy('id');
 
         $channelsLastReplyTopicIds = $db->table('replies')
             ->select($db->raw("MAX(replies.id) AS channel_last_reply_topic_id"))
+            ->whereNull('replies.deleted_at')
             ->join('topics', 'replies.topic_id', '=', 'topics.id')
             ->join('channels', 'topics.channel_id', '=', 'channels.id')
             ->groupBy('channels.id')
@@ -39,6 +40,8 @@ class ChannelsController extends Controller
                 'users.id AS user_id',
                 'users.name AS user_name',
             ])
+            ->whereNull('topics.deleted_at')
+            ->whereNull('replies.deleted_at')
             ->join('replies', 'replies.topic_id', '=', 'topics.id')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->whereIn('replies.id', $channelsLastReplyTopicIds)
@@ -66,7 +69,7 @@ class ChannelsController extends Controller
                 'topics.created_at AS created_at',
                 'users.id AS user_id',
                 'users.name AS user_name',
-                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.topic_id = topics.id) AS replies_count")
+                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.deleted_at is null and  replies.topic_id = topics.id) AS replies_count")
             ])
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->where('channel_id', $id)
@@ -134,7 +137,7 @@ class ChannelsController extends Controller
     public function destroy(Channel $channel)
     {
         $this->authorize('delete', $channel);
-
+        $channel->topics()->delete();
         $channel->delete();
 
         return redirect()->route('home');
