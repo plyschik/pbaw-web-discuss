@@ -1,33 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <h2 class="mb-3">Edit channel</h2>
 
-    <div class="row">
-        <div class="col-md-2 offset-md-5">
-            <h1>Edit channel</h1>
+        <form action="{{ route('channels.update', ['channel' => $channel]) }}" method="POST">
+            @method('PATCH')
 
-            <hr>
+            <div class="form-group">
+                <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="name" type="text" name="name" value="{{ old('name', $channel->name) }}" placeholder="Channel name...">
+                @if ($errors->has('name'))
+                    <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                @endif
+            </div>
 
-            <form method="post" action="{{ route('channels.update', $channel->id) }}" action="/channels">
+            <div class="form-group">
+                <button class="btn btn-primary mr-2" type="submit">Update channel</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
+            </div>
 
-                {{ method_field('PATCH') }}
-                {{ csrf_field() }}
-
-                <div class="form-group">
-                    <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Name" id="name" name="name" value="{{$channel->name}}">
-                    @if ($errors->has('name'))
-                        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-                    @endif
-
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Edit</button>
-                </div>
-
-            </form>
-        </div>
+            {{ csrf_field() }}
+        </form>
     </div>
-
-
 @endsection

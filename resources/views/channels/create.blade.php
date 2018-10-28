@@ -1,28 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <h2 class="mb-3">New channel</h2>
 
-    <div class="row">
-        <div class="col-md-2 offset-md-5">
-            <h1>Add channel</h1>
+        <form action="{{ route('channels.store') }}" method="POST">
+            <div class="form-group">
+                <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Channel name...">
+                @if ($errors->has('name'))
+                    <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                @endif
+            </div>
 
-            <hr>
+            <div class="form-group">
+                <button class="btn btn-primary mr-2" type="submit">Add new channel</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
+            </div>
 
-            <form method="post" action="/channels">
-
-                {{ csrf_field() }}
-
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" id="name" name="name">
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Add</button>
-                </div>
-
-            </form>
-        </div>
+            {{ csrf_field() }}
+        </form>
     </div>
-
-
 @endsection

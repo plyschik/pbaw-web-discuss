@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\Gate;
 
 class ChannelsController extends Controller
 {
@@ -102,14 +103,14 @@ class ChannelsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:32'
+            'name' => 'required|alpha|min:2|max:32|unique:channels'
         ]);
 
         Channel::create([
-            'name' => request('name'),
+            'name' => $request->get('name'),
         ]);
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function edit(Channel $channel)
@@ -120,17 +121,22 @@ class ChannelsController extends Controller
     public function update(Request $request, Channel $channel)
     {
         $request->validate([
-            'name' => 'required|max:32'
+            'name' => 'required|alpha|min:2|max:32|unique:channels'
+        ]);
+        
+        $channel->update([
+            'name' => $request->get('name', $channel->name)
         ]);
 
-        $channel->update(request(['name']));
-
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function destroy(Channel $channel)
     {
+        $this->authorize('delete', $channel);
+
         $channel->delete();
-        return redirect('/');
+
+        return redirect()->route('home');
     }
 }
