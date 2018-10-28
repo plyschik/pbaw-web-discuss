@@ -4,7 +4,6 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 
-
 class UsersSeeder extends Seeder
 {
     /**

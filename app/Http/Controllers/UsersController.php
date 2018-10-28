@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
-use App\Topic;
 use App\User;
-use Illuminate\Http\Request;
+use App\Channel;
 
 class UsersController extends Controller
 {
@@ -18,8 +16,7 @@ class UsersController extends Controller
 
         $popularChannels = Channel::withCount('topics')
             ->whereHas('topics', function ($query) use ($user) {
-                $query
-                    ->where('user_id', $user->id);
+                $query->where('user_id', $user->id);
             })
             ->orderBy('topics_count', 'desc')
             ->limit(5)
@@ -27,11 +24,9 @@ class UsersController extends Controller
 
         $usersFrequentlyCommentedPosts = User::withCount('replies')
             ->whereHas('replies', function ($query) use ($user) {
-                $query
-                    ->where('user_id', '!=', $user->id)
+                $query->where('user_id', '!=', $user->id)
                     ->whereHas('topic', function ($query) use ($user) {
-                        $query
-                            ->where('user_id', $user->id);
+                        $query->where('user_id', $user->id);
                     });
             })
             ->orderBy('replies_count', 'desc')
