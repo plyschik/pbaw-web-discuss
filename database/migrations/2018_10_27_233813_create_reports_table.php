@@ -18,9 +18,12 @@ class CreateReportsTable extends Migration
             $table->unsignedInteger('topic_id');
             $table->unsignedInteger('user_id');
             $table->text('reason');
+            $table->timestamps();
+        });
+
+        Schema::table('reports', function (Blueprint $table) {
             $table->foreign('topic_id')->references('id')->on('topics');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 
