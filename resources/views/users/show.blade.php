@@ -54,10 +54,10 @@
                             Users who most frequently comment on your posts:
                         </h5>
                         <ul class="list-group list-group-flush">
-                            @foreach($usersFrequentlyCommentedPosts as $user)
+                            @foreach($usersFrequentlyCommentedPosts as $u)
                                 <a href="#"
                                    class="list-group-item list-group-item-action">
-                                    {{$user->name}} ({{$user->replies_count}})
+                                    {{$u->name}} ({{$u->replies_count}})
                                 </a>
                             @endforeach
                         </ul>
@@ -76,6 +76,34 @@
                                 </a>
                             @endforeach
                         </ul>
+                    </div>
+                @endif
+                @if(Auth::user()->email==$user->email || Auth::user()->hasRole('administrator'))
+                    <div class="card mb-3">
+                        <h5 class="card-header">
+                            Account management:
+                        </h5>
+                        <div class="row justify-content-center">
+                            <div class="col-md-9">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="{{ route('users.edit', $user)}}"
+                                           class="btn btn-sm btn-block btn-outline-info">Edit</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <form action="{{ route('users.destroy', $user)}}"
+                                              method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
                     </div>
                 @endif
             </div>

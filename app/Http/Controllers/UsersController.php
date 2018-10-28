@@ -37,7 +37,34 @@ class UsersController extends Controller
             ->orderBy('replies_count', 'desc')
             ->limit(5)
             ->get();
-
         return view('users.show', compact('user', 'latestTopics', 'popularChannels', 'usersFrequentlyCommentedPosts'));
+    }
+
+    public function destroy(User $user)
+    {
+        $user->replies()->delete();
+        $user->topics()->delete();
+        $user->delete();
+        return redirect('/');
+    }
+
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date|before: 4 years ago'
+        ]);
+
+        $user->update([
+            'name' => $request->get('name'),
+            'date_of_birth' => $request->get('date_of_birth')
+        ]);
+
+        return redirect()->route('users.show', $user);
     }
 }
