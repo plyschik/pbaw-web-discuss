@@ -9,7 +9,8 @@ class Reply extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'topic_id', 'content', 'parent_id'];
+    protected $fillable = ['user_id', 'topic_id', 'parent_id', 'content'];
+    protected $dates = ['deleted_at'];
 
     public function user()
     {
@@ -21,10 +22,8 @@ class Reply extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function parent()
+    public function replies()
     {
-        return $this->belongsTo('App\Reply', 'parent_id');
+        return $this->hasMany(Reply::class, 'parent_id');
     }
-
-    protected $dates = ['deleted_at'];
 }

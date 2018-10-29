@@ -45,25 +45,13 @@ class TopicsController extends Controller
 
     public function show($id)
     {
-        $topic = (new Topic)
-            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
-            ->with(['user:id,name', 'channel:id,name'])
-            ->findOrFail($id);
+        $topic = Topic::findOrFail($id);
 
-        $replies = (new Reply)
-            ->select(['id', 'user_id', 'content', 'created_at'])
-            ->with('user:id,name')
+        $replies = Reply::with(['user', 'replies.user'])
             ->where('topic_id', $id)
-            ->whereNull('parent_id')
             ->paginate(3);
 
-        $responses = (new Reply)
-            ->select(['id', 'user_id', 'content', 'created_at', 'parent_id'])
-            ->with('user:id,name')
-            ->where('topic_id', $id)
-            ->whereNotNull('parent_id')->get();
-
-        return view('topics.show', compact('topic', 'replies', 'responses'));
+        return view('topics.show', compact('topic', 'replies'));
     }
 
     public function edit(Topic $topic)

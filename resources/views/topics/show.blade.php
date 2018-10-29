@@ -27,7 +27,7 @@
 
                 @foreach ($replies as $reply)
                     <div class="card mb-3">
-                        <div class="card-body">
+                        <div class="card-body text-justify">
                             {{ $reply->content }}
                         </div>
                         <div class="card-footer">
@@ -58,33 +58,31 @@
                         </div>
                     </div>
 
-                    @foreach ($responses as $response)
-                        @if (isset($response->parent->id) && ($response->parent->id == $reply->id))
-                            <div class="card mb-3 ml-5">
-                                <div class="card-body">
-                                    {{ $response->content }}
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row d-flex align-items-center h-100">
-                                        <div class="col-md align-bottom">
-                                            Posted by <a href="{{ route('users.show', ['user' => $response->user->id]) }}">{{ $response->user->name }}</a>, <time title="{{ $response->created_at }}">{{ $response->created_at->diffForHumans() }}</time>.
-                                        </div>
-                                        @hasrole('moderator|administrator')
-                                            <div class="col-md-2">
-                                                <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', ['reply' => $response->id]) }}">Edit</a>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <form class="form-inline" action="{{ route('replies.destroy', $response->id) }}" method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="btn btn-sm btn-block btn-outline-danger" type="submit">Delete</button>
-                                                </form>
-                                            </div>
-                                        @endhasrole
+                    @foreach ($reply->replies as $reply)
+                        <div class="card mb-3 ml-5">
+                            <div class="card-body text-justify">
+                                {{ $reply->content }}
+                            </div>
+                            <div class="card-footer">
+                                <div class="row d-flex align-items-center h-100">
+                                    <div class="col-md align-bottom">
+                                        Posted by <a href="{{ route('users.show', ['user' => $reply->user->id]) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
                                     </div>
+                                    @hasrole('moderator|administrator')
+                                    <div class="col-md-2">
+                                        <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', ['reply' => $reply->id]) }}">Edit</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <form class="form-inline" action="{{ route('replies.destroy', $reply->id) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="btn btn-sm btn-block btn-outline-danger" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                    @endhasrole
                                 </div>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
                 @endforeach
 

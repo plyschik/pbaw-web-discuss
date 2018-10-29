@@ -15,7 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['topics.index', 'replies.create_response', 'topics.channel', 'topics.show'],
+        View::composer(['topics.index', 'replies.create_response', 'topics.channel'],
             ChannelsListComposer::class);
     }
 
