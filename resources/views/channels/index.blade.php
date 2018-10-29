@@ -15,13 +15,16 @@
             @foreach ($channels as $channel)
                 <tr>
                     <td class="align-middle">
-                        <a class="d-block mb-2"
-                           href="{{ route('channels.show', ['channel' => $channel->id]) }}">{{ $channel->name }}</a>
+                        <p class="mb-3">
+                            <a class="mb-3" href="{{ route('channels.show', ['channel' => $channel->id]) }}">{{ $channel->name }}</a>
+                        </p>
+
                         @hasrole('administrator')
                         <div class="row">
                             <div class="col-2">
-                                <a class="btn btn-sm btn-outline-primary"
-                                   href="{{ route('channels.edit', ['channel' => $channel->id]) }}">Edit channel</a>
+                                <a class="btn btn-sm btn-block btn-outline-primary" href="{{ route('channels.edit', ['channel' => $channel->id]) }}">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                             </div>
                             @if ($channel->topics_count == 0)
                                 <div class="col-2">
@@ -30,13 +33,16 @@
                                           method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button class="btn btn-sm btn-outline-danger" type="submit">Delete channel
+                                        <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                                            <i class="far fa-trash-alt"></i>
                                         </button>
                                     </form>
                                 </div>
                             @else
-                                <div class="col">
-                                    <a class="btn btn-sm btn-outline-danger disabled" href="#">Delete channel</a>
+                                <div class="col-2">
+                                    <button class="btn btn-sm btn-block btn-outline-danger" data-toggle="tooltip" data-placement="top" title="You can only delete channel without topics." disabled="disabled">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
                                 </div>
                             @endif
                         </div>
