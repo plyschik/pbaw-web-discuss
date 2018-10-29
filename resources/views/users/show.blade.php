@@ -59,9 +59,9 @@
                             Users who most frequently comment on your posts:
                         </h5>
                         <ul class="list-group list-group-flush">
-                            @foreach ($usersFrequentlyCommentedPosts as $user)
-                                <a class="list-group-item list-group-item-action" href="{{ route('users.show', ['user' => $user->id]) }}">
-                                    {{ $user->name }} ({{ $user->replies_count }})
+                            @foreach ($usersFrequentlyCommentedPosts as $u)
+                                <a class="list-group-item list-group-item-action" href="{{ route('users.show', ['user' => $u->id]) }}">
+                                    {{ $u->name }} ({{ $u->replies_count }})
                                 </a>
                             @endforeach
                         </ul>

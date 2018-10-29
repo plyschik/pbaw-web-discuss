@@ -39,6 +39,7 @@ class UsersController extends Controller
     {
         $user->replies()->delete();
         $user->topics()->delete();
+        $user->reports()->delete();
         $user->delete();
         return redirect('/');
     }

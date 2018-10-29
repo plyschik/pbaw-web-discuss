@@ -15,7 +15,6 @@ class TopicsController extends Controller
             ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
             ->with(['user:id,name', 'channel:id,name'])
             ->paginate(10);
-
         return view('topics.index', compact('topics'));
     }
 

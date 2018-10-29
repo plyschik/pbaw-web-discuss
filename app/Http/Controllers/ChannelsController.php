@@ -16,16 +16,19 @@ class ChannelsController extends Controller
                 'id',
                 'name',
                 $db->raw("(SELECT COUNT(topics.id) FROM topics WHERE topics.deleted_at is null and topics.channel_id = channels.id) AS topics_count"),
-                $db->raw("(SELECT COUNT(replies.id) FROM replies INNER JOIN topics ON replies.topic_id = topics.id WHERE replies.deleted_at is null and topics.channel_id = channels.id) AS replies_count")
+                $db->raw("(SELECT COUNT(replies.id) FROM replies INNER JOIN topics ON replies.topic_id = topics.id WHERE replies.deleted_at is null and topics.deleted_at is null and topics.channel_id = channels.id) AS replies_count")
             ])
             ->get()
             ->keyBy('id');
 
         $channelsLastReplyTopicIds = $db->table('replies')
             ->select($db->raw("MAX(replies.id) AS channel_last_reply_topic_id"))
-            ->whereNull('replies.deleted_at')
             ->join('topics', 'replies.topic_id', '=', 'topics.id')
             ->join('channels', 'topics.channel_id', '=', 'channels.id')
+            ->join('users', 'topics.user_id', '=', 'users.id')
+            ->whereNull('replies.deleted_at')
+            ->whereNull('users.deleted_at')
+            ->whereNull('topics.deleted_at')
             ->groupBy('channels.id')
             ->get()
             ->pluck('channel_last_reply_topic_id')
@@ -42,6 +45,7 @@ class ChannelsController extends Controller
             ])
             ->whereNull('topics.deleted_at')
             ->whereNull('replies.deleted_at')
+            ->whereNull('users.deleted_at')
             ->join('replies', 'replies.topic_id', '=', 'topics.id')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->whereIn('replies.id', $channelsLastReplyTopicIds)
@@ -69,15 +73,18 @@ class ChannelsController extends Controller
                 'topics.created_at AS created_at',
                 'users.id AS user_id',
                 'users.name AS user_name',
-                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.deleted_at is null and  replies.topic_id = topics.id) AS replies_count")
+                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.deleted_at is null and replies.topic_id = topics.id) AS replies_count")
             ])
             ->join('users', 'topics.user_id', '=', 'users.id')
+            ->whereNull('users.deleted_at')
+            ->whereNull('topics.deleted_at')
             ->where('channel_id', $id)
             ->paginate(4);
 
         $topicsLastReplyIds = $db->table('replies')
             ->select($db->raw("MAX(replies.id) AS topic_last_reply_id"))
             ->whereIn('replies.topic_id', array_column($topics->items(), 'id'))
+            ->whereNull('replies.deleted_at')
             ->groupBy('replies.topic_id')
             ->get()
             ->pluck('topic_last_reply_id')
@@ -92,6 +99,9 @@ class ChannelsController extends Controller
             ])
             ->join('users', 'replies.user_id', '=', 'users.id')
             ->whereIn('replies.id', $topicsLastReplyIds)
+            ->whereNull('replies.deleted_at')
+            ->whereNull('users.deleted_at')
+            ->whereNull('replies.deleted_at')
             ->get()
             ->keyBy('topic_id');
 

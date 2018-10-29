@@ -31,7 +31,7 @@
                             <td class="text-center align-middle">{{ $topic->replies_count }}</td>
                             <td class="text-center align-middle">-</td>
                             <td class="small align-middle">
-                                @if (!$replies[$topic->id])
+                                @if ($topic->replies_count == 0)
                                     ---
                                 @else
                                     {{ $replies[$topic->id]->created_at }}
