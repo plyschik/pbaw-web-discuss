@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <table class="table table-bordered">
-            <thead class="thead-dark">
-            <tr>
-                <th>Channel</th>
-                <th class="col-1 text-center">Topics</th>
-                <th class="col-1 text-center">Replies</th>
-                <th class="col-4">Last reply</th>
-            </tr>
+            <thead class="thead-light">
+                <tr>
+                    <th class="col-6">Channel</th>
+                    <th class="col-1 text-center">Topics</th>
+                    <th class="col-1 text-center">Replies</th>
+                    <th class="col-4">Last reply</th>
+                </tr>
             </thead>
             <tbody>
             @foreach ($channels as $channel)

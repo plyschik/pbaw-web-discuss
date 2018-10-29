@@ -13,9 +13,9 @@
             </div>
         @else
             <table class="table table-bordered">
-                <thead class="thead-dark">
+                <thead class="thead-light">
                 <tr>
-                    <th>Topic</th>
+                    <th class="col-7">Topic</th>
                     <th class="col-1 text-center">Replies</th>
                     <th class="col-1 text-center">Views</th>
                     <th class="col-3">Last reply</th>
