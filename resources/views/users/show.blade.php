@@ -20,17 +20,17 @@
                                 Posts per day: {{ ($user->created_at->diffInDays() > 0) ? $user->topics()->count() / $user->created_at->diffInDays() : $user->topics()->count() }}
                             </li>
                             <li class="list-group-item">
-                                Last seen: @TODO
+                                Last logged in: {{ $user->last_logged_in ?? 'N/A' }}
                             </li>
                             <li class="list-group-item">
                                 Age: {{ $user->date_of_birth->diffInYears() }}
                             </li>
                             @hasrole('administrator')
                                 <li class="list-group-item">
-                                    IP address: @TODO
+                                    IP address: {{ $user->ip_address ?? 'N/A'}}
                                 </li>
                                 <li class="list-group-item">
-                                    User agent: @TODO
+                                    User agent: {{ $user->user_agent ?? 'N/A' }}
                                 </li>
                             @endhasrole
                         </ul>

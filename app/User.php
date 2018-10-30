@@ -21,7 +21,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'date_of_birth'
+        'date_of_birth',
+        'last_logged_in',
+        'ip_address',
+        'user_agent'
     ];
 
     /**
@@ -34,7 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $dates = ['date_of_birth'];
+    protected $dates = [
+        'date_of_birth',
+        'last_logged_in'
+    ];
 
     public function topics()
     {
