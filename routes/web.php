@@ -42,3 +42,5 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
 Route::get('/', 'ChannelsController@index')->name('home');
 Route::get('/channels/{channel}', 'ChannelsController@show')->name('channels.show');
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
+Route::view('/terms', 'pages.terms')->name('pages.terms');
+Route::view('/policy', 'pages.policy')->name('pages.policy');

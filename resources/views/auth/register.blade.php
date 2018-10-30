@@ -84,6 +84,10 @@
                         </div>
                     </form>
                 </div>
+                <div class="card-footer small">
+                    By signing up, you agree to our <a href="{{route('pages.terms')}}">Terms</a> and that you have read our
+                    <a href="{{route('pages.policy')}}">Privacy Policy</a>.
+                </div>
             </div>
         </div>
     </div>
