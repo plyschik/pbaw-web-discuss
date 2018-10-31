@@ -2,25 +2,30 @@
 
 @section('content')
     <div class="container">
-        @if (Auth::check())
-            <div class="row justify-content-md-center">
-                <div class="col-md-6">
-                    <form action="{{ route('response.store', ['reply' => $reply->id]) }}" method="POST">
-                        <input type="hidden" name="topic_id" value="{{ $reply->topic->id }}">
-                        <div class="form-group">
-                            <label for="reply">Your reply:</label>
-                            <textarea class="form-control" id="reply" name="reply" rows="3"
-                                      required="required"></textarea>
-                            @if ($errors->has('reply'))
-                                <span class="help-block">{{ $errors->first('reply') }}</span>
-                            @endif
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Send reply">
-                        {{ csrf_field() }}
-                    </form>
-
-                </div>
+        <div class="card mb-3">
+            <div class="card-body text-justify">
+                {{ $reply->content }}
             </div>
-        @endif
+            <div class="card-footer">
+                Added by <a href="{{ route('users.show', ['user' => $reply->user->id]) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
+            </div>
+        </div>
+        <div class="card ml-5">
+            <div class="card-header">
+                Your reply
+            </div>
+            <div class="card-body">
+                <form action="{{ route('response.store', ['reply' => $reply->id]) }}" method="POST">
+                    <div class="form-group">
+                        <textarea class="form-control{{ $errors->has('reply') ? ' is-invalid' : '' }}" id="reply" name="reply" rows="3" required="required">{{ old('reply') }}</textarea>
+                        @if ($errors->has('reply'))
+                            <span class="invalid-feedback">{{ $errors->first('reply') }}</span>
+                        @endif
+                    </div>
+                    {{ csrf_field() }}
+                    <button class="btn btn-primary mr-2" type="submit">Send reply</button> or <a class="btn btn-secondary ml-2" href="{{ route('topics.show', ['topic' => $reply->topic->id]) }}">Go back</a>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

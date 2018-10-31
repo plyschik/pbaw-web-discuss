@@ -56,7 +56,7 @@ class RepliesController extends Controller
     public function storeResponse(Reply $reply, Request $request)
     {
         $this->validate($request, [
-            'reply' => 'required'
+            'reply' => 'required|min:2|max:65535'
         ]);
 
         $reply = Reply::create([
@@ -65,8 +65,6 @@ class RepliesController extends Controller
             'parent_id' => $reply->id,
             'content' => $request->get('reply')
         ]);
-
-        Auth::user()->replies()->save($reply);
 
         return redirect()->route('topics.show', ['id' => $reply->topic->id]);
     }
