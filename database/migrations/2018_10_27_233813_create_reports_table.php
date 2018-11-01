@@ -18,6 +18,7 @@ class CreateReportsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reply_id');
             $table->text('reason');
+            $table->boolean('is_readed')->default(0);
             $table->timestamps();
         });
 

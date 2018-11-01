@@ -15,6 +15,20 @@ class ReportController extends Controller
         return view('report.index', compact('reports'));
     }
 
+    public function show(Report $report)
+    {
+        return view('report.show', compact('report'));
+    }
+
+    public function ignore(Report $report)
+    {
+        $report->update([
+            'is_readed' => 1
+        ]);
+
+        return redirect()->route('report.index');
+    }
+
     public function create(Reply $reply)
     {
         return view('report.create', compact('reply'));

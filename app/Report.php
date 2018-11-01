@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['user_id', 'reply_id', 'reason'];
+    protected $fillable = ['user_id', 'reply_id', 'reason', 'is_readed'];
 
     public function user()
     {

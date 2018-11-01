@@ -30,8 +30,12 @@
                             <td>
                                 <a target="_blank" href="{{ route('users.show', ['user' => $report->user]) }}">{{ $report->user->name }}</a>
                             </td>
-                            <td>
-                                <a class="btn btn-sm btn-block btn-outline-info" href="#">Show details</a>
+                            <td class="text-center">
+                                @if ($report->is_readed)
+                                    <i>Report is readed.</i>
+                                @else
+                                    <a class="btn btn-sm btn-block btn-info{{ $report->is_readed ? 'disabled' : '' }}" href="{{ route('report.show', $report) }}">Show details</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
