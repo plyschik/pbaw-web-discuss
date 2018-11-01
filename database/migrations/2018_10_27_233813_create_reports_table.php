@@ -15,15 +15,15 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('topic_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('reply_id');
             $table->text('reason');
             $table->timestamps();
         });
 
         Schema::table('reports', function (Blueprint $table) {
-            $table->foreign('topic_id')->references('id')->on('topics');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('reply_id')->references('id')->on('replies');
         });
     }
 
