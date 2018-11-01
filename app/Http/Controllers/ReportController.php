@@ -22,9 +22,16 @@ class ReportController extends Controller
 
     public function ignore(Report $report)
     {
-        $report->update([
-            'is_readed' => 1
-        ]);
+        $report->delete();
+
+        return redirect()->route('report.index');
+    }
+
+    public function delete(Report $report)
+    {
+        $report->reply->delete();
+
+        $report->delete();
 
         return redirect()->route('report.index');
     }

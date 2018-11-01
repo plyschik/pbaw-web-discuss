@@ -37,6 +37,7 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::get('/reports', 'ReportController@index')->name('report.index');
     Route::get('/reports/{report}', 'ReportController@show')->name('report.show');
     Route::post('/reports/{report}/ignore', 'ReportController@ignore')->name('report.ignore');
+    Route::post('/reports/{report}/delete', 'ReportController@delete')->name('report.delete');
     Route::delete('/reports/{report}', 'ReportController@destroy')->name('report.destroy');
 });
 

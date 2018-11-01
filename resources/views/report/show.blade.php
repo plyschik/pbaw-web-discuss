@@ -32,8 +32,7 @@
                         </form>
                     </div>
                     <div class="col-2">
-                        <form class="form-inline" action="{{ route('replies.destroy', $report->reply->id) }}" method="POST">
-                            @method('DELETE')
+                        <form class="form-inline" action="{{ route('report.delete', $report) }}" method="POST">
                             @csrf
                             <button class="btn btn-block btn-primary" type="submit">Delete reply</button>
                         </form>
