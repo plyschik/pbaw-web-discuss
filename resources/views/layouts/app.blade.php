@@ -31,7 +31,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.show', Auth::user()) }}">My profile</a>
                                     @hasrole('administrator|moderator')
-                                        <a class="dropdown-item" href="{{ route('reports.index')}}">Reported posts</a>
+                                        <a class="dropdown-item" href="{{ route('report.index')}}">Reported posts</a>
                                     @endhasrole
                                     @hasrole('administrator')
                                         <a class="dropdown-item" href="{{ route('channels.create') }}">Create channel</a>

@@ -3,18 +3,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
-    protected $fillable = ['topic_id', 'user_id', 'reason'];
+    use SoftDeletes;
 
-    public function topic()
-    {
-        return $this->belongsTo(Topic::class);
-    }
+    protected $fillable = ['user_id', 'reply_id', 'reason', 'is_readed'];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reply()
+    {
+        return $this->belongsTo(Reply::class);
     }
 }

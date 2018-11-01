@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             ChannelsSeeder::class,
             TopicsSeeder::class,
-            RepliesSeeder::class
+            RepliesSeeder::class,
+            ReportsSeeder::class
         ]);
     }
 }
