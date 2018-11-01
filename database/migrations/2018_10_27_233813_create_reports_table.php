@@ -13,7 +13,7 @@ class CreateReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('report', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reply_id');
@@ -21,7 +21,7 @@ class CreateReportsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('report', function (Blueprint $table) {
+        Schema::table('reports', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('reply_id')->references('id')->on('replies');
         });
@@ -34,6 +34,6 @@ class CreateReportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('report');
+        Schema::dropIfExists('reports');
     }
 }
