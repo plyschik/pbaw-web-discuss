@@ -12,8 +12,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('response.store');
     Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('response.create');
     Route::get('/user/{user}', 'UsersController@show')->name('users.show');
-    Route::get('/reports/{topic}', 'ReportsController@create')->name('reports.create');
-    Route::post('/reports/{topic}', 'ReportsController@store')->name('reports.store');
+    Route::get('/report/{reply}', 'ReportController@create')->name('report.create');
+    Route::post('/report/{reply}', 'ReportController@store')->name('report.store');
     Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
     Route::get('users/{user}/edit','UsersController@edit')->name('users.edit');
     Route::patch('users/{user}','UsersController@update')->name('users.update');
@@ -34,8 +34,8 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::get('replies/{reply}/edit','RepliesController@edit')->name('replies.edit');
     Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
     Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
-    Route::get('/reports', 'ReportsController@index')->name('reports.index');
-    Route::delete('/reports/{report}', 'ReportsController@destroy')->name('reports.destroy');
+    Route::get('/reports', 'ReportController@index')->name('report.index');
+    Route::delete('/reports/{report}', 'ReportController@destroy')->name('report.destroy');
 });
 
 

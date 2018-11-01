@@ -30,13 +30,6 @@
                             </form>
                         </div>
                     @endhasrole
-                    @hasrole('user')
-                        <div class="col-1">
-                            <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('reports.create', $topic) }}">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </a>
-                        </div>
-                    @endhasrole
                 </div>
             </div>
         </div>
@@ -76,6 +69,13 @@
                                 </form>
                             </div>
                         @endhasrole
+                        @hasrole('user')
+                            <div class="col-1">
+                                <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('report.create', $reply) }}">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </a>
+                            </div>
+                        @endhasrole
                     </div>
                 </div>
             </div>
@@ -104,6 +104,13 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
+                                </div>
+                            @endhasrole
+                            @hasrole('user')
+                                <div class="col-1">
+                                    <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('report.create', $reply) }}">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
                                 </div>
                             @endhasrole
                         </div>
