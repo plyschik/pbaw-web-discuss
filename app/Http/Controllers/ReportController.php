@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Reply;
 use App\Report;
 use Illuminate\Http\Request;
@@ -10,14 +11,16 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $reports = Report::with('user')->latest()->paginate(5);
+        $users = User::has('reports')->withCount('reports')->paginate(5);
 
-        return view('report.index', compact('reports'));
+        return view('report.index', compact('users'));
     }
 
-    public function show(Report $report)
+    public function show(User $user)
     {
-        return view('report.show', compact('report'));
+        $reports = $user->reports()->with(['user', 'reply.user', 'reply'])->paginate(2);
+
+        return view('report.show', compact('user', 'reports'));
     }
 
     public function ignore(Report $report)

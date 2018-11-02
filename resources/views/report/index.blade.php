@@ -2,36 +2,34 @@
 
 @section('content')
     <div class="container">
-        <h3 class="mb-3">Reported posts</h3>
+        <h3 class="mb-3">Reports</h3>
 
-        @if (!count($reports))
+        @if (!count($users))
             <div class="alert alert-primary mb-0" role="alert">
-                There are no reported posts at the moment.
+                There are no reported users at the moment.
             </div>
         @else
             <table class="table table-borderless">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID</th>
-                        <th>Reason</th>
-                        <th>Date</th>
-                        <th>Reported by</th>
-                        <th></th>
+                        <th class="col-1">#</th>
+                        <th class="col-3">Username</th>
+                        <th class="col-2">Reports count</th>
+                        <th class="col-2"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($reports as $report)
+                    @foreach ($users as $user)
                         <tr>
-                            <th>{{ $report->id }}</th>
-                            <td>{{ $report->reason }}</td>
+                            <th>{{ $loop->iteration }}</th>
                             <td>
-                                <time title="{{ $report->created_at }}">{{ $report->created_at->diffForHumans() }}</time>
+                                <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
                             </td>
                             <td>
-                                <a target="_blank" href="{{ route('users.show', ['user' => $report->user]) }}">{{ $report->user->name }}</a>
+                                {{ $user->reports_count }}
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-sm btn-block btn-info" href="{{ route('report.show', $report) }}">Show details</a>
+                                <a class="btn btn-sm btn-block btn-info" href="{{ route('report.show', $user) }}">Show details</a>
                             </td>
                         </tr>
                     @endforeach
@@ -39,6 +37,6 @@
             </table>
         @endif
 
-        {{ $reports->links() }}
+        {{ $users->links() }}
     </div>
 @endsection

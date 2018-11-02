@@ -35,10 +35,12 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
     Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
     Route::get('/reports', 'ReportController@index')->name('report.index');
-    Route::get('/reports/{report}', 'ReportController@show')->name('report.show');
+    Route::get('/users/{user}/reports', 'ReportController@show')->name('report.show');
+    Route::get('/users/{user}/ban', 'BanController@create')->name('ban.create');
+    Route::post('/users/{user}/ban', 'BanController@store')->name('ban.store');
     Route::post('/reports/{report}/ignore', 'ReportController@ignore')->name('report.ignore');
     Route::post('/reports/{report}/delete', 'ReportController@delete')->name('report.delete');
-    Route::delete('/reports/{report}', 'ReportController@destroy')->name('report.destroy');
+
 });
 
 
