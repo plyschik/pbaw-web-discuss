@@ -34,6 +34,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('authenticate_ban_check')->only('login');
         $this->middleware('guest')->except('logout');
     }
 }
