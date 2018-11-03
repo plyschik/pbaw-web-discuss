@@ -14,9 +14,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/{user}', 'UsersController@show')->name('users.show');
     Route::get('/report/{reply}', 'ReportController@create')->name('report.create');
     Route::post('/report/{reply}', 'ReportController@store')->name('report.store');
-    Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
-    Route::get('users/{user}/edit','UsersController@edit')->name('users.edit');
-    Route::patch('users/{user}','UsersController@update')->name('users.update');
+});
+
+Route::group(['middleware' => 'can:manage,user'], function () {
+Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
+Route::get('users/{user}/edit','UsersController@edit')->name('users.edit');
+Route::patch('users/{user}','UsersController@update')->name('users.update');
 });
 
 Route::group(['middleware' => ['role:administrator']], function () {
