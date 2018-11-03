@@ -49,3 +49,4 @@ Route::get('/channels/{channel}', 'ChannelsController@show')->name('channels.sho
 Route::get('/topic/{id}', 'TopicsController@show')->name('topics.show');
 Route::view('/terms', 'pages.terms')->name('pages.terms');
 Route::view('/policy', 'pages.policy')->name('pages.policy');
+Route::get('/users/stats', 'UsersController@stats')->name('users.stats');

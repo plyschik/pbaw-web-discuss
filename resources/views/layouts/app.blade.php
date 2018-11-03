@@ -30,6 +30,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.show', Auth::user()) }}">My profile</a>
+                                    <a class="dropdown-item" href="{{ route('users.stats') }}">WebDiscuss statistics</a>
                                     @hasrole('administrator|moderator')
                                         <a class="dropdown-item" href="{{ route('report.index')}}">Reported posts</a>
                                     @endhasrole
