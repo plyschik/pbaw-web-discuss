@@ -28,6 +28,12 @@ Route::patch('topics/{topic}','TopicsController@update')->name('topics.update');
 Route::delete('/topics/{topic}', 'TopicsController@destroy')->name('topics.destroy');
 });
 
+Route::group(['middleware' => 'can:manage,reply'], function () {
+Route::get('replies/{reply}/edit','RepliesController@edit')->name('replies.edit');
+Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
+Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
+});
+
 Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('/channels/create', 'ChannelsController@create')->name('channels.create');
     Route::post('/channels', 'ChannelsController@store')->name('channels.store');
@@ -37,9 +43,6 @@ Route::group(['middleware' => ['role:administrator']], function () {
 });
 
 Route::group(['middleware' => ['role:administrator|moderator']], function () {
-    Route::get('replies/{reply}/edit','RepliesController@edit')->name('replies.edit');
-    Route::patch('replies/{reply}','RepliesController@update')->name('replies.update');
-    Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
     Route::get('/reports', 'ReportController@index')->name('report.index');
     Route::get('/users/{user}/reports', 'ReportController@show')->name('report.show');
     Route::get('/users/{user}/ban', 'BanController@create')->name('ban.create');

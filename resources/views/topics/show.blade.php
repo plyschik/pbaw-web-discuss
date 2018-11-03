@@ -53,7 +53,7 @@
                             </div>
                         @endif
 
-                        @hasrole('moderator|administrator')
+                        @can('manage', $reply)
                             <div class="col-1">
                                 <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', ['reply' => $reply->id]) }}">
                                     <i class="fas fa-pen"></i>
@@ -68,7 +68,7 @@
                                     </button>
                                 </form>
                             </div>
-                        @endhasrole
+                        @endcan
                         @hasrole('user')
                             <div class="col-1">
                                 <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('report.create', $reply) }}">
@@ -90,8 +90,8 @@
                             <div class="col">
                                 Posted by <a href="{{ route('users.show', ['user' => $reply->user->id]) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
                             </div>
-                            @hasrole('moderator|administrator')
-                                <div class="col-1">
+                            @can('manage', $reply)
+                            <div class="col-1">
                                     <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', ['reply' => $reply->id]) }}">
                                         <i class="fas fa-pen"></i>
                                     </a>
@@ -105,7 +105,7 @@
                                         </button>
                                     </form>
                                 </div>
-                            @endhasrole
+                            @endcan
                             @hasrole('user')
                                 <div class="col-1">
                                     <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('report.create', $reply) }}">
