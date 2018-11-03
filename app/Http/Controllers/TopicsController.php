@@ -82,7 +82,6 @@ class TopicsController extends Controller
     public function destroy(Topic $topic)
     {
         $topic->replies()->delete();
-        $topic->reports()->delete();
         $topic->delete();
         return redirect('/');
     }

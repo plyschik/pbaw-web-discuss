@@ -18,7 +18,10 @@ class ReportController extends Controller
 
     public function show(User $user)
     {
-        $reports = $user->reports()->with(['user', 'reply.user', 'reply'])->paginate(2);
+        $reports = $user->reports()->with(['user', 'reply.user', 'reply'])
+            ->join('replies', 'reports.reply_id', '=', 'replies.id')
+            ->whereNull('replies.deleted_at')
+            ->paginate(2);
 
         return view('report.show', compact('user', 'reports'));
     }
