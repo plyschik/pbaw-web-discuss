@@ -9,13 +9,6 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
     public function manage(User $user, User $model)
     {
         if($user->hasRole('administrator')){

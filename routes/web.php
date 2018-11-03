@@ -22,15 +22,18 @@ Route::get('users/{user}/edit','UsersController@edit')->name('users.edit');
 Route::patch('users/{user}','UsersController@update')->name('users.update');
 });
 
+Route::group(['middleware' => 'can:manage,topic'], function () {
+Route::get('topics/{topic}/edit','TopicsController@edit')->name('topics.edit');
+Route::patch('topics/{topic}','TopicsController@update')->name('topics.update');
+Route::delete('/topics/{topic}', 'TopicsController@destroy')->name('topics.destroy');
+});
+
 Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('/channels/create', 'ChannelsController@create')->name('channels.create');
     Route::post('/channels', 'ChannelsController@store')->name('channels.store');
     Route::get('channels/{channel}/edit','ChannelsController@edit')->name('channels.edit');
     Route::patch('channels/{channel}','ChannelsController@update')->name('channels.update');
     Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('channels.destroy');
-    Route::get('topics/{topic}/edit','TopicsController@edit')->name('topics.edit');
-    Route::patch('topics/{topic}','TopicsController@update')->name('topics.update');
-    Route::delete('/topics/{topic}', 'TopicsController@destroy')->name('topics.destroy');
 });
 
 Route::group(['middleware' => ['role:administrator|moderator']], function () {
@@ -43,7 +46,6 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
     Route::post('/users/{user}/ban', 'BanController@store')->name('ban.store');
     Route::post('/reports/{report}/ignore', 'ReportController@ignore')->name('report.ignore');
     Route::post('/reports/{report}/delete', 'ReportController@delete')->name('report.delete');
-
 });
 
 

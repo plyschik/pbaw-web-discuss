@@ -14,7 +14,7 @@
                     <div class="col">
                         Added by <a href="{{ route('users.show', ['user' => $topic->user->id]) }}">{{ $topic->user->name }}</a>, <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>.
                     </div>
-                    @hasrole('administrator')
+                    @can('manage', $topic)
                         <div class="col-1">
                             <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('topics.edit', ['topic' => $topic->id]) }}">
                                 <i class="fas fa-pen"></i>
@@ -29,7 +29,7 @@
                                 </button>
                             </form>
                         </div>
-                    @endhasrole
+                    @endcan
                 </div>
             </div>
         </div>
