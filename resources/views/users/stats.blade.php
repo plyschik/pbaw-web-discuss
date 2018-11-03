@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header">Posts on channels</div>
+                                    <div class="card-header">Channels</div>
                                     <div class="card-body">
                                         {!! $channelChart->container() !!}
                                     </div>
@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">Activity of users</div>
+                                    <div class="card-header">Users activity due to time</div>
                                     <div class="card-body">
                                         {!! $activityChart->container() !!}
                                     </div>
