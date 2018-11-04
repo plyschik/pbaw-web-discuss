@@ -13,6 +13,13 @@
             </div>
 
             <div class="form-group">
+                <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" type="text" name="description" placeholder="Channel description...">{{ old('description') }}</textarea>
+                @if ($errors->has('description'))
+                    <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <button class="btn btn-primary mr-2" type="submit">Add new channel</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
             </div>
 

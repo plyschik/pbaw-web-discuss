@@ -15,13 +15,13 @@
             @foreach ($channels as $channel)
                 <tr>
                     <td class="align-middle">
-                        <p class="mb-3">
-                            <a class="mb-3"
-                               href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
-                        </p>
+                        <a href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
+                        <div class="small text-muted">
+                            {{ $channel->description }}
+                        </div>
 
                         @hasrole('administrator')
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-2">
                                 <a class="btn btn-sm btn-block btn-outline-primary"
                                    href="{{ route('channels.edit', $channel) }}">

@@ -65,6 +65,7 @@ class ChannelsController extends Controller
             ->paginate(4);
 
         $channel = Channel::find(request('channel'))->first();
+
         return view('channels.show', compact('topics', 'channel'));
     }
 
@@ -76,11 +77,14 @@ class ChannelsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|alpha|min:2|max:32|unique:channels'
+            'name' => 'required|min:2|max:32|unique:channels',
+            'description' => 'required|min:8|max:128'
         ]);
 
         Channel::create([
+            'slug' => str_slug($request->get('name')),
             'name' => $request->get('name'),
+            'description' => $request->get('description')
         ]);
 
         return redirect()->route('home');
@@ -94,11 +98,14 @@ class ChannelsController extends Controller
     public function update(Request $request, Channel $channel)
     {
         $request->validate([
-            'name' => 'required|alpha|min:2|max:32|unique:channels'
+            'name' => 'required|min:2|max:32|unique:channels',
+            'description' => 'required|min:8|max:128'
         ]);
 
         $channel->update([
-            'name' => $request->get('name', $channel->name)
+            'slug' => str_slug($request->get('name'), $channel->slug),
+            'name' => $request->get('name', $channel->name),
+            'description' => $request->get('description', $channel->description)
         ]);
 
         return redirect()->route('home');
@@ -107,6 +114,7 @@ class ChannelsController extends Controller
     public function destroy(Channel $channel)
     {
         $this->authorize('delete', $channel);
+
         $channel->topics()->delete();
         $channel->delete();
 

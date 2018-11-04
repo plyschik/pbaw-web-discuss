@@ -16,8 +16,12 @@ class ChannelsSeeder extends Seeder
         $faker = resolve(FakerFactory::class);
 
         for ($i = 0; $i < 10; $i++) {
+            $name = rtrim(ucfirst($faker->unique()->sentence($faker->numberBetween(1, 2))), '.');
+
             Channel::create([
-                'name' => ucfirst($faker->unique()->word)
+                'slug' => str_slug($name),
+                'name' => $name,
+                'description' => $faker->sentence
             ]);
         }
     }
