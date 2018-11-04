@@ -33,7 +33,7 @@ class ChannelsController extends Controller
 
         $mostReplies = [
             'date' => $replies->keys()->last(),
-             'numberOfReplies' => $replies->last()->count()
+            'numberOfReplies' => $replies->last()->count()
         ];
 
         return view('channels.index',
@@ -43,7 +43,7 @@ class ChannelsController extends Controller
 
     public function show($id, DatabaseManager $db)
     {
-        $topics = $db->table('topics')
+        $topics = Topic::with('latestReply')
             ->select([
                 'topics.id AS id',
                 'topics.title AS title',
@@ -56,7 +56,9 @@ class ChannelsController extends Controller
             ->whereNull('users.deleted_at')
             ->whereNull('topics.deleted_at')
             ->where('channel_id', $id)
-            ->paginate(4);
+            ->get()
+            ->sortByDesc('latestReply.created_at')
+            ->paginate(4);;
 
         $topicsLastReplyIds = $db->table('replies')
             ->select($db->raw("MAX(replies.id) AS topic_last_reply_id"))
@@ -78,7 +80,6 @@ class ChannelsController extends Controller
             ->whereIn('replies.id', $topicsLastReplyIds)
             ->whereNull('replies.deleted_at')
             ->whereNull('users.deleted_at')
-            ->whereNull('replies.deleted_at')
             ->get()
             ->keyBy('topic_id');
 
