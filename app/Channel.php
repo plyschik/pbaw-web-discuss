@@ -12,4 +12,14 @@ class Channel extends Model
     {
         return $this->hasMany(Topic::class);
     }
+
+    public function replies()
+    {
+        return $this->hasManyThrough(Reply::class, Topic::class);
+    }
+
+    public function lastReplies()
+    {
+        return $this->replies()->with(['topic', 'user'])->latest();
+    }
 }
