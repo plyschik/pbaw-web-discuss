@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        <h2 class="mb-3">Channel: {{ $channel->name }}</h2>
+
         @if (Auth::check())
             <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $channel) }}">New topic</a>
         @endif

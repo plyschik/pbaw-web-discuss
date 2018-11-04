@@ -2,36 +2,28 @@
 
 @section('content')
     <div class="container">
-        <div class="card mb-3">
-            <h5 class="card-header">
-                {{ $topic->title }} ({{ $topic->channel->name }})
-            </h5>
-            <div class="card-body text-justify">
-                {{ $topic->content }}
+        <div class="row align-items-center mb-3">
+            <div class="col">
+                <h2>
+                    {{ $topic->title }} ({{ $topic->channel->name }})
+                </h2>
             </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col">
-                        Added by <a href="{{ route('users.show', ['user' => $topic->user->id]) }}">{{ $topic->user->name }}</a>, <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>.
-                    </div>
-                    @can('manage', $topic)
-                        <div class="col-1">
-                            <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('topics.edit', ['topic' => $topic->id]) }}">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                        </div>
-                        <div class="col-1">
-                            <form class="form-inline" action="{{ route('topics.destroy', $topic->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    @endcan
+            @can('manage', $topic)
+                <div class="col-1">
+                    <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('topics.edit', ['topic' => $topic->id]) }}">
+                        <i class="fas fa-pen"></i>
+                    </a>
                 </div>
-            </div>
+                <div class="col-1">
+                    <form class="form-inline" action="{{ route('topics.destroy', $topic->id) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            @endcan
         </div>
 
         @foreach ($replies as $reply)
@@ -59,15 +51,17 @@
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </div>
-                            <div class="col-1">
-                                <form class="form-inline" action="{{ route('replies.destroy', $reply->id) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
+                            @if ($loop->iteration > 1)
+                                <div class="col-1">
+                                    <form class="form-inline" action="{{ route('replies.destroy', $reply->id) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         @endcan
                         @hasrole('user')
                             <div class="col-1">

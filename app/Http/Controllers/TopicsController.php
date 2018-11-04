@@ -12,9 +12,10 @@ class TopicsController extends Controller
     public function index()
     {
         $topics = (new Topic)
-            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
+            ->select(['id', 'user_id', 'channel_id', 'title', 'created_at'])
             ->with(['user:id,name', 'channel:id,name'])
             ->paginate(10);
+
         return view('topics.index', compact('topics'));
     }
 
@@ -37,7 +38,11 @@ class TopicsController extends Controller
         $topic = Topic::create([
             'user_id' => auth()->id(),
             'channel_id' => $request->get('channel_id'),
-            'title' => $request->get('title'),
+            'title' => $request->get('title')
+        ]);
+
+        $topic->replies()->create([
+            'user_id' => auth()->id(),
             'content' => $request->get('content')
         ]);
 
@@ -51,8 +56,12 @@ class TopicsController extends Controller
         $topic->addView();
 
         $replies = Reply::with(['user', 'replies.user'])
-            ->where('topic_id', $id)
-            ->paginate(3);
+            ->where([
+                ['topic_id', $id],
+                ['parent_id', null]
+            ])
+            ->orderBy('created_at')
+            ->paginate(5);
 
         return view('topics.show', compact('topic', 'replies'));
     }
@@ -68,15 +77,13 @@ class TopicsController extends Controller
     {
         $this->validate($request, [
             'channel_id' => 'required|exists:channels,id',
-            'title' => 'required|min:4|max:128',
-            'content' => 'required|min:8|max:65535'
+            'title' => 'required|min:4|max:128'
         ]);
 
         $topic->update([
             'user_id' => auth()->id(),
             'channel_id' => $request->get('channel_id'),
-            'title' => $request->get('title'),
-            'content' => $request->get('content')
+            'title' => $request->get('title')
         ]);
 
         return redirect()->route('topics.show', ['topic' => $topic->id]);
@@ -86,19 +93,7 @@ class TopicsController extends Controller
     {
         $topic->replies()->delete();
         $topic->delete();
-        return redirect('/');
-    }
 
-    public function channel(Channel $channel)
-    {
-        $topics = $channel->topics()
-            ->select(['id', 'user_id', 'channel_id', 'title', 'content', 'created_at'])
-            ->with(['user:id,name', 'channel:id,name'])
-            ->paginate(10);
-
-        return view('topics.channel', [
-            'channel' => $channel->name,
-            'topics' => $topics
-        ]);
+        return redirect()->route('home');
     }
 }

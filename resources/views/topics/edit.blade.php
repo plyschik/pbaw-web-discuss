@@ -28,14 +28,6 @@
                 @endif
             </div>
 
-            <div class="form-group">
-                <label for="content">Content:</label>
-                <textarea class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}" id="content" name="content">{{$topic->content}}</textarea>
-                @if ($errors->has('content'))
-                    <div class="invalid-feedback">{{ $errors->first('content') }}</div>
-                @endif
-            </div>
-
             <input class="btn btn-primary" type="submit" value="Update">
         </form>
     </div>
