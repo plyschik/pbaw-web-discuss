@@ -21,8 +21,9 @@ class TopicsController extends Controller
     public function create()
     {
         $channels = Channel::all();
+        $currentChannel = Channel::find(request('channel'));
 
-        return view('topics.create', compact('channels'));
+        return view('topics.create', compact('channels', 'currentChannel'));
     }
 
     public function store(Request $request)

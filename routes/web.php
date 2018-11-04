@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/topic/create', 'TopicsController@create')->name('topics.create');
+    Route::get('/{channel}/topic/create', 'TopicsController@create')->name('topics.create');
     Route::post('/topic/create', 'TopicsController@store')->name('topics.store');
     Route::post('/topic/{topic}', 'RepliesController@store')->name('replies.store');
     Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('response.store');

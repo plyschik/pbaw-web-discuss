@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         @if (Auth::check())
-            <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create') }}">New topic</a>
+            <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $channel) }}">New topic</a>
         @endif
 
         @if ($topics->isEmpty())

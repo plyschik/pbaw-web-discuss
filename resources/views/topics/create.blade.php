@@ -11,7 +11,7 @@
                 <label for="channel">Channel:</label>
                 <select class="form-control{{ $errors->has('channel_id') ? ' is-invalid' : '' }}" id="channel" name="channel_id">
                     @foreach ($channels as $channel)
-                        <option value="{{ $channel->id }}">{{ $channel->name }}</option>
+                        <option {{ ($currentChannel->id == $channel->id) ? 'selected' : ''  }} value="{{ $channel->id }}">{{ $channel->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('channel_id'))

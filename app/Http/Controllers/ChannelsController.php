@@ -50,7 +50,9 @@ class ChannelsController extends Controller
             ->sortByDesc('lastReply.created_at')
             ->paginate(4);
 
-        return view('channels.show', compact('topics'));
+        $channel = Channel::find(request('channel'));
+
+        return view('channels.show', compact('topics', 'channel'));
     }
 
     public function create()
