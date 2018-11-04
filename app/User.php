@@ -7,11 +7,12 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Cog\Contracts\Ban\Bannable as BannableContract;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
-    use HasRoles, Bannable, SoftDeletes;
+    use HasRoles, Bannable, SoftDeletes, Notifiable;
 
     /**
      * The attributes that are mass assignable.
