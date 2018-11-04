@@ -95,6 +95,12 @@
                     Today replies: {{$todayReplies}}
                 </li>
                 <li class="list-group-item">
+                    Total topics views: {{ $totalTopicsViews }}
+                </li>
+                <li class="list-group-item">
+                    Average views per topic: {{ $averageTopicViews }}
+                </li>
+                <li class="list-group-item">
                     Average age of users: {{$averageAge}}
                 </li>
                 <li class="list-group-item">

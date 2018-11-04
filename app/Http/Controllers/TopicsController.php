@@ -47,6 +47,8 @@ class TopicsController extends Controller
     {
         $topic = Topic::findOrFail($id);
 
+        $topic->addView();
+
         $replies = Reply::with(['user', 'replies.user'])
             ->where('topic_id', $id)
             ->paginate(3);

@@ -7,6 +7,7 @@ use App\Reply;
 use App\Topic;
 use App\User;
 use Carbon\Carbon;
+use CyrildeWit\EloquentViewable\ViewTracker;
 
 class ChannelsController extends Controller
 {
@@ -19,7 +20,9 @@ class ChannelsController extends Controller
 
         $numberOfReplies = Reply::all()->count();
         $todayReplies = Reply::whereDate('created_at', Carbon::today())->count();
+        $totalTopicsViews = ViewTracker::getViewsCountByType(Topic::class);
         $numberOfTopics = Topic::all()->count();
+        $averageTopicViews = number_format($totalTopicsViews / $numberOfTopics, 2);
         $todayTopics = Topic::whereDate('created_at', Carbon::today())->count();
         $averageAge = round(User::selectRaw("TIMESTAMPDIFF(YEAR, DATE(date_of_birth), current_date) AS age")->get()->avg('age'));
         $lastRegistered = User::orderBy('id', 'desc')->first();
@@ -35,9 +38,19 @@ class ChannelsController extends Controller
             'numberOfReplies' => $replies->last()->count()
         ];
 
-        return view('channels.index',
-            compact('channels', 'numberOfReplies', 'numberOfTopics', 'averageAge', 'lastRegistered',
-                'lastLoggedIn', 'todayReplies', 'todayTopics', 'mostReplies'));
+        return view('channels.index', compact(
+            'channels',
+            'numberOfReplies',
+            'numberOfTopics',
+            'averageAge',
+            'lastRegistered',
+            'lastLoggedIn',
+            'todayReplies',
+            'totalTopicsViews',
+            'averageTopicViews',
+            'todayTopics',
+            'mostReplies'
+        ));
     }
 
     public function show($id)
