@@ -35,4 +35,9 @@ class Topic extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->with('user')->latest();
+    }
 }

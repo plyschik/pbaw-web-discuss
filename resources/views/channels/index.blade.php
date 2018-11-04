@@ -56,12 +56,7 @@
                                     <a href="{{ route('topics.show', ['topic' => $channel->lastReplies->first()['topic']['id']]) }}">{{ $channel->lastReplies->first()['topic']['title'] }}</a>
                                 </div>
                                 <div clas="d-block">
-                                    Author: <a href="{{ route('users.show', ['user' => $channel->lastReplies->first()['user']['id']]) }}">{{ $channel->lastReplies->first()['user']['name'] }}</a>
-                                </div>
-                                <div class="d-block">
-                                    <div class="text-muted">
-                                        {{ $channel->lastReplies->first()['created_at'] }}
-                                    </div>
+                                    Author: <a href="{{ route('users.show', ['user' => $channel->lastReplies->first()['user']['id']]) }}">{{ $channel->lastReplies->first()['user']['name'] }}</a>, {{ $channel->lastReplies->first()['created_at'] }}
                                 </div>
                             @endif
                         </td>

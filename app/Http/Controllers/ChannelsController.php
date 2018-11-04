@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Topic;
 use Illuminate\Http\Request;
-use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\DB;
 
 class ChannelsController extends Controller
 {
@@ -12,53 +13,21 @@ class ChannelsController extends Controller
     {
         $channels = Channel::with('lastReplies')
             ->withCount(['topics', 'replies'])
+            ->orderBy('name')
             ->get();
 
         return view('channels.index', compact('channels'));
     }
 
-    public function show($id, DatabaseManager $db)
+    public function show($id)
     {
-        $topics = $db->table('topics')
-            ->select([
-                'topics.id AS id',
-                'topics.title AS title',
-                'topics.created_at AS created_at',
-                'users.id AS user_id',
-                'users.name AS user_name',
-                $db->raw("(SELECT COUNT(replies.id) FROM replies WHERE replies.deleted_at is null and replies.topic_id = topics.id) AS replies_count")
-            ])
-            ->join('users', 'topics.user_id', '=', 'users.id')
-            ->whereNull('users.deleted_at')
-            ->whereNull('topics.deleted_at')
+        $topics = Topic::with(['user', 'lastReply'])
+            ->withCount('replies')
             ->where('channel_id', $id)
-            ->paginate(4);
+            ->latest('created_at')
+            ->paginate(5);
 
-        $topicsLastReplyIds = $db->table('replies')
-            ->select($db->raw("MAX(replies.id) AS topic_last_reply_id"))
-            ->whereIn('replies.topic_id', array_column($topics->items(), 'id'))
-            ->whereNull('replies.deleted_at')
-            ->groupBy('replies.topic_id')
-            ->get()
-            ->pluck('topic_last_reply_id')
-            ->toArray();
-
-        $replies = $db->table('replies')
-            ->select([
-                'replies.topic_id',
-                'replies.created_at',
-                'users.id AS user_id',
-                'users.name AS user_name'
-            ])
-            ->join('users', 'replies.user_id', '=', 'users.id')
-            ->whereIn('replies.id', $topicsLastReplyIds)
-            ->whereNull('replies.deleted_at')
-            ->whereNull('users.deleted_at')
-            ->whereNull('replies.deleted_at')
-            ->get()
-            ->keyBy('topic_id');
-
-        return view('channels.show', compact('topics', 'replies'));
+        return view('channels.show', compact('topics'));
     }
 
     public function create()
