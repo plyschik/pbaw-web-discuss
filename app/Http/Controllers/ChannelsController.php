@@ -8,6 +8,7 @@ use App\Topic;
 use App\User;
 use Carbon\Carbon;
 use CyrildeWit\EloquentViewable\ViewTracker;
+use Illuminate\Http\Request;
 
 class ChannelsController extends Controller
 {
@@ -53,18 +54,17 @@ class ChannelsController extends Controller
         ));
     }
 
-    public function show($id)
+    public function show(Channel $channel)
     {
         $topics = Topic::with(['user', 'lastReply'])
             ->withCount('replies')
-            ->where('channel_id', $id)
+            ->where('channel_id', $channel->id)
             ->latest('created_at')
             ->get()
             ->sortByDesc('lastReply.created_at')
             ->paginate(4);
 
-        $channel = Channel::find(request('channel'));
-
+        $channel = Channel::find(request('channel'))->first();
         return view('channels.show', compact('topics', 'channel'));
     }
 

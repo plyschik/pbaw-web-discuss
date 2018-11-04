@@ -22,7 +22,7 @@ class TopicsController extends Controller
     public function create()
     {
         $channels = Channel::all();
-        $currentChannel = Channel::find(request('channel'));
+        $currentChannel = Channel::where('name', request('channel'))->first();
 
         return view('topics.create', compact('channels', 'currentChannel'));
     }
