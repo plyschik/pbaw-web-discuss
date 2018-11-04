@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Reply;
+use App\Topic;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\DatabaseManager;
 
@@ -14,7 +18,27 @@ class ChannelsController extends Controller
             ->withCount(['topics', 'replies'])
             ->get();
 
-        return view('channels.index', compact('channels'));
+        $numberOfReplies = Reply::all()->count();
+        $todayReplies = Reply::whereDate('created_at', Carbon::today())->count();
+        $numberOfTopics = Topic::all()->count();
+        $todayTopics = Topic::whereDate('created_at', Carbon::today())->count();
+        $averageAge = round(User::selectRaw("TIMESTAMPDIFF(YEAR, DATE(date_of_birth), current_date) AS age")->get()->avg('age'));
+        $lastRegistered = User::orderBy('id', 'desc')->first();
+        $lastLoggedIn = User::orderBy('last_logged_in', 'desc')->first();
+        $replies = Reply::select('created_at')
+            ->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('d-m-Y');
+            })->sort();
+
+        $mostReplies = [
+            'date' => $replies->keys()->last(),
+             'numberOfReplies' => $replies->last()->count()
+        ];
+
+        return view('channels.index',
+            compact('channels', 'numberOfReplies', 'numberOfTopics', 'averageAge', 'lastRegistered',
+                'lastLoggedIn', 'todayReplies', 'todayTopics', 'mostReplies'));
     }
 
     public function show($id, DatabaseManager $db)
@@ -89,7 +113,7 @@ class ChannelsController extends Controller
         $request->validate([
             'name' => 'required|alpha|min:2|max:32|unique:channels'
         ]);
-        
+
         $channel->update([
             'name' => $request->get('name', $channel->name)
         ]);
