@@ -17,21 +17,21 @@
                     <td class="align-middle">
                         <p class="mb-3">
                             <a class="mb-3"
-                               href="{{ route('channels.show', ['channel' => $channel->id]) }}">{{ $channel->name }}</a>
+                               href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
                         </p>
 
                         @hasrole('administrator')
                         <div class="row">
                             <div class="col-2">
                                 <a class="btn btn-sm btn-block btn-outline-primary"
-                                   href="{{ route('channels.edit', ['channel' => $channel->id]) }}">
+                                   href="{{ route('channels.edit', $channel) }}">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                             </div>
                             @if ($channel->topics_count == 0)
                                 <div class="col-2">
                                     <form class="form-inline"
-                                          action="{{ route('channels.destroy', ['channel' => $channel->id]) }}"
+                                          action="{{ route('channels.destroy', $channel) }}"
                                           method="POST">
                                         @method('DELETE')
                                         @csrf

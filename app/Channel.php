@@ -22,4 +22,9 @@ class Channel extends Model
     {
         return $this->replies()->with(['topic', 'user'])->latest();
     }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
 }
