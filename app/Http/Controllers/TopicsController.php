@@ -52,7 +52,8 @@ class TopicsController extends Controller
 
         $replies = Reply::with(['user', 'replies.user'])
             ->where('topic_id', $id)
-            ->paginate(3);
+            ->whereNull('parent_id')
+            ->paginate(5);
 
         return view('topics.show', compact('topic', 'replies'));
     }
