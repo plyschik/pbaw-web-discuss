@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use CyrildeWit\EloquentViewable\Viewable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Topic extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Viewable;
 
     /**
      * The attributes that are mass assignable.
