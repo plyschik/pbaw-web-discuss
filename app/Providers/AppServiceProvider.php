@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Channel;
+use App\Observers\ChannelObserver;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,15 +19,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if (!Collection::hasMacro('paginate')) {
+            Collection::macro('paginate', function ($perPage = 15, $page = null, $options = []) {
+                $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 
-            Collection::macro('paginate',
-                function ($perPage = 15, $page = null, $options = []) {
-                    $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-                    return (new LengthAwarePaginator(
-                        $this->forPage($page, $perPage), $this->count(), $perPage, $page, $options))
-                        ->withPath('');
-                });
+                return (new LengthAwarePaginator($this->forPage($page, $perPage), $this->count(), $perPage, $page, $options))
+                    ->withPath('');
+            });
         }
+
+        Channel::observe(ChannelObserver::class);
     }
 
     /**

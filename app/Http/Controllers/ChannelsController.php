@@ -78,14 +78,10 @@ class ChannelsController extends Controller
     {
         $request->validate([
             'name' => 'required|min:2|max:32|unique:channels',
-            'description' => 'required|min:8|max:128'
+            'description' => 'nullable|min:8|max:128'
         ]);
 
-        Channel::create([
-            'slug' => str_slug($request->get('name')),
-            'name' => $request->get('name'),
-            'description' => $request->get('description')
-        ]);
+        Channel::create($request->only(['name', 'description']));
 
         return redirect()->route('home');
     }
@@ -98,15 +94,11 @@ class ChannelsController extends Controller
     public function update(Request $request, Channel $channel)
     {
         $request->validate([
-            'name' => 'required|min:2|max:32|unique:channels',
-            'description' => 'required|min:8|max:128'
+            'name' => 'required|min:2|max:32|unique:channels,name,' . $channel->id,
+            'description' => 'nullable|min:8|max:128'
         ]);
 
-        $channel->update([
-            'slug' => str_slug($request->get('name'), $channel->slug),
-            'name' => $request->get('name', $channel->name),
-            'description' => $request->get('description', $channel->description)
-        ]);
+        $channel->update($request->only(['name', 'description']));
 
         return redirect()->route('home');
     }
@@ -115,7 +107,6 @@ class ChannelsController extends Controller
     {
         $this->authorize('delete', $channel);
 
-        $channel->topics()->delete();
         $channel->delete();
 
         return redirect()->route('home');
