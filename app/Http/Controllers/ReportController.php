@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Topic;
 use App\User;
+use App\Topic;
 use App\Reply;
 use App\Report;
 use Illuminate\Http\Request;

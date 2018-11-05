@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Report;
 use Illuminate\Http\Request;
 
 class BanController extends Controller
@@ -25,7 +24,9 @@ class BanController extends Controller
             'expired_at' => "+ {$request->input('period')} days"
         ]);
 
-        Report::where('user_id', $user->id)->delete();
+        $user->reports()->delete();
+
+        flash('User banned.')->success();
 
         return redirect()->route('report.index');
     }
