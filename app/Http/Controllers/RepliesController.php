@@ -44,7 +44,10 @@ class RepliesController extends Controller
 
     public function destroy(Reply $reply)
     {
+        $reply->reports()->delete();
+
         $reply->delete();
+
         return redirect()->route('topics.show', ['id' => $reply->topic->id]);
     }
 

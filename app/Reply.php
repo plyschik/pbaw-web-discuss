@@ -26,4 +26,9 @@ class Reply extends Model
     {
         return $this->hasMany(Reply::class, 'parent_id');
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }
