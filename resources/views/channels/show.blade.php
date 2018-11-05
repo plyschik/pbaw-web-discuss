@@ -16,12 +16,12 @@
         @else
             <table class="table table-bordered">
                 <thead class="thead-light">
-                <tr>
-                    <th class="col-7">Topic</th>
-                    <th class="col-1 text-center">Replies</th>
-                    <th class="col-1 text-center">Views</th>
-                    <th class="col-3">Last reply</th>
-                </tr>
+                    <tr>
+                        <th class="col-7">Topic</th>
+                        <th class="col-1 text-center">Replies</th>
+                        <th class="col-1 text-center">Views</th>
+                        <th class="col-3">Last reply</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($topics as $topic)
