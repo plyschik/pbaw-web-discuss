@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <h2 class="mb-3">Ban for user: {{ $user->name }}</h2>
+
         <form action="{{ route('ban.store', $user) }}" method="POST">
-            @csrf
             <div class="form-group">
                 <label for="comment">Comment:</label>
                 <textarea class="form-control{{ $errors->has('comment') ? ' is-invalid' : '' }}" id="comment" name="comment">{{ old('comment') }}</textarea>
@@ -23,6 +23,9 @@
                     <div class="invalid-feedback">{{ $errors->first('period') }}</div>
                 @endif
             </div>
+
+            @csrf
+
             <button class="btn btn-primary" type="submit">Confirm</button>
         </form>
     </div>
