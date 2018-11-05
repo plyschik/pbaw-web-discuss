@@ -82,8 +82,6 @@ class TopicsController extends Controller
 
     public function destroy(Topic $topic)
     {
-        $channel = $topic->channel;
-
         $repliesId = $topic->replies()->pluck('id');
         Report::with('reply')->whereIn('reply_id', $repliesId)->delete();
         $topic->replies()->delete();
@@ -91,6 +89,6 @@ class TopicsController extends Controller
 
         flash('Topic deleted.')->success();
 
-        return redirect()->route('channels.show', $channel);
+        return redirect()->route('channels.show', $topic->channel);
     }
 }

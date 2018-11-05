@@ -5,25 +5,22 @@ namespace App\Http\Controllers;
 use App\Topic;
 use App\Reply;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RepliesController extends Controller
 {
     public function store(Topic $topic, Request $request)
     {
         $this->validate($request, [
-            'reply' => 'required'
+            'reply' => 'required|min:4|max:65535'
         ]);
 
-        $reply = Reply::create([
+        Reply::create([
             'user_id' => auth()->id(),
             'topic_id' => $topic->id,
-            'content' => $request->get('reply')
+            'content' => $request->get('reply'),
         ]);
 
-        Auth::user()->replies()->save($reply);
-
-        return redirect()->route('topics.show', ['id' => $topic->id]);
+        return redirect()->route('topics.show', $topic);
     }
 
     public function edit(Reply $reply)
@@ -34,21 +31,21 @@ class RepliesController extends Controller
     public function update(Request $request, Reply $reply)
     {
         $request->validate([
-            'content' => 'required'
+            'content' => 'required|min:4|max:65535'
         ]);
 
-        $reply->update(request(['content']));
+        $reply->update($request->only(['content']));
 
-        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+        return redirect()->route('topics.show', $reply->topic);
     }
 
     public function destroy(Reply $reply)
     {
-        $reply->replies()->delete();
         $reply->reports()->delete();
+        $reply->replies()->delete();
         $reply->delete();
 
-        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+        return redirect()->route('topics.show', $reply->topic);
     }
 
     public function createResponse(Reply $reply)
@@ -59,16 +56,16 @@ class RepliesController extends Controller
     public function storeResponse(Reply $reply, Request $request)
     {
         $this->validate($request, [
-            'reply' => 'required|min:2|max:65535'
+            'reply' => 'required|min:4|max:65535'
         ]);
 
-        $reply = Reply::create([
+        Reply::create([
             'user_id' => auth()->id(),
             'topic_id' => $reply->topic->id,
             'parent_id' => $reply->id,
             'content' => $request->get('reply')
         ]);
 
-        return redirect()->route('topics.show', ['id' => $reply->topic->id]);
+        return redirect()->route('topics.show', $reply->topic);
     }
 }

@@ -10,8 +10,7 @@
             </div>
             @can('manage', $topic)
                 <div class="col-1">
-                    <a class="btn btn-sm btn-block btn-outline-info"
-                       href="{{ route('topics.edit', ['topic' => $topic]) }}">
+                    <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('topics.edit', $topic) }}">
                         <i class="fas fa-pen"></i>
                     </a>
                 </div>
@@ -35,16 +34,12 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            Posted by <a
-                                    href="{{ route('users.show', ['user' => $reply->user]) }}">{{ $reply->user->name }}</a>,
-                            <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>
-                            .
+                            Posted by <a href="{{ route('users.show', $reply->user) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
                         </div>
 
                         @if (Auth::check())
                             <div class="col-1">
-                                <a class="btn btn-block btn-sm btn-outline-success"
-                                   href="{{ route('response.create', $reply) }}">
+                                <a class="btn btn-block btn-sm btn-outline-success" href="{{ route('response.create', $reply) }}">
                                     <i class="fas fa-reply"></i>
                                 </a>
                             </div>
@@ -52,15 +47,13 @@
 
                         @can('manage', $reply)
                             <div class="col-1">
-                                <a class="btn btn-sm btn-block btn-outline-info"
-                                   href="{{ route('replies.edit', $reply) }}">
+                                <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', $reply) }}">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </div>
                             @if ($loop->iteration > 1)
                                 <div class="col-1">
-                                    <form class="form-inline" action="{{ route('replies.destroy', $reply) }}"
-                                          method="POST">
+                                    <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
@@ -71,66 +64,63 @@
                             @endif
                         @endcan
                         @hasrole('user')
-                        <div class="col-1">
-                            <a class="btn btn-sm btn-block btn-outline-warning"
-                               href="{{ route('report.create', $reply) }}">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </a>
-                        </div>
+                            <div class="col-1">
+                                <a class="btn btn-sm btn-block btn-outline-warning" href="{{ route('report.create', $reply) }}">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </a>
+                            </div>
                         @endhasrole
                     </div>
                 </div>
             </div>
-            @if ($loop->first && $numberOfReplies>0)
+
+            @if ($loop->first && $numberOfReplies > 0)
                 <div class="card border-light">
                     <div class="card-header">
                         <i class="far fa-comments"></i> Comments ({{$numberOfReplies}})
                     </div>
-                    @endif
-                    @foreach ($reply->replies as $reply)
-                        <div class="card mb-3 ml-5">
-                            <div class="card-body text-justify">
-                                {{ $reply->content }}
+            @endif
+
+            @foreach ($reply->replies as $reply)
+                <div class="card mb-3 ml-5">
+                    <div class="card-body text-justify">
+                        {{ $reply->content }}
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col">
+                                Posted by <a href="{{ route('users.show', $reply->user) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
                             </div>
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col">
-                                        Posted by <a
-                                                href="{{ route('users.show', ['user' => $reply->user]) }}">{{ $reply->user->name }}</a>,
-                                        <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>
-                                        .
-                                    </div>
-                                    @can('manage', $reply)
-                                        <div class="col-1">
-                                            <a class="btn btn-sm btn-block btn-outline-info"
-                                               href="{{ route('replies.edit', $reply) }}">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
-                                        </div>
-                                        <div class="col-1">
-                                            <form class="form-inline" action="{{ route('replies.destroy', $reply) }}"
-                                                  method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endcan
-                                    @hasrole('user')
-                                    <div class="col-1">
-                                        <a class="btn btn-sm btn-block btn-outline-warning"
-                                           href="{{ route('report.create', $reply) }}">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </a>
-                                    </div>
-                                    @endhasrole
+                            @can('manage', $reply)
+                                <div class="col-1">
+                                    <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('replies.edit', $reply) }}">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
                                 </div>
-                            </div>
+                                <div class="col-1">
+                                    <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            @endcan
+                            @hasrole('user')
+                                <div class="col-1">
+                                    <a class="btn btn-sm btn-block btn-outline-warning"
+                                       href="{{ route('report.create', $reply) }}">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                </div>
+                            @endhasrole
                         </div>
-                    @endforeach
-                    @if ($loop->first && $numberOfReplies>0)
+                    </div>
+                </div>
+            @endforeach
+
+            @if ($loop->first && $numberOfReplies > 0)
                 </div>
             @endif
         @endforeach
@@ -141,14 +131,14 @@
             <form action="{{ route('replies.store', $topic) }}" method="POST">
                 <div class="form-group">
                     <label for="reply">Your reply:</label>
-                    <textarea class="form-control" id="reply" name="reply" rows="3"
-                              required="required">{{ old('reply') }}</textarea>
+                    <textarea class="form-control" id="reply" name="reply" rows="3">{{ old('reply') }}</textarea>
                     @if ($errors->has('reply'))
                         <span class="help-block">{{ $errors->first('reply') }}</span>
                     @endif
                 </div>
+
                 @csrf
-                <input class="btn btn-primary" type="submit" value="Send reply">
+                <button class="btn btn-primary" type="submit">Send reply</button>
             </form>
         @else
             <div class="alert alert-info">
