@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Report;
 use App\Topic;
 use App\Reply;
 use App\Channel;
@@ -93,6 +94,8 @@ class TopicsController extends Controller
 
     public function destroy(Topic $topic)
     {
+        $repliesId = $topic->replies()->pluck('id');
+        Report::with('reply')->whereIn('reply_id', $repliesId)->delete();
         $topic->replies()->delete();
         $topic->delete();
 
