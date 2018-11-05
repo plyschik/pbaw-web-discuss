@@ -164,6 +164,7 @@ return [
          * Custom Service Providers...
          */
         App\Providers\FakerProvider::class,
+        App\Providers\ComposerServiceProvider::class
 
     ],
 
@@ -218,6 +219,12 @@ return [
 
     'faker' => [
         'seed' => 88077
+    ],
+
+    'stats' => [
+        'cache' => [
+            'ttl' => 3
+        ]
     ]
 
 ];

@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
-use App\Reply;
 use App\Topic;
-use App\User;
-use Carbon\Carbon;
-use CyrildeWit\EloquentViewable\ViewTracker;
+use App\Channel;
 use Illuminate\Http\Request;
 
 class ChannelsController extends Controller
@@ -19,39 +15,7 @@ class ChannelsController extends Controller
             ->orderBy('name')
             ->get();
 
-        $numberOfReplies = Reply::all()->count();
-        $todayReplies = Reply::whereDate('created_at', Carbon::today())->count();
-        $totalTopicsViews = ViewTracker::getViewsCountByType(Topic::class);
-        $numberOfTopics = Topic::all()->count();
-        $averageTopicViews = number_format($totalTopicsViews / $numberOfTopics, 2);
-        $todayTopics = Topic::whereDate('created_at', Carbon::today())->count();
-        $averageAge = round(User::selectRaw("TIMESTAMPDIFF(YEAR, DATE(date_of_birth), current_date) AS age")->get()->avg('age'));
-        $lastRegistered = User::orderBy('id', 'desc')->first();
-        $lastLoggedIn = User::orderBy('last_logged_in', 'desc')->first();
-        $replies = Reply::select('created_at')
-            ->get()
-            ->groupBy(function ($date) {
-                return Carbon::parse($date->created_at)->format('d-m-Y');
-            })->sort();
-
-        $mostReplies = [
-            'date' => $replies->keys()->last(),
-            'numberOfReplies' => $replies->last()->count()
-        ];
-
-        return view('channels.index', compact(
-            'channels',
-            'numberOfReplies',
-            'numberOfTopics',
-            'averageAge',
-            'lastRegistered',
-            'lastLoggedIn',
-            'todayReplies',
-            'totalTopicsViews',
-            'averageTopicViews',
-            'todayTopics',
-            'mostReplies'
-        ));
+        return view('channels.index', compact('channels'));
     }
 
     public function show(Channel $channel)
