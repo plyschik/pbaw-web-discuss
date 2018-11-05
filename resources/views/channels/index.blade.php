@@ -89,7 +89,7 @@
                         @foreach ($popularTopics as $topic)
                             <a class="list-group-item list-group-item-action"
                                href="{{ route('topics.show', $topic) }}">
-                                {{ $topic->title }} ({{$topic->replies_count}} replies)
+                                {{ $topic->title }} ({{$topic->replies_count - 1}} replies)
                             </a>
                         @endforeach
                     </ul>

@@ -68,7 +68,7 @@ class UsersController extends Controller
             });
 
         $userChart->labels($usersFrequentlyCommentedPosts->keys())->doughnut(50);
-        $userChart->dataset('Number of topics', 'pie',
+        $userChart->dataset('Number of replies', 'pie',
             $usersFrequentlyCommentedPosts->values())->color($this->get_random_colors($usersFrequentlyCommentedPosts->count()));
         $userChart->options($chartOptions);
 

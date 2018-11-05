@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header">Users activity due to time</div>
+                                    <div class="card-header">Users activity due to time [24h]</div>
                                     <div class="card-body">
                                         {!! $activityChart->container() !!}
                                     </div>
