@@ -29,13 +29,13 @@
                         <div class="col-2">
                             <form class="form-inline" action="{{ route('report.ignore', $report) }}" method="POST">
                                 @csrf
-                                <button class="btn btn-sm btn-block btn-success" type="submit">Ignore report</button>
+                                <button class="btn btn-sm btn-block btn-success confirm-delete" type="submit">Ignore report</button>
                             </form>
                         </div>
                         <div class="col-2">
                             <form class="form-inline" action="{{ route('report.delete', $report) }}" method="POST">
                                 @csrf
-                                <button class="btn btn-sm btn-block btn-primary" type="submit">Delete reply</button>
+                                <button class="btn btn-sm btn-block btn-primary confirm-delete" type="submit">Delete reply</button>
                             </form>
                         </div>
                     </div>
