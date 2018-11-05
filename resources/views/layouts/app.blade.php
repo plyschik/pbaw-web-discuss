@@ -51,7 +51,10 @@
                 </div>
             </div>
         </nav>
-        <main class="py-3">
+        <div class="container mt-3">
+            @include('flash::message')
+        </div>
+        <main class="pb-3">
             @yield('content')
         </main>
         <script src="{{ asset('js/app.js') }}"></script>

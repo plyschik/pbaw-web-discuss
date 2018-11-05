@@ -10,6 +10,7 @@
         "cybercog/laravel-ban": "^3.5",
         "cyrildewit/eloquent-viewable": "^2.4",
         "fideloper/proxy": "^4.0",
+        "laracasts/flash": "^3.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "spatie/laravel-permission": "^2.23"
