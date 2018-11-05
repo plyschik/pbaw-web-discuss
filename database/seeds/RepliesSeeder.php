@@ -17,7 +17,7 @@ class RepliesSeeder extends Seeder
 
         for ($i = 1; $i <= 30; $i++) {
             for ($j = 1; $j <= $faker->numberBetween(2, 12); $j++) {
-                $randomDateTime = $faker->dateTimeBetween('-30 days', 'now', 'Europe/Warsaw');
+                $randomDateTime = $faker->dateTimeBetween('-9 days', 'now', 'Europe/Warsaw');
 
                 $reply = Reply::create([
                     'user_id' => $faker->numberBetween(1, 3),

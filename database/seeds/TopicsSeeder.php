@@ -1,5 +1,6 @@
 <?php
 
+use App\Reply;
 use App\Topic;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
@@ -16,14 +17,22 @@ class TopicsSeeder extends Seeder
         $faker = resolve(FakerFactory::class);
 
         for ($i = 0; $i < 30; $i++) {
-            $randomDateTime = $faker->dateTimeBetween('-30 days', 'now', 'Europe/Warsaw');
+            $randomDateTime = $faker->dateTimeBetween('-30 days', '-10 days', 'Europe/Warsaw');
 
-            Topic::create([
+            $topic = Topic::create([
                 'user_id' => $faker->numberBetween(1, 3),
                 'channel_id' => $faker->numberBetween(1, 10),
                 'title' => rtrim($faker->unique()->sentence(), '.'),
                 'created_at' => $randomDateTime,
                 'updated_at' => $randomDateTime
+            ]);
+
+            Reply::create([
+                'user_id' => $topic->user_id,
+                'topic_id' => $topic->id,
+                'content' => $faker->text($faker->numberBetween(200, 500)),
+                'created_at' => $topic->created_at,
+                'updated_at' => $topic->updated_at
             ]);
         }
     }
