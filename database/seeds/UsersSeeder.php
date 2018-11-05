@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@webdiscuss',
             'password' => bcrypt('password'),
-            'date_of_birth' => $faker->dateTimeThisCentury,
+            'date_of_birth' => $faker->dateTimeBetween('-40 years', '-8 years'),
             'email_verified_at' => now()
         ])->assignRole('user');
 
@@ -27,7 +27,7 @@ class UsersSeeder extends Seeder
             'name' => 'moderator',
             'email' => 'moderator@webdiscuss',
             'password' => bcrypt('password'),
-            'date_of_birth' => $faker->dateTimeThisCentury,
+            'date_of_birth' => $faker->dateTimeBetween('-40 years', '-8 years'),
             'email_verified_at' => now()
         ])->assignRole('moderator');
 
@@ -35,8 +35,18 @@ class UsersSeeder extends Seeder
             'name' => 'administrator',
             'email' => 'administrator@webdiscuss',
             'password' => bcrypt('password'),
-            'date_of_birth' => $faker->dateTimeThisCentury,
+            'date_of_birth' => $faker->dateTimeBetween('-40 years', '-8 years'),
             'email_verified_at' => now()
         ])->assignRole('administrator');
+
+        for ($i = 0; $i < 100; $i++) {
+            User::create([
+                'name' => $faker->userName,
+                'email' => $faker->email,
+                'password' => bcrypt('password'),
+                'date_of_birth' => $faker->dateTimeBetween('-40 years', '-8 years'),
+                'email_verified_at' => now()
+            ])->assignRole('user');
+        }
     }
 }

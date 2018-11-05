@@ -117,9 +117,9 @@ class UsersController extends Controller
             ->groupBy('age')
             ->map(function ($item) {
                 return collect($item)->count();
-            });
+            })->sortKeys();
 
-        $channelTopics = Channel::withCount('topics')->groupBy('name')
+        $channelTopics = Channel::withCount('topics')->groupBy('name')->limit(8)
             ->get()
             ->mapWithKeys(function ($item) {
                 return [$item['name'] => $item['topics_count']];
@@ -137,12 +137,31 @@ class UsersController extends Controller
             });
 
         $ageChart->labels($users->keys());
-        $ageChart->dataset('Number of users', 'pie',
-            $users->values())->color($this->get_random_colors($users->count()));
+        $ageChart->dataset('Number of users', 'line', $users->values());
+        $ageChart->displayLegend(false);
+        $ageChart->options([
+            'yAxis' => [
+                'title' => [
+                    'text' => 'Number of users'
+                ]
+            ]
+        ]);
 
         $channelChart->labels($channelTopics->keys());
         $channelChart->dataset('Number of topics', 'pie',
             $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
+        $channelChart->options([
+            'plotOptions' => [
+                'pie' => [
+                    'allowPointSelect' => true,
+                    'cursor' => 'pointer',
+                    'dataLabels' => [
+                        'enabled' => false,
+                    ],
+                    'showInLegend' => true,
+                ]
+            ]
+        ]);
 
         $activityChart->labels($activity->keys());
         $activityChart->displayLegend(0);
