@@ -48,7 +48,7 @@
                             @endhasrole
                         </td>
                         <td class="text-center align-middle">{{ $channel->topics_count }}</td>
-                        <td class="text-center align-middle">{{ $channel->replies_count }}</td>
+                        <td class="text-center align-middle">{{ --$channel->replies_count }}</td>
                         <td class="small align-middle">
                             @if ($channel->lastReplies->isEmpty())
                                 ---

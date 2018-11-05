@@ -52,7 +52,9 @@ class TopicsController extends Controller
             ->orderBy('created_at')
             ->paginate(3);
 
-        return view('topics.show', compact('topic', 'replies'));
+        $numberOfReplies = Reply::where('topic_id', $topic->id)->count() - 1;
+
+        return view('topics.show', compact('topic', 'replies', 'numberOfReplies'));
     }
 
     public function edit(Topic $topic)

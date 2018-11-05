@@ -30,10 +30,10 @@
                                 <a class="d-block" href="{{ route('topics.show', ['id' => $topic->id]) }}">{{ $topic->title }}</a>
                                 <small>Author: <a href="{{ route('users.show', ['user' => $topic->user->id]) }}">{{ $topic->user->name }}</a>, {{ $topic->created_at }}</small>
                             </td>
-                            <td class="text-center align-middle">{{ $topic->replies_count }}</td>
+                            <td class="text-center align-middle">{{ $topic->replies_count - 1 }}</td>
                             <td class="text-center align-middle">{{ $topic->getUniqueViews() }}</td>
                             <td class="small align-middle">
-                                @if ($topic->replies_count == 0)
+                                @if (--$topic->replies_count == 0)
                                     ---
                                 @else
                                     {{ $topic->lastReply->created_at }}

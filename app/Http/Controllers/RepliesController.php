@@ -44,6 +44,7 @@ class RepliesController extends Controller
 
     public function destroy(Reply $reply)
     {
+        $reply->replies()->delete();
         $reply->reports()->delete();
         $reply->delete();
 
