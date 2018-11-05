@@ -19,6 +19,7 @@ class CreateRepliesTable extends Migration
             $table->unsignedInteger('topic_id');
             $table->unsignedInteger('parent_id')->nullable();
             $table->text('content');
+            $table->boolean('is_topic')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

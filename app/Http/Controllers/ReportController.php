@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Topic;
 use App\User;
 use App\Reply;
 use App\Report;
@@ -18,10 +19,12 @@ class ReportController extends Controller
 
     public function show(User $user)
     {
-        $reports = $user->reports()->with(['user', 'reply.user', 'reply'])
+        $reports = Report::select('reports.*')->with(['user', 'reply.user', 'reply'])
             ->join('replies', 'reports.reply_id', '=', 'replies.id')
+            ->join('users', 'reports.user_id', '=', 'users.id')
+            ->where('users.id', $user->id)
             ->whereNull('replies.deleted_at')
-            ->paginate(2);
+            ->paginate(4);
 
         return view('report.show', compact('user', 'reports'));
     }
@@ -35,9 +38,14 @@ class ReportController extends Controller
 
     public function delete(Report $report)
     {
+        if ($report->reply->is_topic) {
+            $topic = Topic::find($report->reply->topic_id);
+            $topic->delete();
+        }
+
         $report->reply->delete();
 
-        $report->delete();
+        Report::where('reply_id',$report->reply->id)->delete();
 
         return redirect()->route('report.index');
     }
@@ -50,7 +58,7 @@ class ReportController extends Controller
     public function store(Reply $reply, Request $request)
     {
         Report::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $reply->user_id,
             'reply_id' => $reply->id,
             'reason' => $request->get('reason')
         ]);

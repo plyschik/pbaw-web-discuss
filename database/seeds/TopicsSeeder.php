@@ -31,6 +31,7 @@ class TopicsSeeder extends Seeder
                 'user_id' => $topic->user_id,
                 'topic_id' => $topic->id,
                 'content' => $faker->text($faker->numberBetween(200, 500)),
+                'is_topic' => 1,
                 'created_at' => $topic->created_at,
                 'updated_at' => $topic->updated_at
             ]);

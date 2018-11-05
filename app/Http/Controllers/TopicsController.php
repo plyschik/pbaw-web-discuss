@@ -43,6 +43,7 @@ class TopicsController extends Controller
 
         $topic->replies()->create([
             'user_id' => auth()->id(),
+            'is_topic' => true,
             'content' => $request->get('content')
         ]);
 
@@ -55,13 +56,14 @@ class TopicsController extends Controller
 
         $topic->addView();
 
-        $replies = Reply::with(['user', 'replies.user'])
+        $replies = Reply::select('replies.*')->with(['user', 'replies.user'])
             ->where([
                 ['topic_id', $id],
                 ['parent_id', null]
             ])
             ->orderBy('created_at')
             ->paginate(5);
+
 
         return view('topics.show', compact('topic', 'replies'));
     }

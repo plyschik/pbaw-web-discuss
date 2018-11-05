@@ -9,7 +9,7 @@ class Reply extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'topic_id', 'parent_id', 'content'];
+    protected $fillable = ['user_id', 'topic_id', 'parent_id', 'content', 'is_topic'];
     protected $dates = ['deleted_at'];
 
     public function user()
