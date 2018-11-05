@@ -5,13 +5,11 @@
         <h3 class="mb-3">New topic</h3>
 
         <form action="{{ route('topics.store') }}" method="POST">
-            @csrf
-
             <div class="form-group">
                 <label for="channel">Channel:</label>
                 <select class="form-control{{ $errors->has('channel_id') ? ' is-invalid' : '' }}" id="channel" name="channel_id">
                     @foreach ($channels as $channel)
-                        <option {{ ($currentChannel->id == $channel->id) ? 'selected' : ''  }} value="{{ $channel->id }}">{{ $channel->name }}</option>
+                        <option value="{{ $channel->id }}" {{ ($channel->id == request('channel_id')) ? 'selected' : ''  }}>{{ $channel->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('channel_id'))
@@ -35,7 +33,11 @@
                 @endif
             </div>
 
-            <input class="btn btn-primary" type="submit" value="Add new topic">
+            @csrf
+
+            <div class="form-group">
+                <button class="btn btn-primary mr-2" type="submit">Add new topic</button> or <a class="btn btn-secondary ml-2" href="{{ url()->previous() }}">Go back</a>
+            </div>
         </form>
     </div>
 @endsection

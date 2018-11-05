@@ -28,8 +28,6 @@ class ChannelsController extends Controller
             ->sortByDesc('lastReply.created_at')
             ->paginate(4);
 
-        $channel = Channel::find(request('channel'))->first();
-
         return view('channels.show', compact('topics', 'channel'));
     }
 
@@ -46,6 +44,8 @@ class ChannelsController extends Controller
         ]);
 
         Channel::create($request->only(['name', 'description']));
+
+        flash('Channel created.')->success();
 
         return redirect()->route('home');
     }
@@ -64,6 +64,8 @@ class ChannelsController extends Controller
 
         $channel->update($request->only(['name', 'description']));
 
+        flash('Channel updated.')->success();
+
         return redirect()->route('home');
     }
 
@@ -72,6 +74,8 @@ class ChannelsController extends Controller
         $this->authorize('delete', $channel);
 
         $channel->delete();
+
+        flash('Channel deleted.')->success();
 
         return redirect()->route('home');
     }

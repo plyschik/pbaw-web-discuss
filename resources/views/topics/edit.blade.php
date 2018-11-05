@@ -4,9 +4,8 @@
     <div class="container">
         <h3 class="mb-3">Edit topic</h3>
 
-        <form action="{{ route('topics.update', ['topic' => $topic->id]) }}" method="POST">
-            @csrf
-            {{ method_field('PATCH') }}
+        <form action="{{ route('topics.update', $topic) }}" method="POST">
+            @method('PATCH')
 
             <div class="form-group">
                 <label for="channel">Channel:</label>
@@ -28,7 +27,11 @@
                 @endif
             </div>
 
-            <input class="btn btn-primary" type="submit" value="Update">
+            @csrf
+
+            <div class="form-group">
+                <button class="btn btn-primary mr-2" type="submit">Update</button> or <a class="btn btn-secondary ml-2" href="{{ url()->previous() }}">Go back</a>
+            </div>
         </form>
     </div>
 @endsection

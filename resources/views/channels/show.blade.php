@@ -5,7 +5,7 @@
         <h2 class="mb-3">Channel: {{ $channel->name }}</h2>
 
         @if (Auth::check())
-            <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $channel) }}">New topic</a>
+            <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', ['channel' => $channel, 'channel_id' => $channel->id]) }}">New topic</a>
         @endif
 
         @if ($topics->isEmpty())
@@ -16,12 +16,12 @@
         @else
             <table class="table table-bordered">
                 <thead class="thead-light">
-                <tr>
-                    <th class="col-7">Topic</th>
-                    <th class="col-1 text-center">Replies</th>
-                    <th class="col-1 text-center">Views</th>
-                    <th class="col-3">Last reply</th>
-                </tr>
+                    <tr>
+                        <th class="col-7">Topic</th>
+                        <th class="col-1 text-center">Replies</th>
+                        <th class="col-1 text-center">Views</th>
+                        <th class="col-3">Last reply</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($topics as $topic)

@@ -10,22 +10,11 @@ use Illuminate\Http\Request;
 
 class TopicsController extends Controller
 {
-    public function index()
-    {
-        $topics = (new Topic)
-            ->select(['id', 'user_id', 'channel_id', 'title', 'created_at'])
-            ->with(['user:id,name', 'channel:id,name'])
-            ->paginate(10);
-
-        return view('topics.index', compact('topics'));
-    }
-
     public function create()
     {
         $channels = Channel::all();
-        $currentChannel = Channel::where('name', request('channel'))->first();
 
-        return view('topics.create', compact('channels', 'currentChannel'));
+        return view('topics.create', compact('channels'));
     }
 
     public function store(Request $request)
@@ -48,24 +37,22 @@ class TopicsController extends Controller
             'content' => $request->get('content')
         ]);
 
-        return redirect()->route('topics.show', ['topic' => $topic->id]);
+        return redirect()->route('topics.show', ['topic' => $topic]);
     }
 
-    public function show($id)
+    public function show(Topic $topic)
     {
-        $topic = Topic::findOrFail($id);
-
         $topic->addView();
 
         $replies = Reply::select('replies.*')->with(['user', 'replies.user'])
             ->where([
-                ['topic_id', $id],
+                ['topic_id', $topic->id],
                 ['parent_id', null]
             ])
             ->orderBy('created_at')
-            ->paginate(5);
+            ->paginate(3);
 
-        $numberOfReplies = Reply::where('topic_id', $id)->count() - 1;
+        $numberOfReplies = Reply::where('topic_id', $topic->id)->count() - 1;
 
         return view('topics.show', compact('topic', 'replies', 'numberOfReplies'));
     }
@@ -90,16 +77,20 @@ class TopicsController extends Controller
             'title' => $request->get('title')
         ]);
 
-        return redirect()->route('topics.show', ['topic' => $topic->id]);
+        return redirect()->route('topics.show', ['topic' => $topic]);
     }
 
     public function destroy(Topic $topic)
     {
+        $channel = $topic->channel;
+
         $repliesId = $topic->replies()->pluck('id');
         Report::with('reply')->whereIn('reply_id', $repliesId)->delete();
         $topic->replies()->delete();
         $topic->delete();
 
-        return redirect()->route('home');
+        flash('Topic deleted.')->success();
+
+        return redirect()->route('channels.show', $channel);
     }
 }
