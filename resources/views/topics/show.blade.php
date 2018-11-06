@@ -101,7 +101,7 @@
                                     <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button class="btn btn-sm btn-block btn-outline-danger" type="submit">
+                                        <button class="btn btn-sm btn-block btn-outline-danger confirm-delete" type="submit">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
