@@ -76,6 +76,16 @@ class StatsComposer
             })
         ];
 
-        $view->with('stats', $stats);
+        $popularTopics = Cache::remember('stats.popular_topics', config('app.stats.cache.ttl'), function () {
+            return Topic::withCount('replies')->limit(5)->orderBy('replies_count', 'desc')->get();
+        });
+
+        $latestTopics = Cache::remember('stats.latest_topics', config('app.stats.cache.ttl'), function () {
+            return Topic::limit(5)->orderBy('created_at', 'desc')->get();
+        });
+
+        $view->with(compact('stats'));
+        $view->with(compact('popularTopics'));
+        $view->with(compact('latestTopics'));
     }
 }

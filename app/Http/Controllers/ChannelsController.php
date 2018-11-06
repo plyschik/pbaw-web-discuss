@@ -15,10 +15,7 @@ class ChannelsController extends Controller
             ->orderBy('name')
             ->get();
 
-        $popularTopics = Topic::withCount('replies')->limit(5)->orderBy('replies_count', 'desc')->get();
-        $latestTopics = Topic::limit(5)->orderBy('created_at', 'desc')->get();
-
-        return view('channels.index', compact('channels', 'popularTopics', 'latestTopics'));
+        return view('channels.index', compact('channels'));
     }
 
     public function show(Channel $channel)
