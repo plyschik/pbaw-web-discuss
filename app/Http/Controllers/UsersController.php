@@ -17,41 +17,25 @@ class UsersController extends Controller
 {
     public function show(User $user)
     {
-        $topChannelsChart = new TopChannelsChart();
-        $userChart = new UserChart();
-        $chartOptions = [
-            'plotOptions' => [
-                'pie' => [
-                    'allowPointSelect' => true,
-                    'cursor' => 'pointer',
-                    'dataLabels' => [
-                        'enabled' => false,
-                    ],
-                    'showInLegend' => true,
-                ]
-            ]
-        ];
+        $latestTopics = $user
+            ->topics()
+            ->limit(5)
+            ->get();
 
         $topChannels = Channel::withCount('topics')
             ->whereHas('topics', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
-            ->orderBy('topics_count', 'desc')
-            ->limit(6)
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['name'] => $item['topics_count']];
-            });
-
-        $topChannelsChart->labels($topChannels->keys())->doughnut(50);;
-        $topChannelsChart->dataset('Number of topics', 'pie',
-            $topChannels->values())->color($this->get_random_colors($topChannels->count()));
-        $topChannelsChart->options($chartOptions);
-
-        $latestTopics = $user
-            ->topics()
+            ->orderBy('topics_count', 'DESC')
             ->limit(5)
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'label' => $item['name'],
+                    'value' => $item['topics_count'],
+                    'url' => route('channels.show', $item['slug'])
+                ];
+            });
 
         $usersFrequentlyCommentedPosts = User::withCount('replies')
             ->whereHas('replies', function ($query) use ($user) {
@@ -60,21 +44,18 @@ class UsersController extends Controller
                         $query->where('user_id', $user->id);
                     });
             })
-            ->orderBy('replies_count', 'desc')
+            ->orderBy('replies_count', 'DESC')
             ->limit(5)
             ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['name'] => $item['replies_count']];
+            ->map(function ($item) {
+                return [
+                    'label' => $item['name'],
+                    'value' => $item['replies_count'],
+                    'url' => route('users.show', $item['id'])
+                ];
             });
 
-        $userChart->labels($usersFrequentlyCommentedPosts->keys())->doughnut(50);
-        $userChart->dataset('Number of replies', 'pie',
-            $usersFrequentlyCommentedPosts->values())->color($this->get_random_colors($usersFrequentlyCommentedPosts->count()));
-        $userChart->options($chartOptions);
-
-        return view('users.show',
-            compact('user', 'latestTopics', 'topChannelsChart', 'userChart', 'topChannels',
-                'usersFrequentlyCommentedPosts'));
+        return view('users.show', compact('user', 'latestTopics', 'topChannels', 'usersFrequentlyCommentedPosts'));
     }
 
     public function destroy(User $user)
@@ -148,8 +129,7 @@ class UsersController extends Controller
         ]);
 
         $channelChart->labels($channelTopics->keys());
-        $channelChart->dataset('Number of topics', 'pie',
-            $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
+        $channelChart->dataset('Number of topics', 'pie', $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
         $channelChart->options([
             'plotOptions' => [
                 'pie' => [

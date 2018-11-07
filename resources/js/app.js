@@ -4,12 +4,16 @@ window.Popper = require('popper.js').default;
 require('bootstrap');
 require('@fortawesome/fontawesome-free/js/fontawesome.min.js');
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-});
+import Chart from 'chart.js';
+
+window.randomColorGenerator = function() {
+    return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+};
 
 $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('.confirm-delete').on('click', function () {
         return confirm('Are you sure?');
-    })
+    });
 });
