@@ -39,7 +39,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now()
         ])->assignRole('administrator');
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             User::create([
                 'name' => $faker->userName,
                 'email' => $faker->email,

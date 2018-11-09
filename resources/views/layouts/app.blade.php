@@ -36,6 +36,7 @@
                                     @endhasrole
                                     @hasrole('administrator')
                                         <a class="dropdown-item" href="{{ route('channels.create') }}">Create channel</a>
+                                        <a class="dropdown-item" href="{{ route('categories.create') }}">Create category</a>
                                     @endhasrole
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout

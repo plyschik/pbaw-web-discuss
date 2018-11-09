@@ -40,6 +40,11 @@ Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('channels/{channel}/edit','ChannelsController@edit')->name('channels.edit');
     Route::patch('channels/{channel}','ChannelsController@update')->name('channels.update');
     Route::delete('/channels/{channel}', 'ChannelsController@destroy')->name('channels.destroy');
+    Route::get('/categories/create', 'CategoriesController@create')->name('categories.create');
+    Route::post('/categories', 'CategoriesController@store')->name('categories.store');
+    Route::get('categories/{category}/edit','CategoriesController@edit')->name('categories.edit');
+    Route::patch('categories/{category}','CategoriesController@update')->name('categories.update');
+    Route::delete('/categories/{category}', 'CategoriesController@destroy')->name('categories.destroy');
 });
 
 Route::group(['middleware' => ['role:administrator|moderator']], function () {
@@ -52,9 +57,12 @@ Route::group(['middleware' => ['role:administrator|moderator']], function () {
 });
 
 
-Route::get('/', 'ChannelsController@index')->name('home');
+Route::get('/channels', 'ChannelsController@index')->name('channels.index');
 Route::get('/channels/{channel}', 'ChannelsController@show')->name('channels.show');
 Route::get('/topic/{topic}', 'TopicsController@show')->name('topics.show');
 Route::view('/terms', 'pages.terms')->name('pages.terms');
 Route::view('/policy', 'pages.policy')->name('pages.policy');
 Route::get('/users/stats', 'UsersController@stats')->name('users.stats');
+Route::get('/', 'CategoriesController@index')->name('home');
+Route::get('/categories/{category}', 'CategoriesController@show')->name('categories.show');
+
