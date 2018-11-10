@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Channel;
 use App\Topic;
+use App\User;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller

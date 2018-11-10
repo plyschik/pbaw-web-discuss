@@ -20,6 +20,7 @@ class CreateChannelsTable extends Migration
             $table->string('description', 128)->nullable();
             $table->unsignedInteger('category_id');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('channels', function (Blueprint $table) {

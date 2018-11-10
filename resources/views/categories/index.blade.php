@@ -55,7 +55,7 @@
                                 @endhasrole
                             </td>
                             <td class="small align-middle">
-                                <div class="list-group list-group-flush">
+                                <div class="list-group">
                                     @foreach ($category->channels as $channel)
                                         <a class="list-group-item list-group-item-action"
                                            href="{{ route('channels.show', $channel) }}">
@@ -64,8 +64,13 @@
                                     @endforeach
                                 </div>
                             </td>
-                            <td>
-
+                            <td class="align-middle">
+                                    @foreach ($category->users as $user)
+                                        <a class="badge badge-light"
+                                           href="{{ route('users.show', $user) }}">
+                                            {{$user->name}}
+                                        </a>
+                                    @endforeach
                             </td>
                         </tr>
                     @endforeach

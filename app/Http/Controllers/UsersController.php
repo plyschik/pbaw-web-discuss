@@ -2,19 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Charts\ActivityChart;
 use App\Charts\AgeChart;
 use App\Charts\ChannelChart;
-use App\Charts\TopChannelsChart;
-use App\Charts\UserChart;
 use App\Reply;
 use App\User;
 use App\Channel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
+    public function createModerator()
+    {
+        $categories = Category::all();
+        $users = User::all();
+
+        return view('users.create_moderator', compact('categories', 'users'));
+    }
+
+    public function storeModerator(Request $request)
+    {
+        $this->validate($request, [
+            'category_id' => 'required|exists:categories,id',
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $user = User::find($request['user_id']);
+        $category = Category::find($request['category_id']);
+        $user->categories()->attach($category);
+
+        return redirect()->route('home');
+    }
+
     public function show(User $user)
     {
         $latestTopics = $user
@@ -87,6 +109,20 @@ class UsersController extends Controller
         return redirect()->route('users.show', $user);
     }
 
+    public function destroyModerator(User $user, Category $category)
+    {
+        $user->categories()->detach($category);
+
+        return redirect('/');
+    }
+
+    public function listModerators()
+    {
+        $categories = Category::with('users')->get()->paginate(8);
+
+        return view('users.moderators_list', compact('categories'));
+    }
+
     public function stats()
     {
         $channelChart = new ChannelChart();
@@ -129,7 +165,8 @@ class UsersController extends Controller
         ]);
 
         $channelChart->labels($channelTopics->keys());
-        $channelChart->dataset('Number of topics', 'pie', $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
+        $channelChart->dataset('Number of topics', 'pie',
+            $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
         $channelChart->options([
             'plotOptions' => [
                 'pie' => [

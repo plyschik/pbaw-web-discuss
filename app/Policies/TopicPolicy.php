@@ -12,9 +12,14 @@ class TopicPolicy
 
     public function manage(User $user, Topic $topic)
     {
-        if($user->hasRole('administrator|moderator')){
+        if($user->hasRole('administrator')){
             return true;
         }
+
+        if($user->categories()->where('category_id', $topic->channel->category->id)->count() && !$topic->user->hasRole('administrator')){
+            return true;
+        }
+
         return $user->id === $topic->user_id;
     }
 }

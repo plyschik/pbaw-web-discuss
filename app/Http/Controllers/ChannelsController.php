@@ -21,6 +21,7 @@ class ChannelsController extends Controller
 
     public function show(Channel $channel)
     {
+
         $topics = Topic::with(['user', 'lastReply'])
             ->withCount('replies')
             ->where('channel_id', $channel->id)
@@ -76,12 +77,11 @@ class ChannelsController extends Controller
     public function destroy(Channel $channel)
     {
         $this->authorize('delete', $channel);
-
         $channel->delete();
 
         flash('Channel deleted.')->success();
 
-        return redirect()->route('categories.show', $channel->category());
+        return redirect()->back();
 
     }
 }

@@ -58,4 +58,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return $this->hasMany(Report::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

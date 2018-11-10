@@ -12,9 +12,14 @@ class ReplyPolicy
 
     public function manage(User $user, Reply $reply)
     {
-        if($user->hasRole('administrator|moderator')){
+        if ($user->hasRole('administrator')) {
             return true;
         }
+
+        if ($user->categories()->where('category_id', $reply->topic->channel->category->id)->count() && !$reply->user->hasRole('administrator')) {
+            return true;
+        }
+
         return $user->id === $reply->user_id;
     }
 }

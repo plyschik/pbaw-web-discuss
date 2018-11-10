@@ -24,14 +24,6 @@ class UsersSeeder extends Seeder
         ])->assignRole('user');
 
         User::create([
-            'name' => 'moderator',
-            'email' => 'moderator@webdiscuss',
-            'password' => bcrypt('password'),
-            'date_of_birth' => $faker->dateTimeBetween('-40 years', '-8 years'),
-            'email_verified_at' => now()
-        ])->assignRole('moderator');
-
-        User::create([
             'name' => 'administrator',
             'email' => 'administrator@webdiscuss',
             'password' => bcrypt('password'),
@@ -39,7 +31,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now()
         ])->assignRole('administrator');
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             User::create([
                 'name' => $faker->userName,
                 'email' => $faker->email,
