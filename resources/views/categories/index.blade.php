@@ -4,6 +4,77 @@
     <div class="container">
         <div class="row">
             <div class="col-8">
+                @foreach ($categories as $category)
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="4">
+                                    {{ $category->name }}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="small" colspan="4">
+                                    Category moderators:
+                                    @foreach ($category->users as $user)
+                                        <a class="badge badge-success" href="{{ route('users.show', $user) }}">
+                                            {{ $user->name }}
+                                        </a>
+                                    @endforeach
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="small font-weight-bold">
+                                <td class="col-6">Channel</td>
+                                <td class="col-1">Topics</td>
+                                <td class="col-1">Replies</td>
+                                <td class="col-4">Last reply</td>
+                            </tr>
+                            @if ($category->channels->isEmpty())
+                                <tr>
+                                    <td class="small" colspan="4">No channels.</td>
+                                </tr>
+                            @else
+                                @foreach ($category->channels as $channel)
+                                    <tr class="small">
+                                        <td class="align-middle">
+                                            <a href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
+                                            @if ($channel->description)
+                                                <p class="mt-1 mb-0 font-italic">{{ $channel->description }}</p>
+                                            @endif
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $channel->topics_count }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $channel->replies_count }}
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($channel->lastReplies->isEmpty())
+                                                ---
+                                            @else
+                                                <div class="d-block">
+                                                    <a href="{{ route('topics.show', ['topic' => $channel->lastReplies->first()['topic']['id']]) }}">{{ $channel->lastReplies->first()['topic']['title'] }}</a>
+                                                </div>
+                                                <div clas="d-block">
+                                                    Author: <a href="{{ route('users.show', ['user' => $channel->lastReplies->first()['user']['id']]) }}">{{ $channel->lastReplies->first()['user']['name'] }}</a>
+                                                </div>
+                                                <div class="d-block">
+                                                    <div class="text-muted">
+                                                        {{ $channel->lastReplies->first()['created_at'] }}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                @endforeach
+            </div>
+            {{--
+            <div class="col-8">
                 <table class="table table-bordered">
                     <thead class="thead-light">
                     <tr>
@@ -77,6 +148,7 @@
                     </tbody>
                 </table>
             </div>
+            --}}
             <div class="col-4">
                 <div class="card mb-3">
                     <div class="card-header">

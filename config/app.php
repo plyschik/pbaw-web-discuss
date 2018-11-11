@@ -223,7 +223,7 @@ return [
 
     'stats' => [
         'cache' => [
-            'ttl' => 3
+            'ttl' => 5
         ]
     ]
 

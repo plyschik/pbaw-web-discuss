@@ -2,7 +2,42 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-3">Channel: {{ $channel->name }}</h2>
+        <div class="row align-items-center mb-3">
+            <div class="col">
+                <h2>
+                    Channel: {{ $channel->name }}
+                </h2>
+                @if ($channel->description)
+                    <p class="font-italic mb-0">
+                        {{ $channel->description }}
+                    </p>
+                @endif
+            </div>
+            @hasrole('administrator')
+                <div class="col-1">
+                    <a class="btn btn-sm btn-block btn-primary" href="{{ route('channels.edit', $channel) }}">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </div>
+                @if ($topics->isEmpty())
+                    <div class="col-1">
+                        <form class="form-inline" action="{{ route('channels.destroy', $channel) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-sm btn-block btn-danger" type="submit">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="col-1">
+                        <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete channel without topics." disabled="disabled">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                @endif
+            @endhasrole
+        </div>
 
         @if (Auth::check())
             <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', ['channel' => $channel, 'channel_id' => $channel->id]) }}">New topic</a>

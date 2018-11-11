@@ -21,7 +21,6 @@ class ChannelsController extends Controller
 
     public function show(Channel $channel)
     {
-
         $topics = Topic::with(['user', 'lastReply'])
             ->withCount('replies')
             ->where('channel_id', $channel->id)

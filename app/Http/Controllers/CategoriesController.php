@@ -12,9 +12,11 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with(['channels' => function ($query) {
+            $query->withCount(['topics', 'replies'])->with('lastReplies');
+        }, 'users'])->get();
 
-        return view('categories.index', compact('categories', 'popularTopics', 'latestTopics'));
+        return view('categories.index', compact('categories'));
     }
 
     public function show(Category $category)
