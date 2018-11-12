@@ -36,6 +36,11 @@
             </div>
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    @parent
+
     <script>
         $(document).ready(function() {
             $('.js-example-basic-single').select2({

@@ -113,7 +113,7 @@ class UsersController extends Controller
     {
         $user->categories()->detach($category);
 
-        return redirect('/');
+        return redirect()->route('moderators.list');
     }
 
     public function listModerators()
