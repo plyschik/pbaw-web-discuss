@@ -27,7 +27,7 @@ class CategoriesController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('channels.index', compact('channels'));
+        return view('channels.index', compact('channels', 'category'));
     }
 
     public function create()

@@ -43,6 +43,14 @@
             <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', ['channel' => $channel, 'channel_id' => $channel->id]) }}">New topic</a>
         @endif
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('categories.show', $channel->category)}}">{{$channel->category->name}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{$channel->name}}</li>
+            </ol>
+        </nav>
+
         @if ($topics->isEmpty())
             <div class="alert alert-info">
                 This channel is empty.

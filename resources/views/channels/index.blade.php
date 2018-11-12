@@ -4,6 +4,12 @@
     <div class="container">
             <div class="row">
                 <div class="col-10 offset-md-1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{$category->name}}</li>
+                        </ol>
+                    </nav>
                     @if(!count($channels))
                         <div class="alert alert-primary mb-0" role="alert">
                             There are no channels in this category.
