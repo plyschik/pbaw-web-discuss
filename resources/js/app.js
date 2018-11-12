@@ -3,6 +3,7 @@ window.Popper = require('popper.js').default;
 
 require('bootstrap');
 require('@fortawesome/fontawesome-free/js/fontawesome.min.js');
+require('select2/dist/js/select2.min');
 
 import Chart from 'chart.js';
 

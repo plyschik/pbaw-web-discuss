@@ -9,7 +9,7 @@
                 <label for="channel">User:</label>
                 <select class="js-example-basic-single form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="user" name="user_id">
                     @foreach ($users as $user)
-                    <option value="{{ $user->id }}" {{ ($user->id == request('user_id')) ? 'selected' : ''  }}>{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" {{ ($user->id == request('user_id')) ? 'selected' : ''  }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('user_id'))
@@ -38,8 +38,9 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-single').select2();
+            $('.js-example-basic-single').select2({
+                theme: 'bootstrap4'
+            });
         });
     </script>
-
 @endsection
