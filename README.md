@@ -36,7 +36,12 @@ $ php artisan migrate --seed
 ```bash
 $ php artisan serve
 ```
-6. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
+6. Skonfiguruj CRON (Linux) lub harmonogram zadań (Windows), który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
+```bash
+* * * * * php artisan schedule:run
+```
+
+7. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
 # Twórcy
 * [plyschik](https://github.com/plyschik)
