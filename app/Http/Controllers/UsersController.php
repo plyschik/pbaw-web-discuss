@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Charts\ActivityChart;
-use App\Charts\AgeChart;
-use App\Charts\ChannelChart;
-use App\Reply;
 use App\User;
+use App\Reply;
 use App\Channel;
+use App\Category;
 use Carbon\Carbon;
+use App\Charts\AgeChart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Charts\ChannelChart;
+use App\Charts\ActivityChart;
 
 class UsersController extends Controller
 {
     public function createModerator()
     {
-        $categories = Category::all();
-        $users = User::all();
+        $users = User::withoutBanned()->get();
 
-        return view('users.create_moderator', compact('categories', 'users'));
+        return view('users.create_moderator', compact('users'));
+    }
+
+    public function getAvailableCategoriesToModerateByUser(User $user)
+    {
+        $categories = Category::whereDoesntHave('users', function ($query) use ($user) {
+            $query->where('id', $user->id);
+        })->get(['id', 'name']);
+
+        return response()->json($categories);
     }
 
     public function storeModerator(Request $request)

@@ -7,22 +7,20 @@
         <form action="{{ route('moderators.store') }}" method="POST">
             <div class="form-group">
                 <label for="channel">User:</label>
-                <select class="js-example-basic-single form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="user" name="user_id">
+                <select class="select2-user form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="user" name="user_id">
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" {{ ($user->id == request('user_id')) ? 'selected' : ''  }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('user_id'))
-                <div class="invalid-feedback">{{ $errors->first('user_id') }}</div>
+                    <div class="invalid-feedback">{{ $errors->first('user_id') }}</div>
                 @endif
             </div>
 
             <div class="form-group">
                 <label for="channel">Category:</label>
-                <select class="form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="channel" name="category_id">
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ ($category->id == request('category_id')) ? 'selected' : ''  }}>{{ $category->name }}</option>
-                    @endforeach
+                <select disabled class="categories form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="channel" name="category_id">
+                    <option>Select user first...</option>
                 </select>
                 @if ($errors->has('category_id'))
                     <div class="invalid-feedback">{{ $errors->first('category_id') }}</div>
@@ -32,7 +30,7 @@
             @csrf
 
             <div class="form-group">
-                <button class="btn btn-primary mr-2" type="submit">Add new moderator</button> or <a class="btn btn-secondary ml-2" href="{{ url()->previous() }}">Go back</a>
+                <button class="btn btn-primary mr-2" type="submit">Add new moderator</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
             </div>
         </form>
     </div>
@@ -43,8 +41,24 @@
 
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-single').select2({
+            $('.select2-user').select2({
                 theme: 'bootstrap4'
+            });
+
+            $('.select2-user').on('select2:select', function (event) {
+                $('.categories').prop('disabled', true);
+                $('.categories').find('option').remove();
+
+                $.ajax({
+                    method: 'GET',
+                    url: `/api/users/${event.params.data.id}/categories`
+                }).done(function (response) {
+                    $.each(response, function (index, item) {
+                        $('.categories').append(new Option(item.name, item.id));
+                    });
+
+                    $('.categories').prop('disabled', false);
+                });
             });
         });
     </script>
