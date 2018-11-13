@@ -57,7 +57,7 @@
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
-                        @if ($loop->iteration > 1)
+                        @if ($loop->iteration > 1 || request('page') > 1)
                             <div class="col-1">
                                 <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
                                     @method('DELETE')
