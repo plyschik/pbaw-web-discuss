@@ -21,7 +21,7 @@ class CreateCategoryUserTable extends Migration
         Schema::table('category_user', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->primary(['category_id', 'user_id']);
+            $table->unique(['category_id', 'user_id']);
         });
     }
 

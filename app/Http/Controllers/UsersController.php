@@ -11,30 +11,34 @@ use App\Charts\AgeChart;
 use Illuminate\Http\Request;
 use App\Charts\ChannelChart;
 use App\Charts\ActivityChart;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    public function createModerator()
+    public function createModerator(Category $category)
     {
-        $users = User::withoutBanned()->get();
-
-        return view('users.create_moderator', compact('users'));
-    }
-
-    public function getAvailableCategoriesToModerateByUser(User $user)
-    {
-        $categories = Category::whereDoesntHave('users', function ($query) use ($user) {
-            $query->where('id', $user->id);
+        $users = User::whereDoesntHave('categories', function ($query) use ($category) {
+            $query->where('id', $category->id);
         })->get(['id', 'name']);
 
-        return response()->json($categories);
+        return view('users.create_moderator', compact('users', 'category'));
     }
 
     public function storeModerator(Request $request)
     {
         $this->validate($request, [
-            'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|exists:users,id'
+            'user_id' => [
+                'required',
+                Rule::unique('category_user')->where(function ($query) use ($request) {
+                    return $query->where('category_id', $request->category_id);
+                })
+            ],
+            'category_id' => [
+                'required',
+                Rule::unique('category_user')->where(function ($query) use ($request) {
+                    return $query->where('user_id', $request->user_id);
+                })
+            ]
         ]);
 
         $user = User::find($request['user_id']);

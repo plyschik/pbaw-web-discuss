@@ -21,6 +21,11 @@
                                         {{ $user->name }}
                                     </a>
                                 @endforeach
+                                @hasrole('administrator')
+                                <a class="badge badge-primary" href="{{ route('moderators.create', $category) }}">
+                                    +
+                                </a>
+                                @endhasrole
                             </th>
                         </tr>
                     </thead>

@@ -45,7 +45,7 @@ Route::group(['middleware' => ['role:administrator']], function () {
     Route::get('categories/{category}/edit','CategoriesController@edit')->name('categories.edit');
     Route::patch('categories/{category}','CategoriesController@update')->name('categories.update');
     Route::delete('/categories/{category}', 'CategoriesController@destroy')->name('categories.destroy');
-    Route::get('/moderators/create', 'UsersController@createModerator')->name('moderators.create');
+    Route::get('/moderators/{category}/create', 'UsersController@createModerator')->name('moderators.create');
     Route::post('/moderators', 'UsersController@storeModerator')->name('moderators.store');
     Route::get('/moderators', 'UsersController@listModerators')->name('moderators.list');
     Route::delete('/moderators/{user}/{category}', 'UsersController@destroyModerator')->name('moderators.destroy');

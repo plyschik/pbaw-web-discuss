@@ -42,9 +42,6 @@
                                 <a class="dropdown-item" href="{{ route('moderators.list') }}">
                                     Manage moderators
                                 </a>
-                                <a class="dropdown-item" href="{{ route('moderators.create') }}">
-                                    Add moderator
-                                </a>
                             @endhasrole
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Logout
