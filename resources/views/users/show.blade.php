@@ -10,13 +10,15 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            Joined: <time title="{{ $user->created_at }}">{{ $user->created_at->diffForHumans() }}</time>
+                            Joined:
+                            <time title="{{ $user->created_at }}">{{ $user->created_at->diffForHumans() }}</time>
                         </li>
                         <li class="list-group-item">
                             Total posts: {{ $user->replies()->count() }}
                         </li>
                         <li class="list-group-item">
-                            Posts per day: {{ ($user->created_at->diffInDays() > 0) ? $user->replies()->count() / $user->created_at->diffInDays() : $user->replies()->count() }}
+                            Posts per
+                            day: {{ ($user->created_at->diffInDays() > 0) ? $user->replies()->count() / $user->created_at->diffInDays() : $user->replies()->count() }}
                         </li>
                         <li class="list-group-item">
                             Last logged in: {{ $user->last_logged_in ?? 'N/A' }}
@@ -25,12 +27,12 @@
                             Age: {{ $user->date_of_birth->diffInYears() }}
                         </li>
                         @hasrole('administrator')
-                            <li class="list-group-item">
-                                IP address: {{ $user->ip_address ?? 'N/A'}}
-                            </li>
-                            <li class="list-group-item">
-                                User agent: {{ $user->user_agent ?? 'N/A' }}
-                            </li>
+                        <li class="list-group-item">
+                            IP address: {{ $user->ip_address ?? 'N/A'}}
+                        </li>
+                        <li class="list-group-item">
+                            User agent: {{ $user->user_agent ?? 'N/A' }}
+                        </li>
                         @endhasrole
                     </ul>
                 </div>
@@ -61,8 +63,65 @@
                     @endif
                 </div>
             </div>
+            @if (Auth::user()->hasRole('administrator') && $bans->count() > 0)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <h5 class="card-header">
+                                Ban history
+                            </h5>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Duration (days)</th>
+                                        <th scope="col">Reason</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($bans as $ban)
+                                        <tr>
+                                            <th scope="row">{{$loop->iteration}}</th>
+                                            <td>{{$ban->duration}}</td>
+                                            <td>{{$ban->comment}}</td>
+                                            <td>{{$ban->created_at}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                {{ $bans->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-4">
+            @if (Auth::user()->hasRole('administrator') && $bans->count() > 0)
+                <div class="card mb-3">
+                    <h5 class="card-header">
+                        Suspensions
+                    </h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    Last ban: {{$lastBan->format('d-m-Y')}}
+                                </li>
+                                <li class="list-group-item">
+                                    Number of bans: {{$numberOfBans}}
+                                </li>
+                                <li class="list-group-item">
+                                    The longest ban: {{$bans->max('duration')}} day(s)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @if (!$latestTopics->isEmpty())
                 <div class="card mb-3">
                     <h5 class="card-header">
@@ -92,7 +151,9 @@
                                 <form action="{{ route('users.destroy', $user) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
-                                    <button class="btn btn-sm btn-block btn-outline-danger confirm-delete" type="submit">Delete</button>
+                                    <button class="btn btn-sm btn-block btn-outline-danger confirm-delete"
+                                            type="submit">Delete
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -110,7 +171,7 @@
         $(document).ready(function () {
             let topChannels = document.getElementById('top-channels');
 
-            let topChannelsChartColors = Array.from({ length: {{ $topChannels->count() }} }, function () {
+            let topChannelsChartColors = Array.from({length: {{ $topChannels->count() }} }, function () {
                 return randomColorGenerator();
             });
 
@@ -129,7 +190,7 @@
                         display: false
                     },
                     hover: {
-                        onHover: function(e) {
+                        onHover: function (e) {
                             var point = this.getElementAtEvent(e);
 
                             if (point.length) {
@@ -154,7 +215,7 @@
 
             let usersFrequentlyCommentedPosts = document.getElementById('users-frequently-commented-posts');
 
-            let usersFrequentlyCommentedPostsChartColors = Array.from({ length: {{ $usersFrequentlyCommentedPosts->count() }} }, function () {
+            let usersFrequentlyCommentedPostsChartColors = Array.from({length: {{ $usersFrequentlyCommentedPosts->count() }} }, function () {
                 return randomColorGenerator();
             });
 
@@ -173,7 +234,7 @@
                         display: false
                     },
                     hover: {
-                        onHover: function(e) {
+                        onHover: function (e) {
                             var point = this.getElementAtEvent(e);
 
                             if (point.length) {

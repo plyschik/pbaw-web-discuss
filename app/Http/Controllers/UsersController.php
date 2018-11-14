@@ -11,6 +11,7 @@ use App\Charts\AgeChart;
 use Illuminate\Http\Request;
 use App\Charts\ChannelChart;
 use App\Charts\ActivityChart;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
@@ -88,7 +89,15 @@ class UsersController extends Controller
                 ];
             });
 
-        return view('users.show', compact('user', 'latestTopics', 'topChannels', 'usersFrequentlyCommentedPosts'));
+        $lastBan = Carbon::parse(User::where('id', $user->id)->first()->banned_at);
+        $numberOfBans = DB::table('bans')->where('bannable_id', $user->id)->count();
+
+        $bans = DB::table('bans')
+            ->where('bannable_id', $user->id)
+            ->selectRaw("*, TIMESTAMPDIFF(DAY, DATE(created_at), DATE(expired_at)) AS duration")
+            ->paginate(5);
+
+        return view('users.show', compact('user', 'latestTopics', 'topChannels', 'usersFrequentlyCommentedPosts', 'numberOfBans', 'lastBan', 'bans'));
     }
 
     public function destroy(User $user)
