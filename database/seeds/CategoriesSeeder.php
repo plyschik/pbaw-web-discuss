@@ -1,7 +1,7 @@
 <?php
 
-use App\Category;
 use App\User;
+use App\Category;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 
@@ -20,9 +20,9 @@ class CategoriesSeeder extends Seeder
             $name = rtrim(ucfirst($faker->unique()->sentence($faker->numberBetween(1, 2))), '.');
 
             $category = Category::create([
-                'slug' => str_slug($name),
                 'name' => $name,
             ]);
+
             for ($j = 0; $j < 2; $j++) {
                 $user = User::find($faker->numberBetween(3, 30));
                 $user->categories()->attach($category);
@@ -30,4 +30,3 @@ class CategoriesSeeder extends Seeder
         }
     }
 }
-

@@ -4,16 +4,42 @@
     <div class="row">
         <div class="col-8">
             @foreach ($categories as $category)
-                <table class="table table-bordered small">
+                <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr>
                             <th colspan="4">
-                                <a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
+                                <div class="row">
+                                    <div class="col">{{ $category->name }}</div>
+                                    @hasrole('administrator')
+                                        <div class="col-2">
+                                            <a class="btn btn-sm btn-block btn-info" href="{{ route('categories.edit', $category) }}">
+                                                <i class="fas fa-pen"></i> Edit
+                                            </a>
+                                        </div>
+                                        @if ($category->channels->isEmpty())
+                                            <div class="col-2">
+                                                <form class="form-inline" action="{{ route('categories.destroy', $category) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <div class="col-2">
+                                                <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete categories without channels." disabled="disabled">
+                                                    <i class="far fa-trash-alt"></i> Delete
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endhasrole
+                                </div>
                             </th>
                         </tr>
-                        <tr>
+                        <tr class="small">
                             <th colspan="4">
-                                Category moderators:
+                                Moderators:
                                 @foreach ($category->users as $user)
                                     <a class="badge badge-success" href="{{ route('users.show', $user) }}">
                                         {{ $user->name }}
@@ -26,19 +52,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="font-weight-bold">
+                        <tr class="font-weight-bold small">
                             <td class="col-6">Channel</td>
                             <td class="col-1">Topics</td>
                             <td class="col-1">Replies</td>
                             <td class="col-4">Last reply in topic</td>
                         </tr>
                         @if ($category->channels->isEmpty())
-                            <tr>
+                            <tr class="small">
                                 <td colspan="4">No channels.</td>
                             </tr>
                         @else
                             @foreach ($category->channels as $channel)
-                                <tr>
+                                <tr class="small">
                                     <td class="align-middle">
                                         <a href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
                                         @if ($channel->description)

@@ -68,5 +68,3 @@ Route::view('/terms', 'pages.terms')->name('pages.terms');
 Route::view('/policy', 'pages.policy')->name('pages.policy');
 Route::get('/users/stats', 'UsersController@stats')->name('users.stats');
 Route::get('/', 'CategoriesController@index')->name('home');
-Route::get('/categories/{category}', 'CategoriesController@show')->name('categories.show');
-

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -19,17 +18,6 @@ class CategoriesController extends Controller
         }])->get();
 
         return view('categories.index', compact('categories'));
-    }
-
-    public function show(Category $category)
-    {
-        $channels = Channel::with('lastReplies', 'category')
-            ->withCount(['topics', 'replies'])
-            ->where('category_id', $category->id)
-            ->orderBy('name')
-            ->get();
-
-        return view('channels.index', compact('channels', 'category'));
     }
 
     public function create()
@@ -70,6 +58,8 @@ class CategoriesController extends Controller
 
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
+
         $category->delete();
 
         flash('Category deleted.')->success();

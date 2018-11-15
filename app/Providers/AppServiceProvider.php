@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Category;
 use App\Channel;
 use App\Observers\ChannelObserver;
+use App\Observers\CategoryObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+        Category::observe(CategoryObserver::class);
         Channel::observe(ChannelObserver::class);
     }
 
