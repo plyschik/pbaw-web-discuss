@@ -4,17 +4,15 @@
     <div class="row">
         <div class="col-8">
             @foreach ($categories as $category)
-                <table class="table table-bordered">
+                <table class="table table-bordered small">
                     <thead class="thead-light">
                         <tr>
                             <th colspan="4">
-                                <a href="{{ route('categories.show', $category) }}">
-                                    {{ $category->name }}
-                                </a>
+                                <a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
                             </th>
                         </tr>
                         <tr>
-                            <th class="small" colspan="4">
+                            <th colspan="4">
                                 Category moderators:
                                 @foreach ($category->users as $user)
                                     <a class="badge badge-success" href="{{ route('users.show', $user) }}">
@@ -22,52 +20,46 @@
                                     </a>
                                 @endforeach
                                 @hasrole('administrator')
-                                <a class="badge badge-primary" href="{{ route('moderators.create', $category) }}">
-                                    +
-                                </a>
+                                    <a class="badge badge-primary" href="{{ route('moderators.create', $category) }}">+ new</a>
                                 @endhasrole
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="small font-weight-bold">
+                        <tr class="font-weight-bold">
                             <td class="col-6">Channel</td>
                             <td class="col-1">Topics</td>
                             <td class="col-1">Replies</td>
-                            <td class="col-4">Last reply</td>
+                            <td class="col-4">Last reply in topic</td>
                         </tr>
                         @if ($category->channels->isEmpty())
                             <tr>
-                                <td class="small" colspan="4">No channels.</td>
+                                <td colspan="4">No channels.</td>
                             </tr>
                         @else
                             @foreach ($category->channels as $channel)
-                                <tr class="small">
+                                <tr>
                                     <td class="align-middle">
                                         <a href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
                                         @if ($channel->description)
                                             <p class="mt-1 mb-0 font-italic">{{ $channel->description }}</p>
                                         @endif
                                     </td>
-                                    <td class="text-center align-middle">
-                                        {{ $channel->topics_count }}
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        {{ $channel->replies_count }}
-                                    </td>
+                                    <td class="text-center align-middle">{{ $channel->topics_count }}</td>
+                                    <td class="text-center align-middle">{{ $channel->replies_count }}</td>
                                     <td class="align-middle">
-                                        @if ($channel->lastReplies->isEmpty())
-                                            ---
+                                        @if ($channel->replies->isEmpty())
+                                            —
                                         @else
                                             <div class="d-block">
-                                                <a href="{{ route('topics.show', ['topic' => $channel->lastReplies->first()['topic']['id']]) }}">{{ $channel->lastReplies->first()['topic']['title'] }}</a>
+                                                <a href="{{ route('topics.show', $channel->replies->first()->topic) }}">{{ $channel->replies->first()->topic->title }}</a>
                                             </div>
                                             <div clas="d-block">
-                                                Author: <a href="{{ route('users.show', ['user' => $channel->lastReplies->first()['user']['id']]) }}">{{ $channel->lastReplies->first()['user']['name'] }}</a>
+                                                Author: <a href="{{ route('users.show', $channel->replies->first()->user) }}">{{ $channel->replies->first()->user->name }}</a>
                                             </div>
                                             <div class="d-block">
                                                 <div class="text-muted">
-                                                    {{ $channel->lastReplies->first()['created_at'] }}
+                                                    <time title="{{ $channel->replies->first()->created_at }}">{{ $channel->replies->first()->created_at->diffForHumans() }}</time>
                                                 </div>
                                             </div>
                                         @endif
@@ -87,7 +79,7 @@
                 <ul class="list-group list-group-flush small">
                     @foreach ($popularTopics as $topic)
                         <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
-                            {{ $topic->title }} ({{$topic->replies_count - 1}} replies)
+                            {{ $topic->title }} ({{ $topic->replies_count - 1 }} replies)
                         </a>
                     @endforeach
                 </ul>
@@ -99,7 +91,7 @@
                 <ul class="list-group list-group-flush small">
                     @foreach ($latestTopics as $topic)
                         <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
-                            {{ $topic->title }} (created {{$topic->created_at->diffForHumans()}})
+                            {{ $topic->title }} (created <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>)
                         </a>
                     @endforeach
                 </ul>

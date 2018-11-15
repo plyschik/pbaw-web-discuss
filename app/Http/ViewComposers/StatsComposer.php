@@ -6,8 +6,8 @@ use App\User;
 use App\Topic;
 use App\Reply;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cache;
 use CyrildeWit\EloquentViewable\ViewTracker;
 
 class StatsComposer
@@ -31,42 +31,42 @@ class StatsComposer
     {
         $stats = [
             'topics' => [
-                'total' => Cache::remember('stats.topics.total', config('app.stats.cache.ttl'), function () {
-                    return Topic::all()->count();
+                'total' => Cache::remember('stats.topics.total', config('webdiscuss.stats.cache_ttl'), function () {
+                    return Topic::count();
                 }),
-                'today' => Cache::remember('stats.topics.today', config('app.stats.cache.ttl'), function () {
+                'today' => Cache::remember('stats.topics.today', config('webdiscuss.stats.cache_ttl'), function () {
                     return Topic::whereDate('created_at', Carbon::today())->count();
                 }),
-                'views' => Cache::remember('stats.topics.views', config('app.stats.cache.ttl'), function () {
+                'views' => Cache::remember('stats.topics.views', config('webdiscuss.stats.cache_ttl'), function () {
                     return ViewTracker::getViewsCountByType(Topic::class);
                 })
             ],
             'replies' => [
-                'total' => Cache::remember('stats.replies.total', config('app.stats.cache.ttl'), function () {
-                    return Reply::all()->count();
+                'total' => Cache::remember('stats.replies.total', config('webdiscuss.stats.cache_ttl'), function () {
+                    return Reply::count();
                 }),
-                'today' => Cache::remember('stats.replies.today', config('app.stats.cache.ttl'), function () {
+                'today' => Cache::remember('stats.replies.today', config('webdiscuss.stats.cache_ttl'), function () {
                     return Reply::whereDate('created_at', Carbon::today())->count();
                 })
             ],
             'users' => [
-                'total' => Cache::remember('stats.users.total', config('app.stats.cache.ttl'), function () {
-                    return User::all()->count();
+                'total' => Cache::remember('stats.users.total', config('webdiscuss.stats.cache_ttl'), function () {
+                    return User::count();
                 }),
-                'average_age' => Cache::remember('stats.users.average_age', config('app.stats.cache.ttl'), function () {
+                'average_age' => Cache::remember('stats.users.average_age', config('webdiscuss.stats.cache_ttl'), function () {
                     return round(User::selectRaw("TIMESTAMPDIFF(YEAR, DATE(date_of_birth), current_date) AS age")->get()->avg('age'));
                 }),
-                'last_registered' => Cache::remember('stats.users.last_registered', config('app.stats.cache.ttl'), function () {
-                    return User::orderBy('id', 'desc')->first();
+                'last_registered' => Cache::remember('stats.users.last_registered', config('webdiscuss.stats.cache_ttl'), function () {
+                    return User::latest()->first();
                 }),
-                'last_logged_in' => Cache::remember('stats.users.last_logged_in', config('app.stats.cache.ttl'), function () {
-                    return User::orderBy('last_logged_in', 'desc')->first();
+                'last_logged_in' => Cache::remember('stats.users.last_logged_in', config('webdiscuss.stats.cache_ttl'), function () {
+                    return User::latest('last_logged_in')->first();
                 })
             ],
-            'most_replies' => Cache::remember('stats.most_replies', config('app.stats.cache.ttl'), function () {
+            'most_replies' => Cache::remember('stats.most_replies', config('webdiscuss.stats.cache_ttl'), function () {
                 $replies = Reply::select('created_at')->get()
-                    ->groupBy(function ($date) {
-                        return Carbon::parse($date->created_at)->format('d-m-Y');
+                    ->groupBy(function ($row) {
+                        return Carbon::parse($row->created_at)->format('d-m-Y');
                     })->sort();
 
                 return [
@@ -76,16 +76,18 @@ class StatsComposer
             })
         ];
 
-        $popularTopics = Cache::remember('stats.popular_topics', config('app.stats.cache.ttl'), function () {
-            return Topic::withCount('replies')->limit(5)->orderBy('replies_count', 'desc')->get();
+        $popularTopics = Cache::remember('stats.popular_topics', config('webdiscuss.stats.cache_ttl'), function () {
+            return Topic::withCount('replies')->limit(config('webdiscuss.stats.popular_posts_limit'))->latest('replies_count')->get();
         });
 
-        $latestTopics = Cache::remember('stats.latest_topics', config('app.stats.cache.ttl'), function () {
-            return Topic::limit(5)->orderBy('created_at', 'desc')->get();
+        $latestTopics = Cache::remember('stats.latest_topics', config('webdiscuss.stats.cache_ttl'), function () {
+            return Topic::limit(config('webdiscuss.stats.latest_posts_limit'))->latest()->get();
         });
 
-        $view->with(compact('stats'));
-        $view->with(compact('popularTopics'));
-        $view->with(compact('latestTopics'));
+        $view->with([
+            'stats' => $stats,
+            'popularTopics' => $popularTopics,
+            'latestTopics' => $latestTopics
+        ]);
     }
 }

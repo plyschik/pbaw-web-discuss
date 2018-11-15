@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Channel;
-use App\Topic;
-use App\User;
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(['channels' => function ($query) {
-            $query->withCount(['topics', 'replies'])->with('lastReplies');
-        }, 'users'])->get();
+        $categories = Category::with(['users', 'channels' => function ($query) {
+            $query->withCount(['topics', 'replies' => function ($query) {
+                $query->where('is_topic', 0);
+            }])->with(['replies' => function ($query) {
+                $query->with(['topic', 'user'])->latest();
+            }]);
+        }])->get();
 
         return view('categories.index', compact('categories'));
     }
