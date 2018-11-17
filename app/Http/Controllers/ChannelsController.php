@@ -47,10 +47,11 @@ class ChannelsController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $channel = Channel::create($request->only(['name', 'description', 'category_id']));
-        $category = $channel->category;
+        Channel::create($request->only(['name', 'description', 'category_id']));
+
         flash('Channel created.')->success();
-        return redirect()->route('categories.show', $category);
+
+        return redirect()->route('home');
     }
 
     public function edit(Channel $channel)
@@ -77,11 +78,11 @@ class ChannelsController extends Controller
     public function destroy(Channel $channel)
     {
         $this->authorize('delete', $channel);
+
         $channel->delete();
 
         flash('Channel deleted.')->success();
 
-        return redirect()->back();
-
+        return redirect()->route('home');
     }
 }

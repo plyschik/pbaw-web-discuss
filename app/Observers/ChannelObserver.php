@@ -7,24 +7,40 @@ use App\Channel;
 class ChannelObserver
 {
     /**
-     * Handle the channel "creating" event.
+     * Handle the channel "created" event.
      *
      * @param  \App\Channel  $channel
      * @return void
      */
-    public function creating(Channel $channel)
+    public function created(Channel $channel)
     {
-        $channel->slug = str_slug($channel->name);
+        $dispatcher = Channel::getEventDispatcher();
+
+        Channel::unsetEventDispatcher();
+
+        $channel->update([
+            'slug' => str_slug($channel->id . ' ' . $channel->name)
+        ]);
+
+        Channel::setEventDispatcher($dispatcher);
     }
 
     /**
-     * Handle the channel "updating" event.
+     * Handle the channel "updated" event.
      *
      * @param  \App\Channel  $channel
      * @return void
      */
-    public function updating(Channel $channel)
+    public function updated(Channel $channel)
     {
-        $channel->slug = str_slug($channel->name);
+        $dispatcher = Channel::getEventDispatcher();
+
+        Channel::unsetEventDispatcher();
+
+        $channel->update([
+            'slug' => str_slug($channel->id . ' ' . $channel->name)
+        ]);
+
+        Channel::setEventDispatcher($dispatcher);
     }
 }

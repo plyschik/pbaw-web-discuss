@@ -23,7 +23,7 @@
                     <form class="form-inline" action="{{ route('channels.destroy', $channel) }}" method="POST">
                         @method('DELETE')
                         @csrf
-                        <button class="btn btn-sm btn-block btn-danger" type="submit">
+                        <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </form>
