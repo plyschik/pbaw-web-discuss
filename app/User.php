@@ -45,6 +45,11 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'last_logged_in'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function topics()
     {
         return $this->hasMany(Topic::class);
