@@ -24,7 +24,12 @@
                             Last logged in: {{ $user->last_logged_in ?? 'N/A' }}
                         </li>
                         <li class="list-group-item">
-                            Age: {{ $user->date_of_birth->diffInYears() }}
+                            Age:
+                            @if ($user->date_of_birth)
+                                {{ $user->date_of_birth->diffInYears() }}
+                            @else
+                                N/A
+                            @endif
                         </li>
                         @hasrole('administrator')
                         <li class="list-group-item">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,14 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            RolesAndPermissionsSeeder::class,
-            UsersSeeder::class,
-            CategoriesSeeder::class,
-            ChannelsSeeder::class,
-            TopicsSeeder::class,
-            RepliesSeeder::class,
-            ReportsSeeder::class
-        ]);
+        if (App::environment('production')) {
+            $this->call(RolesAndPermissionsSeeder::class);
+        } else {
+            $this->call([
+                RolesAndPermissionsSeeder::class,
+                UsersSeeder::class,
+                CategoriesSeeder::class,
+                ChannelsSeeder::class,
+                TopicsSeeder::class,
+                RepliesSeeder::class,
+                ReportsSeeder::class
+            ]);
+        }
     }
 }

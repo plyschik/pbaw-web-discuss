@@ -29,8 +29,8 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 
 [Szczegółowy opis funkcjonalności](docs/features.md)
 
-## WymaganiaW
-* PHP 7.1.3 lub wyższej,
+## Wymagania
+* PHP w wersji 7.1.3 lub wyższej,
 * MySQL,
 * spełnienie [wymagań](https://laravel.com/docs/5.7/installation#server-requirements) frameworka Laravel.
 
@@ -40,25 +40,28 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 $ git clone https://github.com/plyschik/pbaw-web-discuss.git
 ```
 
-2. Dostosuj plik .env do swojej konfiguracji.
+2. Dostosuj ustawienia w plik .env (konfiguracja połączenia z bazą danych oraz serwerem pocztowym).
 3. Pobierz zależności:
 ```bash
 $ composer install 
 ```
-4. Utworz schemat bazy danych wraz z przykładowymi danymi:
+4. Utworz schemat bazy danych:
 ```bash
 $ php artisan migrate --seed
 ```
-5. Uruchom serwer WWW:
+5. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu:
 ```bash
-$ php artisan serve
+$ php artisan webdiscuss:setup
 ```
 6. Skonfiguruj CRON (Linux) lub harmonogram zadań (Windows), który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
 ```bash
 * * * * * php artisan schedule:run
 ```
-
-7. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
+7. Uruchom serwer WWW:
+```bash
+$ php artisan serve
+```
+8. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
 # Twórcy
 * [plyschik](https://github.com/plyschik)

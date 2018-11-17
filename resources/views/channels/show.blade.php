@@ -74,10 +74,10 @@
                         <td class="text-center align-middle">{{ --$topic->replies_count }}</td>
                         <td class="text-center align-middle">{{ $topic->getUniqueViews() }}</td>
                         <td class="small align-middle">
-                            @if (--$topic->replies_count == 0)
-                                ---
+                            @if ($topic->replies_count == 0)
+                                —
                             @else
-                                {{ $topic->lastReply->created_at }}
+                                <time title="{{ $topic->lastReply->created_at }}">{{ $topic->lastReply->created_at->diffForHumans() }}</time>
                                 <br>
                                 Author: <a href="{{ route('users.show', $topic->lastReply->user) }}">{{ $topic->lastReply->user->name }}</a>
                             @endif
