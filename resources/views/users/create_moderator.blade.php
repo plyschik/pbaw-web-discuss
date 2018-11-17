@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h3 class="mb-3">New moderator (<a href="{{route('categories.show', $category)}}">{{$category->name}}</a>)</h3>
+        <h3 class="mb-3">New moderator ({{$category->name}})</h3>
 
         <form action="{{ route('moderators.store') }}" method="POST">
             <input type="hidden" name="category_id" value="{{$category->id}}">
