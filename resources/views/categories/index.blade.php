@@ -146,10 +146,10 @@
                         Average age of users: {{ $stats['users']['average_age'] }}
                     </li>
                     <li class="list-group-item">
-                        Last registered: <a href="{{ route('users.show', $stats['users']['last_registered']['id']) }}">{{ $stats['users']['last_registered']['name'] }}</a>
+                        Last registered: <a href="{{ route('users.show', $stats['users']['last_registered']['slug']) }}">{{ $stats['users']['last_registered']['name'] }}</a>
                     </li>
                     <li class="list-group-item">
-                        Last logged in: <a href="{{ route('users.show', $stats['users']['last_logged_in']['id']) }}">{{ $stats['users']['last_logged_in']['name'] }}</a>
+                        Last logged in: <a href="{{ route('users.show', $stats['users']['last_logged_in']['slug']) }}">{{ $stats['users']['last_logged_in']['name'] }}</a>
                     </li>
                     <li class="list-group-item">
                         The most replies: {{ $stats['most_replies']['total'] }} were on: {{ $stats['most_replies']['date'] }}

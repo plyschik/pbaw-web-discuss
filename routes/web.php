@@ -8,18 +8,6 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'CategoriesController@index')->name('home');
 Route::get('/channel/{channel}.html', 'ChannelsController@show')->name('channels.show');
 
-Route::middleware('auth')->group(function () {
-    Route::post('topics/{topic}', 'RepliesController@store')->name('replies.store');
-    Route::get('/profile/{user}.html', 'UsersController@show')->name('users.show');
-});
-
-Route::name('response.')->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('create');
-        Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('store');
-    });
-});
-
 Route::name('topics.')->group(function () {
     Route::get('/topic/{topic}.html', 'TopicsController@show')->name('show');
 
@@ -107,6 +95,18 @@ Route::prefix('replies')->group(function () {
             Route::patch('{reply}','RepliesController@update')->name('update');
             Route::delete('{reply}', 'RepliesController@destroy')->name('destroy');
         });
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('topics/{topic}', 'RepliesController@store')->name('replies.store');
+    Route::get('/profile/{user}.html', 'UsersController@show')->name('users.show');
+});
+
+Route::name('response.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('create');
+        Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('store');
     });
 });
 

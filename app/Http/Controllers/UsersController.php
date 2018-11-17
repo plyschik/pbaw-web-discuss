@@ -85,7 +85,7 @@ class UsersController extends Controller
                 return [
                     'label' => $item['name'],
                     'value' => $item['replies_count'],
-                    'url' => route('users.show', $item['id'])
+                    'url' => route('users.show', $item['slug'])
                 ];
             });
 
