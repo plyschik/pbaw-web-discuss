@@ -1,14 +1,19 @@
 # WebDiscuss
 WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework [Laravel 5.7](https://laravel.com).
 
+### Strona główna
 ![](docs/images/screenshot1.png)
 
+### Widok tematu
 ![](docs/images/screenshot2.png)
 
+### Profil użytkownika
 ![](docs/images/screenshot3.png)
 
+### Statystyki forum
 ![](docs/images/screenshot4.png)
 
+### Panel zarządzania banami
 ![](docs/images/screenshot5.png)
 
 # Funkcjonalność
