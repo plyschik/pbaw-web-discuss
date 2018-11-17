@@ -27,7 +27,9 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 * Profile użytkowników, które zawierają szczegółowe dane i statystyki na temat aktywności użytkownika prezentowane w formie wykresów,
 * Szczegółowe statystyki całego systemu, które dotyczą aktywności wszystkich użytkowników prezentowane w formie wykresów.
 
-## Wymagania
+[Szczegółowy opis funkcjonalności](docs/features.md)
+
+## WymaganiaW
 * PHP 7.1.3 lub wyższej,
 * MySQL,
 * spełnienie [wymagań](https://laravel.com/docs/5.7/installation#server-requirements) frameworka Laravel.
