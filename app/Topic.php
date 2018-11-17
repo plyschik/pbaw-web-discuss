@@ -15,7 +15,18 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'channel_id', 'title', 'content'];
+    protected $fillable = [
+        'user_id',
+        'channel_id',
+        'slug',
+        'title',
+        'content'
+    ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function user()
     {

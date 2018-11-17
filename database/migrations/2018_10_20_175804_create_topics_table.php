@@ -17,7 +17,8 @@ class CreateTopicsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('channel_id');
-            $table->string('title', 128);
+            $table->string('slug', 130);
+            $table->string('title', 120);
             $table->timestamps();
             $table->softDeletes();
         });
