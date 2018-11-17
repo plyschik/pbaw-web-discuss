@@ -1,6 +1,16 @@
 # WebDiscuss
 WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework [Laravel 5.7](https://laravel.com).
 
+![](docs/images/screenshot1.png)
+
+![](docs/images/screenshot2.png)
+
+![](docs/images/screenshot3.png)
+
+![](docs/images/screenshot4.png)
+
+![](docs/images/screenshot5.png)
+
 # Funkcjonalność
 * Rejestracja nowych użytkowników wraz potwierdzeniem adresu email,
 * Uwierzytelnianie użytkowników,
@@ -13,7 +23,7 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 * Szczegółowe statystyki całego systemu, które dotyczą aktywności wszystkich użytkowników prezentowane w formie wykresów.
 
 ## Wymagania
-* PHP 7.1.3 lub wyższy,
+* PHP 7.1.3 lub wyższej,
 * MySQL,
 * spełnienie [wymagań](https://laravel.com/docs/5.7/installation#server-requirements) frameworka Laravel.
 
