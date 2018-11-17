@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Topic;
 use App\Channel;
+use App\Observers\TopicObserver;
 use App\Observers\ChannelObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+        Topic::observe(TopicObserver::class);
         Channel::observe(ChannelObserver::class);
     }
 
