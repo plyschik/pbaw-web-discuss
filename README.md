@@ -63,6 +63,13 @@ $ php artisan serve
 ```
 8. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
+# Użyte zewnętrzne biblioteki
+* [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
+* [cybercog/laravel-ban](https://github.com/cybercog/laravel-ban)
+* [cyrildewit/eloquent-viewable](https://github.com/cyrildewit/eloquent-viewable)
+* [consoletvs/charts](https://github.com/ConsoleTVs/Charts)
+* [fzaninotto/faker](https://github.com/fzaninotto/Faker)
+
 # Twórcy
 * [plyschik](https://github.com/plyschik)
 * [emicsto](https://github.com/emicsto)
