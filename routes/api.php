@@ -10,5 +10,3 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/users/{user}/categories', 'UsersController@getAvailableCategoriesToModerateByUser');

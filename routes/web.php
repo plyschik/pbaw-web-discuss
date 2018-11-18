@@ -6,30 +6,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'CategoriesController@index')->name('home');
-Route::get('/channel/{channel}.html', 'ChannelsController@show')->name('channels.show');
 
-Route::name('topics.')->group(function () {
-    Route::get('/topic/{topic}.html', 'TopicsController@show')->name('show');
-
-    Route::middleware('auth')->group(function () {
-        Route::get('/{channel}/topic/create', 'TopicsController@create')->name('create');
-    });
-});
-
-Route::name('report.')->group(function () {
-    Route::middleware('role:moderator|administrator')->group(function () {
-        Route::get('/reports', 'ReportController@index')->name('index');
-        Route::get('/users/{user}/reports', 'ReportController@show')->name('show');
-        Route::post('/reports/{report}/ignore', 'ReportController@ignore')->name('ignore');
-        Route::post('/reports/{report}/delete', 'ReportController@delete')->name('delete');
-    });
-});
-
-Route::name('ban.')->group(function () {
-    Route::middleware('role:moderator|administrator')->group(function () {
-        Route::get('/users/{user}/ban', 'BanController@create')->name('create');
-        Route::post('/users/{user}/ban', 'BanController@store')->name('store');
-    });
+// other routes that requires auth middleware
+Route::middleware('auth')->group(function () {
+    Route::get('/{channel}/topic/create', 'TopicsController@create')->name('topics.create');
+    Route::post('topics/{topic}', 'RepliesController@store')->name('replies.store');
 });
 
 // categories
@@ -49,9 +30,9 @@ Route::prefix('categories')->group(function () {
 Route::prefix('moderators')->group(function () {
     Route::name('moderators.')->group(function () {
         Route::middleware('role:administrator')->group(function () {
+            Route::get('', 'UsersController@listModerators')->name('list');
             Route::get('{category}/create', 'UsersController@createModerator')->name('create');
             Route::post('', 'UsersController@storeModerator')->name('store');
-            Route::get('', 'UsersController@listModerators')->name('list');
             Route::delete('{user}/{category}', 'UsersController@destroyModerator')->name('destroy');
         });
     });
@@ -61,6 +42,7 @@ Route::prefix('moderators')->group(function () {
 Route::prefix('channels')->group(function () {
     Route::name('channels.')->group(function () {
         Route::get('', 'ChannelsController@index')->name('index');
+        Route::get('{channel}', 'ChannelsController@show')->name('show');
 
         Route::middleware('role:administrator')->group(function () {
             Route::get('create', 'ChannelsController@create')->name('create');
@@ -75,11 +57,13 @@ Route::prefix('channels')->group(function () {
 // topics
 Route::prefix('topics')->group(function () {
     Route::name('topics.')->group(function () {
+        Route::get('{topic}', 'TopicsController@show')->name('show');
+
         Route::middleware('auth')->group(function () {
             Route::post('create', 'TopicsController@store')->name('store');
         });
 
-        Route::group(['middleware' => 'can:manage,topic'], function () {
+        Route::middleware('can:manage,topic')->group(function () {
             Route::get('{topic}/edit','TopicsController@edit')->name('edit');
             Route::patch('{topic}','TopicsController@update')->name('update');
             Route::delete('{topic}', 'TopicsController@destroy')->name('destroy');
@@ -89,6 +73,13 @@ Route::prefix('topics')->group(function () {
 
 // replies
 Route::prefix('replies')->group(function () {
+    Route::name('response.')->group(function () {
+        Route::middleware('auth')->group(function () {
+            Route::get('{reply}', 'RepliesController@createResponse')->name('create');
+            Route::post('{reply}', 'RepliesController@storeResponse')->name('store');
+        });
+    });
+
     Route::name('replies.')->group(function () {
         Route::middleware('can:manage,reply')->group(function () {
             Route::get('{reply}/edit','RepliesController@edit')->name('edit');
@@ -98,22 +89,14 @@ Route::prefix('replies')->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
-    Route::post('topics/{topic}', 'RepliesController@store')->name('replies.store');
-    Route::get('/profile/{user}.html', 'UsersController@show')->name('users.show');
-});
-
-Route::name('response.')->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('/replies/{reply}', 'RepliesController@createResponse')->name('create');
-        Route::post('/replies/{reply}', 'RepliesController@storeResponse')->name('store');
-    });
-});
-
 // users
 Route::prefix('users')->group(function () {
     Route::name('users.')->group(function () {
         Route::get('stats', 'UsersController@stats')->name('stats');
+
+        Route::middleware('auth')->group(function () {
+            Route::get('{user}', 'UsersController@show')->name('show');
+        });
 
         Route::middleware('can:manage,user')->group(function () {
             Route::get('{user}/edit','UsersController@edit')->name('edit');
@@ -123,12 +106,32 @@ Route::prefix('users')->group(function () {
     });
 });
 
-// report
-Route::prefix('report')->group(function () {
-    Route::name('report.')->group(function () {
+// reports
+Route::name('report.')->group(function () {
+    Route::prefix('report')->group(function () {
         Route::middleware('auth')->group(function () {
             Route::get('{reply}', 'ReportController@create')->name('create');
             Route::post('{reply}', 'ReportController@store')->name('store');
+        });
+    });
+
+    Route::middleware('role:moderator|administrator')->group(function () {
+        Route::prefix('reports')->group(function () {
+            Route::get('', 'ReportController@index')->name('index');
+            Route::post('{report}/ignore', 'ReportController@ignore')->name('ignore');
+            Route::post('{report}/delete', 'ReportController@delete')->name('delete');
+        });
+
+        Route::get('/users/{user}/reports', 'ReportController@show')->name('show');
+    });
+});
+
+// ban
+Route::prefix('users')->group(function () {
+    Route::name('ban.')->group(function () {
+        Route::middleware('role:moderator|administrator')->group(function () {
+            Route::get('{user}/ban', 'BanController@create')->name('create');
+            Route::post('{user}/ban', 'BanController@store')->name('store');
         });
     });
 });
