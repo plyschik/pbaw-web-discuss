@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('categories.index', \App\Http\ViewComposers\StatsComposer::class);
+        View::composer(['channels.create', 'channels.edit'], \App\Http\ViewComposers\CategoriesComposer::class);
     }
 
     /**

@@ -2,24 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Topic;
 use App\Channel;
 use Illuminate\Http\Request;
 
 class ChannelsController extends Controller
 {
-    public function index()
-    {
-        $channels = Channel::with('lastReplies')
-            ->withCount(['topics', 'replies'])
-            ->orderBy('name')
-            ->get();
-
-
-        return view('channels.index', compact('channels'));
-    }
-
     public function show(Channel $channel)
     {
         $topics = Topic::with(['user', 'lastReply'])
@@ -35,8 +23,7 @@ class ChannelsController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        return view('channels.create', compact('categories'));
+        return view('channels.create');
     }
 
     public function store(Request $request)
@@ -47,17 +34,16 @@ class ChannelsController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        Channel::create($request->only(['name', 'description', 'category_id']));
+        $channel = Channel::create($request->only(['name', 'description', 'category_id']));
 
         flash('Channel created.')->success();
 
-        return redirect()->route('home');
+        return redirect()->route('channels.show', $channel);
     }
 
     public function edit(Channel $channel)
     {
-        $categories = Category::all();
-        return view('channels.edit', compact('channel', 'categories'));
+        return view('channels.edit', compact('channel'));
     }
 
     public function update(Request $request, Channel $channel)
@@ -72,7 +58,7 @@ class ChannelsController extends Controller
 
         flash('Channel updated.')->success();
 
-        return redirect()->route('home');
+        return redirect()->route('channels.show', $channel);
     }
 
     public function destroy(Channel $channel)

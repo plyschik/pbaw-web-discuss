@@ -150,10 +150,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('users.edit', $user)}}">Edit</a>
+                                <a class="btn btn-sm btn-block btn-outline-info" href="{{ route('users.edit', $user->id)}}">Edit</a>
                             </div>
                             <div class="col-6">
-                                <form action="{{ route('users.destroy', $user) }}" method="POST">
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn btn-sm btn-block btn-outline-danger confirm-delete"

@@ -3,7 +3,7 @@
 @section('content')
     <h2 class="mb-3">Edit channel</h2>
 
-    <form action="{{ route('channels.update', $channel) }}" method="POST">
+    <form action="{{ route('channels.update', $channel->id) }}" method="POST">
         @method('PATCH')
 
         <div class="form-group">

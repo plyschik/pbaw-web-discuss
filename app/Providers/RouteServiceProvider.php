@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Topic;
+use App\Channel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,7 +26,29 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind('channel', function ($value) {
+            return Channel::where('slug', $value)->orWhere(function ($query) use ($value) {
+                if (is_numeric($value)) {
+                    $query->where('id', $value);
+                }
+            })->firstOrFail();
+        });
+
+        Route::bind('topic', function ($value) {
+            return Topic::where('slug', $value)->orWhere(function ($query) use ($value) {
+                if (is_numeric($value)) {
+                    $query->where('id', $value);
+                }
+            })->firstOrFail();
+        });
+
+        Route::bind('user', function ($value) {
+            return User::where('slug', $value)->orWhere(function ($query) use ($value) {
+                if (is_numeric($value)) {
+                    $query->where('id', $value);
+                }
+            })->firstOrFail();
+        });
 
         parent::boot();
     }

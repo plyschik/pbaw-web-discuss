@@ -6,7 +6,7 @@
             Edit user details
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('users.update', $user) }}">
+            <form method="POST" action="{{ route('users.update', $user->id) }}">
                 @method('PATCH')
 
                 <div class="form-group row">

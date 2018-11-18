@@ -18,9 +18,8 @@
                                 </a>
                             </div>
                             <div class="col-2">
-                                <form class="form-inline" action="{{ route('moderators.destroy', [$user, $category]) }}" method="POST">
+                                <form class="form-inline" action="{{ route('moderators.destroy', [$category, $user->id]) }}" method="POST">
                                     @method('DELETE')
-
                                     @csrf
 
                                     <button class="btn btn-sm btn-block btn-outline-danger confirm-delete" type="submit">

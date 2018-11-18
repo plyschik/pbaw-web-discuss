@@ -6,7 +6,7 @@
             <h3>Reports for user: {{ $user->name }}</h3>
         </div>
         <div class="col-2">
-            <a class="btn btn-block btn-danger" href="{{ route('ban.create', $user) }}">Ban user</a>
+            <a class="btn btn-block btn-danger" href="{{ route('ban.create', $user->id) }}">Ban user</a>
         </div>
     </div>
 

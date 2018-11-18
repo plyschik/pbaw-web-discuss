@@ -28,7 +28,7 @@
                             {{ $user->reports_count }}
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-sm btn-block btn-info" href="{{ route('report.show', $user) }}">Show details</a>
+                            <a class="btn btn-sm btn-block btn-info" href="{{ route('report.show', $user->id) }}">Show details</a>
                         </td>
                     </tr>
                 @endforeach

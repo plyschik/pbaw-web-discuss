@@ -3,7 +3,7 @@
 @section('content')
     <h2 class="mb-3">Ban for user: {{ $user->name }}</h2>
 
-    <form action="{{ route('ban.store', $user) }}" method="POST">
+    <form action="{{ route('ban.store', $user->id) }}" method="POST">
         <div class="form-group">
             <label for="comment">Comment:</label>
             <textarea class="form-control{{ $errors->has('comment') ? ' is-invalid' : '' }}" id="comment" name="comment">{{ old('comment') }}</textarea>

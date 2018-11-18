@@ -5,50 +5,15 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Reply;
 use App\Channel;
-use App\Category;
 use Carbon\Carbon;
 use App\Charts\AgeChart;
 use Illuminate\Http\Request;
 use App\Charts\ChannelChart;
 use App\Charts\ActivityChart;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    public function createModerator(Category $category)
-    {
-        $users = User::whereDoesntHave('categories', function ($query) use ($category) {
-            $query->where('id', $category->id);
-        })->get(['id', 'name']);
-
-        return view('users.create_moderator', compact('users', 'category'));
-    }
-
-    public function storeModerator(Request $request)
-    {
-        $this->validate($request, [
-            'user_id' => [
-                'required',
-                Rule::unique('category_user')->where(function ($query) use ($request) {
-                    return $query->where('category_id', $request->category_id);
-                })
-            ],
-            'category_id' => [
-                'required',
-                Rule::unique('category_user')->where(function ($query) use ($request) {
-                    return $query->where('user_id', $request->user_id);
-                })
-            ]
-        ]);
-
-        $user = User::find($request['user_id']);
-        $category = Category::find($request['category_id']);
-        $user->categories()->attach($category);
-
-        return redirect()->route('home');
-    }
-
     public function show(User $user)
     {
         $latestTopics = $user
@@ -127,20 +92,6 @@ class UsersController extends Controller
         ]);
 
         return redirect()->route('users.show', $user);
-    }
-
-    public function destroyModerator(User $user, Category $category)
-    {
-        $user->categories()->detach($category);
-
-        return redirect()->route('moderators.list');
-    }
-
-    public function listModerators()
-    {
-        $categories = Category::with('users')->get()->paginate(8);
-
-        return view('users.moderators_list', compact('categories'));
     }
 
     public function stats()

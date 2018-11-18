@@ -2,32 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Report;
 use App\Topic;
 use App\Reply;
+use App\Report;
 use App\Channel;
 use Illuminate\Http\Request;
 
 class TopicsController extends Controller
 {
-    public function create()
+    public function create(Channel $channel)
     {
-        $channels = Channel::all();
-
-        return view('topics.create', compact('channels'));
+        return view('topics.create', compact('channel'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Channel $channel)
     {
         $this->validate($request, [
-            'channel_id' => 'required|exists:channels,id',
             'title' => 'required|min:4|max:128',
             'content' => 'required|min:8|max:65535'
         ]);
 
-        $topic = Topic::create([
+        $topic = $channel->topics()->create([
             'user_id' => auth()->id(),
-            'channel_id' => $request->get('channel_id'),
             'title' => $request->get('title')
         ]);
 

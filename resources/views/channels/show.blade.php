@@ -14,13 +14,13 @@
         </div>
         @hasrole('administrator')
             <div class="col-1">
-                <a class="btn btn-sm btn-block btn-primary" href="{{ route('channels.edit', $channel) }}">
+                <a class="btn btn-sm btn-block btn-primary" href="{{ route('channels.edit', $channel->id) }}">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             </div>
             @if ($topics->isEmpty())
                 <div class="col-1">
-                    <form class="form-inline" action="{{ route('channels.destroy', $channel) }}" method="POST">
+                    <form class="form-inline" action="{{ route('channels.destroy', $channel->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
                         <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
@@ -45,9 +45,9 @@
         </ol>
     </nav>
 
-    @if (Auth::check())
-        <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', ['channel' => $channel, 'channel_id' => $channel->id]) }}">New topic</a>
-    @endif
+    @auth
+        <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $channel->id) }}">New topic</a>
+    @endauth
 
     @if ($topics->isEmpty())
         <div class="alert alert-info">

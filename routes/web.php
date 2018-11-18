@@ -9,12 +9,17 @@ Route::get('/', 'CategoriesController@index')->name('home');
 
 // other routes that requires auth middleware
 Route::middleware('auth')->group(function () {
-    Route::get('/{channel}/topic/create', 'TopicsController@create')->name('topics.create');
     Route::post('topics/{topic}', 'RepliesController@store')->name('replies.store');
 });
 
 // categories
 Route::prefix('categories')->group(function () {
+    Route::name('moderators.')->group(function () {
+        Route::get('{category}/moderators/create', 'ModeratorController@create')->name('create');
+        Route::post('{category}/moderators', 'ModeratorController@store')->name('store');
+        Route::delete('{category}/moderators/{user}', 'ModeratorController@destroy')->name('destroy');
+    });
+
     Route::name('categories.')->group(function () {
         Route::middleware('role:administrator')->group(function () {
             Route::get('create', 'CategoriesController@create')->name('create');
@@ -30,10 +35,7 @@ Route::prefix('categories')->group(function () {
 Route::prefix('moderators')->group(function () {
     Route::name('moderators.')->group(function () {
         Route::middleware('role:administrator')->group(function () {
-            Route::get('', 'UsersController@listModerators')->name('list');
-            Route::get('{category}/create', 'UsersController@createModerator')->name('create');
-            Route::post('', 'UsersController@storeModerator')->name('store');
-            Route::delete('{user}/{category}', 'UsersController@destroyModerator')->name('destroy');
+            Route::get('', 'ModeratorController@list')->name('list');
         });
     });
 });
@@ -41,27 +43,27 @@ Route::prefix('moderators')->group(function () {
 // channels
 Route::prefix('channels')->group(function () {
     Route::name('channels.')->group(function () {
-        Route::get('', 'ChannelsController@index')->name('index');
-        Route::get('{channel}', 'ChannelsController@show')->name('show');
-
         Route::middleware('role:administrator')->group(function () {
-            Route::get('create', 'ChannelsController@create')->name('create');
+            Route::get('/create', 'ChannelsController@create')->name('create');
             Route::post('', 'ChannelsController@store')->name('store');
             Route::get('{channel}/edit','ChannelsController@edit')->name('edit');
             Route::patch('{channel}','ChannelsController@update')->name('update');
             Route::delete('{channel}', 'ChannelsController@destroy')->name('destroy');
         });
+
+        Route::get('{channel}', 'ChannelsController@show')->name('show');
     });
 });
 
 // topics
-Route::prefix('topics')->group(function () {
-    Route::name('topics.')->group(function () {
-        Route::get('{topic}', 'TopicsController@show')->name('show');
+Route::name('topics.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('channels/{channel}/topics/create', 'TopicsController@create')->name('create');
+        Route::post('channels/{channel}/topics', 'TopicsController@store')->name('store');
+    });
 
-        Route::middleware('auth')->group(function () {
-            Route::post('create', 'TopicsController@store')->name('store');
-        });
+    Route::prefix('topics')->group(function () {
+        Route::get('{topic}', 'TopicsController@show')->name('show');
 
         Route::middleware('can:manage,topic')->group(function () {
             Route::get('{topic}/edit','TopicsController@edit')->name('edit');

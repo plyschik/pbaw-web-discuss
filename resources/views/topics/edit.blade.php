@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="mb-3">Edit topic</h3>
 
-    <form action="{{ route('topics.update', $topic) }}" method="POST">
+    <form action="{{ route('topics.update', $topic->id) }}" method="POST">
         @method('PATCH')
 
         <div class="form-group">
