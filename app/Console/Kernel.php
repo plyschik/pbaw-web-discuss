@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('webdiscuss:stats')->everyFiveMinutes();
         $schedule->command('ban:delete-expired')->everyFifteenMinutes();
     }
 

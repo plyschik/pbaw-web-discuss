@@ -103,7 +103,7 @@
                     <i class="fab fa-hotjar"></i> Popular topics
                 </div>
                 <ul class="list-group list-group-flush small">
-                    @foreach ($popularTopics as $topic)
+                    @foreach (cache('stats.popular_topics') as $topic)
                         <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
                             {{ $topic->title }} ({{ $topic->replies_count - 1 }} replies)
                         </a>
@@ -115,7 +115,7 @@
                     <i class="far fa-clock"></i> Latest topics
                 </div>
                 <ul class="list-group list-group-flush small">
-                    @foreach ($latestTopics as $topic)
+                    @foreach (cache('stats.latest_topics') as $topic)
                         <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
                             {{ $topic->title }} (created <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>)
                         </a>
@@ -128,31 +128,31 @@
                 </div>
                 <ul class="list-group list-group-flush small">
                     <li class="list-group-item">
-                        Total topics: {{ $stats['topics']['total'] }}
+                        Total topics: {{ cache('stats.topics.total') }}
                     </li>
                     <li class="list-group-item">
-                        Today topics: {{ $stats['topics']['today'] }}
+                        Today topics: {{ cache('stats.topics.today') }}
                     </li>
                     <li class="list-group-item">
-                        Total replies: {{ $stats['replies']['total'] }}
+                        Total replies: {{ cache('stats.replies.total') }}
                     </li>
                     <li class="list-group-item">
-                        Today replies: {{ $stats['replies']['today'] }}
+                        Today replies: {{ cache('stats.replies.today') }}
                     </li>
                     <li class="list-group-item">
-                        Total topics views: {{ $stats['topics']['views'] }}
+                        Total topics views: {{ cache('stats.topics.views') }}
                     </li>
                     <li class="list-group-item">
-                        Average age of users: {{ $stats['users']['average_age'] }}
+                        Average age of users: {{ cache('stats.users.average_age') }}
                     </li>
                     <li class="list-group-item">
-                        Last registered: <a href="{{ route('users.show', $stats['users']['last_registered']['slug']) }}">{{ $stats['users']['last_registered']['name'] }}</a>
+                        Last registered: <a href="{{ route('users.show', cache('stats.users.last_registered')['slug']) }}">{{ cache('stats.users.last_registered')['name'] }}</a>
                     </li>
                     <li class="list-group-item">
-                        Last logged in: <a href="{{ route('users.show', $stats['users']['last_logged_in']['slug']) }}">{{ $stats['users']['last_logged_in']['name'] }}</a>
+                        Last logged in: <a href="{{ route('users.show', cache('stats.users.last_logged_in')['slug']) }}">{{ cache('stats.users.last_logged_in')['name'] }}</a>
                     </li>
                     <li class="list-group-item">
-                        The most replies: {{ $stats['most_replies']['total'] }} were on: {{ $stats['most_replies']['date'] }}
+                        The most replies: {{ cache('stats.most_replies')['total'] }} were on: {{ cache('stats.most_replies')['date'] }}
                     </li>
                 </ul>
             </div>
