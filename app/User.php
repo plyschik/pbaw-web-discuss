@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
      * @var array
      */
     protected $fillable = [
+        'slug',
         'name',
         'email',
         'password',
