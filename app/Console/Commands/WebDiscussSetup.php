@@ -14,7 +14,7 @@ class WebDiscussSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'webdiscuss:setup';
+    protected $signature = 'webdiscuss:setup {--refresh}';
 
     /**
      * The console command description.
@@ -40,12 +40,20 @@ class WebDiscussSetup extends Command
      */
     public function handle()
     {
-        if (User::count()) {
-            $this->error('This command should be executed only once.');
+        if (User::count() > 0) {
+            $this->error('This command should be executed only once, but you can rerun this command.');
 
-            return;
+            if (!$this->confirm('Do you wish to rerun this command?')) {
+                return;
+            }
         }
 
+        $this->callSilent('migrate:fresh', [
+            '--force' => true,
+            '--seed' => true
+        ]);
+
+        $this->line('');
         $this->line('--------------------');
         $this->line('|                  |');
         $this->line('| WebDiscuss setup |');
@@ -88,6 +96,6 @@ class WebDiscussSetup extends Command
             'is_topic' => 1
         ]);
 
-        $this->info('OK.');
+        $this->info('Installation complete!');
     }
 }

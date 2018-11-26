@@ -45,23 +45,19 @@ $ git clone https://github.com/plyschik/pbaw-web-discuss.git
 ```bash
 $ composer install 
 ```
-4. Utworz schemat bazy danych:
-```bash
-$ php artisan migrate --seed
-```
-5. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu:
+4. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu:
 ```bash
 $ php artisan webdiscuss:setup
 ```
-6. Skonfiguruj CRON (Linux) lub harmonogram zadań (Windows), który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
+5. Skonfiguruj CRON (Linux) lub harmonogram zadań (Windows), który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
 ```bash
 * * * * * php artisan schedule:run
 ```
-7. Uruchom serwer WWW:
+6. Uruchom serwer WWW:
 ```bash
 $ php artisan serve
 ```
-8. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
+7. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
 # Użyte zewnętrzne biblioteki
 * [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
