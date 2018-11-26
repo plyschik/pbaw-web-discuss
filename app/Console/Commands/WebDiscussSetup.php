@@ -14,7 +14,7 @@ class WebDiscussSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'webdiscuss:setup {--refresh}';
+    protected $signature = 'webdiscuss:setup';
 
     /**
      * The console command description.
