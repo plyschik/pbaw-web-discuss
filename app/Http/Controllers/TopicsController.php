@@ -40,7 +40,16 @@ class TopicsController extends Controller
     {
         $topic->addView();
 
-        $replies = Reply::select('replies.*')->with(['user', 'replies.user'])
+        $replies = Reply::with([
+                'user' => function ($query) {
+                    $query->withCount('replies');
+                },
+                'user.roles',
+                'replies.user' => function ($query) {
+                    $query->withCount('replies');
+                },
+                'replies.user.roles'
+            ])
             ->where([
                 ['topic_id', $topic->id],
                 ['parent_id', null]
@@ -48,9 +57,7 @@ class TopicsController extends Controller
             ->orderBy('created_at')
             ->paginate(3);
 
-        $numberOfReplies = Reply::where('topic_id', $topic->id)->count() - 1;
-
-        return view('topics.show', compact('topic', 'replies', 'numberOfReplies'));
+        return view('topics.show', compact('topic', 'replies'));
     }
 
     public function edit(Topic $topic)
