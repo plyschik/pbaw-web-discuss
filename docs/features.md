@@ -17,7 +17,7 @@ Forum pogrupowane jest na kategorie (a te na podkategorie nazwane kanałami). Li
 Po wybraniu danego kanału wyświetla się lista z tematami z tego kanału. Każdy temat ma swój tytuł, treść (pierwszy post) oraz kanał, do którego należy. Aby utworzyć temat należy posiadać rangę minimum zwykłego użytkownika. Tematami może zarządzać użytkownik o randze minimum moderator, który może zmienić tytuł tematu (minimum moderator) oraz go usunąć (tylko administrator).
 
 ### Odpowiedzi
-Każda odpowiedź jest związana z tematem. Aby udzielić odpowiedzi w temacie trzeba być uwierzytelnionym użytkownikiem. Przewidziana jest możliwość odpowiadania na odpowiedzi (tylko do jednego poziomu wgłębienia). Odpowiedzi mogą być moderowane przez użytkownika z rangą minimum moderatora - edycja oraz usuwanie odpowiedzi.
+Każda odpowiedź jest związana z tematem. Aby udzielić odpowiedzi w temacie trzeba być uwierzytelnionym użytkownikiem. Przewidziana jest możliwość odpowiadania na odpowiedzi (tylko do jednego poziomu wgłębienia). Odpowiedzi mogą być moderowane przez użytkownika z rangą minimum moderatora - edycja oraz usuwanie odpowiedzi. Treść odpowiedzi może być formatowana za pomocą Markdown.
 
 ### Zgłaszanie tematów i odpowiedzi
 Każdy użytkownik z rangą zwykłego użytkownika ma możliwość zgłoszenia zarówno tematu jak i odpowiedzi z powodu złamania regulaminu w postaci formularza, w którym musi wskazać powód zgłoszenia. Użytkownik z rangą minimum moderatora posiada dostęp do panelu, w którym ma możliwość przeglądania zgłoszeń. Każde zgłoszenie może zakończyć się na trzy sposoby: zgłoszenie zostanie zignorowane (brak naruszeń w zgłaszanych treściach), treść zostanie usunięta lub twórca treści zostanie zbanowany.

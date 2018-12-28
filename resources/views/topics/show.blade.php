@@ -61,7 +61,7 @@
                         </ul>
                     </td>
                     <td class="text-justify">
-                        {{ $reply->content }}
+                        @markdown($reply->content)
                     </td>
                 </tr>
                 @auth
@@ -129,7 +129,7 @@
                                 </ul>
                             </td>
                             <td class="text-justify">
-                                {{ $reply->content }}
+                                @markdown($reply->content)
                             </td>
                         </tr>
                         <tr>

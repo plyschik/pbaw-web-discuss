@@ -22,7 +22,7 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 * System ról użytkowników (zwykły użytkownik, moderator oraz administrator), który ogranicza dostęp do określonych funkcji systemu,
 * Banowanie użytkowników za łamanie zasad (wraz z panelem do przeglądania zgłoszeń),
 * Kategorie oraz podkategorie, które pozwalają na tematyczną segregację tematów,
-* Tematy wraz z odpowiedziami (+ możliwość odpowiadania na odpowiedzi),
+* Tematy wraz z odpowiedziami (+ możliwość odpowiadania na odpowiedzi); możliwość formatowania treści odpowiedzi za pomocą Markdown,
 * Zgłaszanie tematów oraz odpowiedzi za łamanie zasad,
 * Profile użytkowników, które zawierają szczegółowe dane i statystyki na temat aktywności użytkownika prezentowane w formie wykresów,
 * Szczegółowe statystyki całego systemu, które dotyczą aktywności wszystkich użytkowników prezentowane w formie wykresów.
