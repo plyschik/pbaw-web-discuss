@@ -33,8 +33,8 @@
                                 </a>
                             @endhasrole
                             @hasrole('administrator')
-                                <a class="dropdown-item" href="{{ route('channels.create') }}">
-                                    Create channel
+                                <a class="dropdown-item" href="{{ route('forums.create') }}">
+                                    Create forum
                                 </a>
                                 <a class="dropdown-item" href="{{ route('categories.create') }}">
                                     Create category

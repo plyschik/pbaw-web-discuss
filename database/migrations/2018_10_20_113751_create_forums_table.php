@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChannelsTable extends Migration
+class CreateForumsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateChannelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('channels', function (Blueprint $table) {
+        Schema::create('forums', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('category_id');
             $table->string('slug', 40);
@@ -23,7 +23,7 @@ class CreateChannelsTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('channels', function (Blueprint $table) {
+        Schema::table('forums', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }
@@ -35,6 +35,6 @@ class CreateChannelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('channels');
+        Schema::dropIfExists('forums');
     }
 }

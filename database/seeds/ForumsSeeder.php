@@ -1,10 +1,10 @@
 <?php
 
-use App\Channel;
+use App\Forum;
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 
-class ChannelsSeeder extends Seeder
+class ForumsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class ChannelsSeeder extends Seeder
         $faker = resolve(FakerFactory::class);
 
         for ($i = 0; $i < 10; $i++) {
-            Channel::create([
+            Forum::create([
                 'category_id' => $faker->numberBetween(1, 7),
                 'name' => rtrim(ucfirst($faker->unique()->sentence($faker->numberBetween(2, 3))), '.'),
                 'description' => $faker->sentence

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Channel extends Model
+class Forum extends Model
 {
     use SoftDeletes;
 

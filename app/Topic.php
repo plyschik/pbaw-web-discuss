@@ -33,9 +33,9 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function channel()
+    public function forum()
     {
-        return $this->belongsTo(Channel::class);
+        return $this->belongsTo(Forum::class);
     }
 
     public function replies()

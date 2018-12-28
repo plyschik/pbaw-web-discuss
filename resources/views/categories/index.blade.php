@@ -16,7 +16,7 @@
                                                 <i class="fas fa-pen"></i> Edit
                                             </a>
                                         </div>
-                                        @if ($category->channels->isEmpty())
+                                        @if ($category->forums->isEmpty())
                                             <div class="col-2">
                                                 <form class="form-inline" action="{{ route('categories.destroy', $category) }}" method="POST">
                                                     @method('DELETE')
@@ -28,7 +28,7 @@
                                             </div>
                                         @else
                                             <div class="col-2">
-                                                <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete categories without channels." disabled="disabled">
+                                                <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete categories without forums." disabled="disabled">
                                                     <i class="far fa-trash-alt"></i> Delete
                                                 </button>
                                             </div>
@@ -53,39 +53,39 @@
                     </thead>
                     <tbody>
                         <tr class="font-weight-bold small">
-                            <td class="col-6">Channel</td>
+                            <td class="col-6">Forum</td>
                             <td class="col-1">Topics</td>
                             <td class="col-1">Replies</td>
                             <td class="col-4">Last reply in topic</td>
                         </tr>
-                        @if ($category->channels->isEmpty())
+                        @if ($category->forums->isEmpty())
                             <tr class="small">
-                                <td colspan="4">No channels.</td>
+                                <td colspan="4">No forums.</td>
                             </tr>
                         @else
-                            @foreach ($category->channels as $channel)
+                            @foreach ($category->forums as $forum)
                                 <tr class="small">
                                     <td class="align-middle">
-                                        <a href="{{ route('channels.show', $channel) }}">{{ $channel->name }}</a>
-                                        @if ($channel->description)
-                                            <p class="mt-1 mb-0 font-italic">{{ $channel->description }}</p>
+                                        <a href="{{ route('forums.show', $forum) }}">{{ $forum->name }}</a>
+                                        @if ($forum->description)
+                                            <p class="mt-1 mb-0 font-italic">{{ $forum->description }}</p>
                                         @endif
                                     </td>
-                                    <td class="text-center align-middle">{{ $channel->topics_count }}</td>
-                                    <td class="text-center align-middle">{{ $channel->replies_count }}</td>
+                                    <td class="text-center align-middle">{{ $forum->topics_count }}</td>
+                                    <td class="text-center align-middle">{{ $forum->replies_count }}</td>
                                     <td class="align-middle">
-                                        @if ($channel->replies->isEmpty())
+                                        @if ($forum->replies->isEmpty())
                                             —
                                         @else
                                             <div class="d-block">
-                                                <a href="{{ route('topics.show', $channel->replies->first()->topic) }}">{{ $channel->replies->first()->topic->title }}</a>
+                                                <a href="{{ route('topics.show', $forum->replies->first()->topic) }}">{{ $forum->replies->first()->topic->title }}</a>
                                             </div>
                                             <div clas="d-block">
-                                                Author: <a href="{{ route('users.show', $channel->replies->first()->user) }}">{{ $channel->replies->first()->user->name }}</a>
+                                                Author: <a href="{{ route('users.show', $forum->replies->first()->user) }}">{{ $forum->replies->first()->user->name }}</a>
                                             </div>
                                             <div class="d-block">
                                                 <div class="text-muted">
-                                                    <time title="{{ $channel->replies->first()->created_at }}">{{ $channel->replies->first()->created_at->diffForHumans() }}</time>
+                                                    <time title="{{ $forum->replies->first()->created_at }}">{{ $forum->replies->first()->created_at->diffForHumans() }}</time>
                                                 </div>
                                             </div>
                                         @endif

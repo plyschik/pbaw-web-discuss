@@ -15,9 +15,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">Channels</div>
+                        <div class="card-header">Forums</div>
                         <div class="card-body">
-                            {!! $channelChart->container() !!}
+                            {!! $forumsChart->container() !!}
                         </div>
                     </div>
                 </div>
@@ -41,6 +41,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script>
     {!! $ageChart->script() !!}
-    {!! $channelChart->script() !!}
+    {!! $forumsChart->script() !!}
     {!! $activityChart->script() !!}
 @endsection

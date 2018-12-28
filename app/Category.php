@@ -11,9 +11,9 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
-    public function channels()
+    public function forums()
     {
-        return $this->hasMany(Channel::class);
+        return $this->hasMany(Forum::class);
     }
 
     public function users()

@@ -5,12 +5,12 @@ namespace App\Providers;
 use App\User;
 use App\Topic;
 use App\Reply;
-use App\Channel;
+use App\Forum;
 use App\Category;
 use App\Policies\UserPolicy;
 use App\Policies\ReplyPolicy;
 use App\Policies\TopicPolicy;
-use App\Policies\ChannelPolicy;
+use App\Policies\ForumPolicy;
 use App\Policies\CategoryPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Category::class => CategoryPolicy::class,
-        Channel::class => ChannelPolicy::class,
+        Forum::class => ForumPolicy::class,
         User::class => UserPolicy::class,
         Topic::class => TopicPolicy::class,
         Reply::class => ReplyPolicy::class,

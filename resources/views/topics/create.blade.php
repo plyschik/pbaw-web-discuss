@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="mb-3">New topic</h3>
 
-    <form action="{{ route('topics.store', $channel->id) }}" method="POST">
+    <form action="{{ route('topics.store', $forum->id) }}" method="POST">
         @csrf
 
         <div class="form-group">

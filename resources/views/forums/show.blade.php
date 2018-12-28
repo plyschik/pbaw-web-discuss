@@ -4,23 +4,23 @@
     <div class="row align-items-center mb-3">
         <div class="col">
             <h2>
-                Channel: {{ $channel->name }}
+                Forum: {{ $forum->name }}
             </h2>
-            @if ($channel->description)
+            @if ($forum->description)
                 <p class="font-italic mb-0">
-                    {{ $channel->description }}
+                    {{ $forum->description }}
                 </p>
             @endif
         </div>
         @hasrole('administrator')
             <div class="col-1">
-                <a class="btn btn-sm btn-block btn-primary" href="{{ route('channels.edit', $channel->id) }}">
+                <a class="btn btn-sm btn-block btn-primary" href="{{ route('forums.edit', $forum->id) }}">
                     <i class="fas fa-pencil-alt"></i>
                 </a>
             </div>
             @if ($topics->isEmpty())
                 <div class="col-1">
-                    <form class="form-inline" action="{{ route('channels.destroy', $channel->id) }}" method="POST">
+                    <form class="form-inline" action="{{ route('forums.destroy', $forum->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
                         <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
@@ -30,7 +30,7 @@
                 </div>
             @else
                 <div class="col-1">
-                    <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete channel without topics." disabled="disabled">
+                    <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete forum without topics." disabled="disabled">
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </div>
@@ -41,17 +41,17 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $channel->name }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $forum->name }}</li>
         </ol>
     </nav>
 
     @auth
-        <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $channel->id) }}">New topic</a>
+        <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $forum->id) }}">New topic</a>
     @endauth
 
     @if ($topics->isEmpty())
         <div class="alert alert-info">
-            This channel is empty.
+            This forum is empty.
             <a href="{{ route('home') }}">Go back.</a>
         </div>
     @else

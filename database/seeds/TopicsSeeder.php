@@ -21,7 +21,7 @@ class TopicsSeeder extends Seeder
 
             $topic = Topic::create([
                 'user_id' => $faker->numberBetween(1, 3),
-                'channel_id' => $faker->numberBetween(1, 10),
+                'forum_id' => $faker->numberBetween(1, 10),
                 'title' => rtrim($faker->unique()->sentence(), '.'),
                 'created_at' => $randomDateTime,
                 'updated_at' => $randomDateTime

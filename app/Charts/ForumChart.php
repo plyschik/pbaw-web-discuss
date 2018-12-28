@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use ConsoleTVs\Charts\Classes\Highcharts\Chart;
 
-class TopChannelsChart extends Chart
+class ForumChart extends Chart
 {
     /**
      * Initializes the chart.

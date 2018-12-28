@@ -7,14 +7,14 @@
         @method('PATCH')
 
         <div class="form-group">
-            <label for="channel">Channel:</label>
-            <select class="form-control{{ $errors->has('channel_id') ? ' is-invalid' : '' }}" id="channel" name="channel_id">
-                @foreach ($channels as $channel)
-                    <option value="{{ $channel->id }}" {{ ($topic->channel->id == $channel->id) ? 'selected' : '' }}>{{ $channel->name }}</option>
+            <label for="forum">Forum:</label>
+            <select class="form-control{{ $errors->has('forum_id') ? ' is-invalid' : '' }}" id="forum" name="forum_id">
+                @foreach ($forums as $forum)
+                    <option value="{{ $forum->id }}" {{ ($topic->forum->id == $forum->id) ? 'selected' : '' }}>{{ $forum->name }}</option>
                 @endforeach
             </select>
-            @if ($errors->has('channel_id'))
-                <div class="invalid-feedback">{{ $errors->first('channel_id') }}</div>
+            @if ($errors->has('forum_id'))
+                <div class="invalid-feedback">{{ $errors->first('forum_id') }}</div>
             @endif
         </div>
 

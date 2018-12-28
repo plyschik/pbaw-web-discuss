@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Reply;
-use App\Channel;
+use App\Forum;
 use Carbon\Carbon;
 use App\Charts\AgeChart;
 use Illuminate\Http\Request;
-use App\Charts\ChannelChart;
+use App\Charts\ForumChart;
 use App\Charts\ActivityChart;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +21,7 @@ class UsersController extends Controller
             ->limit(5)
             ->get();
 
-        $topChannels = Channel::withCount('topics')
+        $topForums = Forum::withCount('topics')
             ->whereHas('topics', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
@@ -32,7 +32,7 @@ class UsersController extends Controller
                 return [
                     'label' => $item['name'],
                     'value' => $item['topics_count'],
-                    'url' => route('channels.show', $item['slug'])
+                    'url' => route('forums.show', $item['slug'])
                 ];
             });
 
@@ -62,7 +62,7 @@ class UsersController extends Controller
             ->selectRaw("*, TIMESTAMPDIFF(DAY, DATE(created_at), DATE(expired_at)) AS duration")
             ->paginate(5);
 
-        return view('users.show', compact('user', 'latestTopics', 'topChannels', 'usersFrequentlyCommentedPosts', 'numberOfBans', 'lastBan', 'bans'));
+        return view('users.show', compact('user', 'latestTopics', 'topForums', 'usersFrequentlyCommentedPosts', 'numberOfBans', 'lastBan', 'bans'));
     }
 
     public function destroy(User $user)
@@ -71,6 +71,7 @@ class UsersController extends Controller
         $user->topics()->delete();
         $user->reports()->delete();
         $user->delete();
+
         return redirect('/');
     }
 
@@ -96,7 +97,7 @@ class UsersController extends Controller
 
     public function stats()
     {
-        $channelChart = new ChannelChart();
+        $forumsChart = new ForumChart();
         $ageChart = new AgeChart();
         $activityChart = new ActivityChart();
 
@@ -107,7 +108,7 @@ class UsersController extends Controller
                 return collect($item)->count();
             })->sortKeys();
 
-        $channelTopics = Channel::withCount('topics')->groupBy('name')->limit(8)
+        $forumTopics = Forum::withCount('topics')->groupBy('name')->limit(8)
             ->get()
             ->mapWithKeys(function ($item) {
                 return [$item['name'] => $item['topics_count']];
@@ -135,10 +136,10 @@ class UsersController extends Controller
             ]
         ]);
 
-        $channelChart->labels($channelTopics->keys());
-        $channelChart->dataset('Number of topics', 'pie',
-            $channelTopics->values())->color($this->get_random_colors($channelTopics->count()));
-        $channelChart->options([
+        $forumsChart->labels($forumTopics->keys());
+        $forumsChart->dataset('Number of topics', 'pie',
+            $forumTopics->values())->color($this->get_random_colors($forumTopics->count()));
+        $forumsChart->options([
             'plotOptions' => [
                 'pie' => [
                     'allowPointSelect' => true,
@@ -163,7 +164,7 @@ class UsersController extends Controller
         $activityChart->dataset('Number of replies', 'column',
             $activity->values())->color($this->rand_color());
 
-        return view('users.stats', compact('ageChart', 'channelChart', 'activityChart'));
+        return view('users.stats', compact('ageChart', 'forumsChart', 'activityChart'));
     }
 
     function rand_color()

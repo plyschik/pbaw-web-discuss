@@ -9,7 +9,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(['users', 'channels' => function ($query) {
+        $categories = Category::with(['users', 'forums' => function ($query) {
             $query->withCount(['topics', 'replies' => function ($query) {
                 $query->where('is_topic', 0);
             }])->with(['replies' => function ($query) {

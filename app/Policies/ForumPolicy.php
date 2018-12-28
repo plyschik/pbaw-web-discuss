@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\Channel;
+use App\Forum;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ChannelPolicy
+class ForumPolicy
 {
     use HandlesAuthorization;
 
@@ -14,10 +14,10 @@ class ChannelPolicy
      * Determine whether the user can delete the channel.
      *
      * @param  \App\User  $user
-     * @param  \App\Channel  $channel
+     * @param  \App\Forum  $channel
      * @return mixed
      */
-    public function delete(User $user, Channel $channel)
+    public function delete(User $user, Forum $channel)
     {
         return !$channel->topics()->count();
     }

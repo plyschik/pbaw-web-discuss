@@ -19,7 +19,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return !$category->channels()->count();
+        return !$category->forums()->count();
     }
 
     /**
@@ -31,6 +31,6 @@ class CategoryPolicy
      */
     public function forceDelete(User $user, Category $category)
     {
-        return !$category->channels()->count();
+        return !$category->forums()->count();
     }
 }

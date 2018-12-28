@@ -40,26 +40,26 @@ Route::prefix('moderators')->group(function () {
     });
 });
 
-// channels
-Route::prefix('channels')->group(function () {
-    Route::name('channels.')->group(function () {
+// forums
+Route::prefix('forums')->group(function () {
+    Route::name('forums.')->group(function () {
         Route::middleware('role:administrator')->group(function () {
-            Route::get('/create', 'ChannelsController@create')->name('create');
-            Route::post('', 'ChannelsController@store')->name('store');
-            Route::get('{channel}/edit','ChannelsController@edit')->name('edit');
-            Route::patch('{channel}','ChannelsController@update')->name('update');
-            Route::delete('{channel}', 'ChannelsController@destroy')->name('destroy');
+            Route::get('/create', 'ForumsController@create')->name('create');
+            Route::post('', 'ForumsController@store')->name('store');
+            Route::get('{forum}/edit','ForumsController@edit')->name('edit');
+            Route::patch('{forum}','ForumsController@update')->name('update');
+            Route::delete('{forum}', 'ForumsController@destroy')->name('destroy');
         });
 
-        Route::get('{channel}', 'ChannelsController@show')->name('show');
+        Route::get('{forum}', 'ForumsController@show')->name('show');
     });
 });
 
 // topics
 Route::name('topics.')->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('channels/{channel}/topics/create', 'TopicsController@create')->name('create');
-        Route::post('channels/{channel}/topics', 'TopicsController@store')->name('store');
+        Route::get('forums/{forum}/topics/create', 'TopicsController@create')->name('create');
+        Route::post('forums/{forum}/topics', 'TopicsController@store')->name('store');
     });
 
     Route::prefix('topics')->group(function () {

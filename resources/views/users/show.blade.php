@@ -44,13 +44,13 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    @if (!$topChannels->isEmpty())
+                    @if (!$topForums->isEmpty())
                         <div class="card mb-3">
                             <h5 class="card-header">
-                                Top channels
+                                Top forums
                             </h5>
                             <div class="card-body">
-                                <canvas id="top-channels"></canvas>
+                                <canvas id="top-forums"></canvas>
                             </div>
                         </div>
                     @endif
@@ -174,20 +174,20 @@
 
     <script>
         $(document).ready(function () {
-            let topChannels = document.getElementById('top-channels');
+            let topForums = document.getElementById('top-forums');
 
-            let topChannelsChartColors = Array.from({length: {{ $topChannels->count() }} }, function () {
+            let topForumsChartColors = Array.from({length: {{ $topForums->count() }} }, function () {
                 return randomColorGenerator();
             });
 
-            let topChannelsChart = new Chart(topChannels.getContext('2d'), {
+            let topForumsChart = new Chart(topForums.getContext('2d'), {
                 type: 'doughnut',
                 data: {
-                    labels: ["{!! $topChannels->implode('label', '", "') !!}"],
+                    labels: ["{!! $topForums->implode('label', '", "') !!}"],
                     datasets: [{
-                        data: [{!! $topChannels->implode('value', ', ') !!}],
-                        backgroundColor: topChannelsChartColors,
-                        borderColor: topChannelsChartColors
+                        data: [{!! $topForums->implode('value', ', ') !!}],
+                        backgroundColor: topForumsChartColors,
+                        borderColor: topForumsChartColors
                     }]
                 },
                 options: {
@@ -208,13 +208,13 @@
                 }
             });
 
-            let topChannelsChartUrls = ["{!! $topChannels->implode('url', '", "') !!}"];
+            let topForumsChartUrls = ["{!! $topForums->implode('url', '", "') !!}"];
 
-            topChannels.onclick = function (event) {
-                let firstPoint = topChannelsChart.getElementAtEvent(event)[0];
+            topForums.onclick = function (event) {
+                let firstPoint = topForumsChart.getElementAtEvent(event)[0];
 
                 if (firstPoint) {
-                    window.open(topChannelsChartUrls[firstPoint._index], '_blank');
+                    window.open(topForumsChartUrls[firstPoint._index], '_blank');
                 }
             };
 

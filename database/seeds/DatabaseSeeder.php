@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
                 RolesAndPermissionsSeeder::class,
                 UsersSeeder::class,
                 CategoriesSeeder::class,
-                ChannelsSeeder::class,
+                ForumsSeeder::class,
                 TopicsSeeder::class,
                 RepliesSeeder::class,
                 ReportsSeeder::class

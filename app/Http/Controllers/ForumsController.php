@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Topic;
-use App\Channel;
+use App\Forum;
 use Illuminate\Http\Request;
 
-class ChannelsController extends Controller
+class ForumsController extends Controller
 {
-    public function show(Channel $channel)
+    public function show(Forum $forum)
     {
         $topics = Topic::with(['user', 'lastReply'])
             ->withCount('replies')
-            ->where('channel_id', $channel->id)
+            ->where('forum_id', $forum->id)
             ->latest('created_at')
             ->get()
             ->sortByDesc('lastReply.created_at')
             ->paginate(4);
 
-        return view('channels.show', compact('topics', 'channel'));
+        return view('forums.show', compact('topics', 'forum'));
     }
 
     public function create()
     {
-        return view('channels.create');
+        return view('forums.create');
     }
 
     public function store(Request $request)
@@ -34,38 +34,38 @@ class ChannelsController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $channel = Channel::create($request->only(['name', 'description', 'category_id']));
+        $channel = Forum::create($request->only(['name', 'description', 'category_id']));
 
         flash('Channel created.')->success();
 
-        return redirect()->route('channels.show', $channel);
+        return redirect()->route('forums.show', $channel);
     }
 
-    public function edit(Channel $channel)
+    public function edit(Forum $forum)
     {
-        return view('channels.edit', compact('channel'));
+        return view('forums.edit', compact('forum'));
     }
 
-    public function update(Request $request, Channel $channel)
+    public function update(Request $request, Forum $forum)
     {
         $request->validate([
-            'name' => 'required|min:2|max:32|unique:channels,name,' . $channel->id,
+            'name' => 'required|min:2|max:32|unique:forums,name,' . $forum->id,
             'description' => 'nullable|min:8|max:128',
             'category_id' => 'required|exists:categories,id'
         ]);
 
-        $channel->update($request->only(['name', 'description', 'category_id']));
+        $forum->update($request->only(['name', 'description', 'category_id']));
 
         flash('Channel updated.')->success();
 
-        return redirect()->route('channels.show', $channel);
+        return redirect()->route('forums.show', $forum);
     }
 
-    public function destroy(Channel $channel)
+    public function destroy(Forum $forum)
     {
-        $this->authorize('delete', $channel);
+        $this->authorize('delete', $forum);
 
-        $channel->delete();
+        $forum->delete();
 
         flash('Channel deleted.')->success();
 

@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Topic;
 use App\Reply;
 use App\Report;
-use App\Channel;
+use App\Forum;
 use Illuminate\Http\Request;
 
 class TopicsController extends Controller
 {
-    public function create(Channel $channel)
+    public function create(Forum $forum)
     {
-        return view('topics.create', compact('channel'));
+        return view('topics.create', compact('forum'));
     }
 
-    public function store(Request $request, Channel $channel)
+    public function store(Request $request, Forum $channel)
     {
         $this->validate($request, [
             'title' => 'required|min:4|max:128',
@@ -62,21 +62,21 @@ class TopicsController extends Controller
 
     public function edit(Topic $topic)
     {
-        $channels = Channel::all();
+        $forums = Forum::all();
 
-        return view('topics.edit', compact('topic', 'channels'));
+        return view('topics.edit', compact('topic', 'forums'));
     }
 
     public function update(Request $request, Topic $topic)
     {
         $this->validate($request, [
-            'channel_id' => 'required|exists:channels,id',
+            'forum_id' => 'required|exists:forums,id',
             'title' => 'required|min:4|max:128'
         ]);
 
         $topic->update([
             'user_id' => auth()->id(),
-            'channel_id' => $request->get('channel_id'),
+            'forum_id' => $request->get('forum_id'),
             'title' => $request->get('title')
         ]);
 
@@ -92,6 +92,6 @@ class TopicsController extends Controller
 
         flash('Topic deleted.')->success();
 
-        return redirect()->route('channels.show', $topic->channel);
+        return redirect()->route('forums.show', $topic->forum);
     }
 }

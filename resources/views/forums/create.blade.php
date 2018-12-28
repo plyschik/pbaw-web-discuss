@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="mb-3">New channel</h2>
+    <h2 class="mb-3">New forum</h2>
 
-    <form action="{{ route('channels.store') }}" method="POST">
+    <form action="{{ route('forums.store') }}" method="POST">
         <div class="form-group">
-            <label for="channel">Category:</label>
+            <label for="category">Category:</label>
             <select class="form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="category" name="category_id">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ ($category->id == request('category_id')) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
-            @if ($errors->has('channel_id'))
-                <div class="invalid-feedback">{{ $errors->first('channel_id') }}</div>
+            @if ($errors->has('forum_id'))
+                <div class="invalid-feedback">{{ $errors->first('forum_id') }}</div>
             @endif
         </div>
 
@@ -35,7 +35,7 @@
         @csrf
 
         <div class="form-group">
-            <button class="btn btn-primary mr-2" type="submit">Add new channel</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
+            <button class="btn btn-primary mr-2" type="submit">Add new forum</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
         </div>
     </form>
 @endsection
