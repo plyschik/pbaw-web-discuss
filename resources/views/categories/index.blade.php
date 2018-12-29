@@ -8,33 +8,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th colspan="4">
-                                <div class="row">
-                                    <div class="col">{{ $category->name }}</div>
-                                    @hasrole('administrator')
-                                        <div class="col-2">
-                                            <a class="btn btn-sm btn-block btn-info" href="{{ route('categories.edit', $category) }}">
-                                                <i class="fas fa-pen"></i> Edit
-                                            </a>
-                                        </div>
-                                        @if ($category->forums->isEmpty())
-                                            <div class="col-2">
-                                                <form class="form-inline" action="{{ route('categories.destroy', $category) }}" method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        @else
-                                            <div class="col-2">
-                                                <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete categories without forums." disabled="disabled">
-                                                    <i class="far fa-trash-alt"></i> Delete
-                                                </button>
-                                            </div>
-                                        @endif
-                                    @endhasrole
-                                </div>
+                                {{ $category->name }}
                             </th>
                         </tr>
                         <tr class="small">

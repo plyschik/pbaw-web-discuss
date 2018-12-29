@@ -28,6 +28,9 @@
                                 WebDiscuss statistics
                             </a>
                             @hasrole('administrator|moderator')
+                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
+                                    Dashboard
+                                </a>
                                 <a class="dropdown-item" href="{{ route('report.index') }}">
                                     Reported posts
                                 </a>
@@ -35,9 +38,6 @@
                             @hasrole('administrator')
                                 <a class="dropdown-item" href="{{ route('forums.create') }}">
                                     Create forum
-                                </a>
-                                <a class="dropdown-item" href="{{ route('categories.create') }}">
-                                    Create category
                                 </a>
                                 <a class="dropdown-item" href="{{ route('moderators.list') }}">
                                     Manage moderators

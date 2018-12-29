@@ -19,16 +19,6 @@ Route::prefix('categories')->group(function () {
         Route::post('{category}/moderators', 'ModeratorController@store')->name('store');
         Route::delete('{category}/moderators/{user}', 'ModeratorController@destroy')->name('destroy');
     });
-
-    Route::name('categories.')->group(function () {
-        Route::middleware('role:administrator')->group(function () {
-            Route::get('create', 'CategoriesController@create')->name('create');
-            Route::post('', 'CategoriesController@store')->name('store');
-            Route::get('{category}/edit','CategoriesController@edit')->name('edit');
-            Route::patch('{category}','CategoriesController@update')->name('update');
-            Route::delete('{category}', 'CategoriesController@destroy')->name('destroy');
-        });
-    });
 });
 
 // moderators
@@ -134,6 +124,26 @@ Route::prefix('users')->group(function () {
         Route::middleware('role:moderator|administrator')->group(function () {
             Route::get('{user}/ban', 'BanController@create')->name('create');
             Route::post('{user}/ban', 'BanController@store')->name('store');
+        });
+    });
+});
+
+// dashboard
+Route::prefix('dashboard')->group(function () {
+    Route::name('dashboard.')->group(function () {
+        Route::middleware('role:moderator|administrator')->group(function () {
+            Route::get('', 'Dashboard\\IndexController@index')->name('index');
+
+            Route::prefix('categories')->group(function () {
+                Route::name('categories.')->group(function () {
+                    Route::get('create', 'Dashboard\\CategoryController@create')->name('create');
+                    Route::post('', 'Dashboard\\CategoryController@store')->name('store');
+                    Route::get('', 'Dashboard\\CategoryController@index')->name('index');
+                    Route::get('{category}/edit', 'Dashboard\\CategoryController@edit')->name('edit');
+                    Route::patch('{category}', 'Dashboard\\CategoryController@update')->name('update');
+                    Route::delete('{category}', 'Dashboard\\CategoryController@destroy')->name('destroy');
+                });
+            });
         });
     });
 });
