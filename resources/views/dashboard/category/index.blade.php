@@ -1,39 +1,39 @@
 @extends('dashboard.layout')
 
 @section('content')
-    <div class="row mb-3">
-        <div class="col-9">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
             <h3>Categories management</h3>
         </div>
-        <div class="col-3">
-            <a class="btn btn-success btn-block" href="{{ route('dashboard.categories.create') }}">Create category</a>
+        <div>
+            <a class="btn btn-success" href="{{ route('dashboard.categories.create') }}">Create new category</a>
         </div>
     </div>
 
     <table class="table">
         <thead class="thead-light">
-            <th>ID</th>
-            <th>Name</th>
-            <th>Created at</th>
-            <th></th>
+            <th class="col-1">ID</th>
+            <th class="col-5">Name</th>
+            <th class="col-3">Created at</th>
+            <th class="col-3"></th>
         </thead>
         <tbody>
             @foreach ($categories as $category)
                 <tr>
-                    <td>{{ $category->id }}</td>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->created_at }}</td>
-                    <td>
-                        <div class="row">
-                            <div class="col">
-                                <a class="btn btn-block btn-primary" href="{{ route('dashboard.categories.edit', $category) }}">Edit</a>
+                    <td class="align-middle">{{ $category->id }}</td>
+                    <td class="align-middle">{{ $category->name }}</td>
+                    <td class="align-middle">{{ $category->created_at }}</td>
+                    <td class="align-middle">
+                        <div class="d-flex justify-content-between">
+                            <div style="flex: 1;">
+                                <a class="btn btn-sm btn-block btn-primary mr-1" href="{{ route('dashboard.categories.edit', $category) }}">Edit</a>
                             </div>
-                            <div class="col">
+                            <div style="flex: 1;">
                                 <form class="form-inline" action="{{ route('dashboard.categories.destroy', $category) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
 
-                                    <button class="btn btn-block btn-danger confirm-delete" type="submit">Delete</button>
+                                    <button class="btn btn-sm btn-block btn-danger ml-1 confirm-delete" type="submit">Delete</button>
                                 </form>
                             </div>
                         </div>
