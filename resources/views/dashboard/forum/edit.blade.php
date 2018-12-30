@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('dashboard.layout')
 
 @section('content')
     <h2 class="mb-3">Edit forum</h2>
 
-    <form action="{{ route('forums.update', $forum->id) }}" method="POST">
+    <form action="{{ route('dashboard.forums.update', $forum) }}" method="POST">
         @method('PATCH')
 
         <div class="form-group">
@@ -13,8 +13,8 @@
                     <option value="{{ $category->id }}" {{ ($forum->category->id == $category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
-            @if ($errors->has('forum_id'))
-                <div class="invalid-feedback">{{ $errors->first('forum_id') }}</div>
+            @if ($errors->has('category_id'))
+                <div class="invalid-feedback">{{ $errors->first('category_id') }}</div>
             @endif
         </div>
 
@@ -37,7 +37,7 @@
         @csrf
 
         <div class="form-group">
-            <button class="btn btn-primary mr-2" type="submit">Update forum</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
+            <button class="btn btn-primary mr-2" type="submit">Update forum</button> or <a class="btn btn-secondary ml-2" href="{{ route('dashboard.forums.index') }}">Go back</a>
         </div>
     </form>
 @endsection

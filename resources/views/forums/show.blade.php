@@ -1,41 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row align-items-center mb-3">
-        <div class="col">
-            <h2>
-                Forum: {{ $forum->name }}
-            </h2>
-            @if ($forum->description)
-                <p class="font-italic mb-0">
-                    {{ $forum->description }}
-                </p>
-            @endif
-        </div>
-        @hasrole('administrator')
-            <div class="col-1">
-                <a class="btn btn-sm btn-block btn-primary" href="{{ route('forums.edit', $forum->id) }}">
-                    <i class="fas fa-pencil-alt"></i>
-                </a>
+    <div class="mb-3">
+        <h2>
+            Forum: {{ $forum->name }}
+        </h2>
+        @if ($forum->description)
+            <div class="font-italic">
+                {{ $forum->description }}
             </div>
-            @if ($topics->isEmpty())
-                <div class="col-1">
-                    <form class="form-inline" action="{{ route('forums.destroy', $forum->id) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-sm btn-block btn-danger confirm-delete" type="submit">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="col-1">
-                    <button class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" data-placement="top" title="You can only delete forum without topics." disabled="disabled">
-                        <i class="far fa-trash-alt"></i>
-                    </button>
-                </div>
-            @endif
-        @endhasrole
+        @endif
     </div>
 
     <nav aria-label="breadcrumb">

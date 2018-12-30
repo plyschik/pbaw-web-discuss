@@ -1,9 +1,11 @@
-@extends('layouts.app')
+@extends('dashboard.layout')
 
 @section('content')
     <h2 class="mb-3">New forum</h2>
 
-    <form action="{{ route('forums.store') }}" method="POST">
+    <form action="{{ route('dashboard.forums.store') }}" method="POST">
+        @csrf
+
         <div class="form-group">
             <label for="category">Category:</label>
             <select class="form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" id="category" name="category_id">
@@ -11,8 +13,8 @@
                     <option value="{{ $category->id }}" {{ ($category->id == request('category_id')) ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
-            @if ($errors->has('forum_id'))
-                <div class="invalid-feedback">{{ $errors->first('forum_id') }}</div>
+            @if ($errors->has('category_id'))
+                <div class="invalid-feedback">{{ $errors->first('category_id') }}</div>
             @endif
         </div>
 
@@ -32,10 +34,8 @@
             @endif
         </div>
 
-        @csrf
-
         <div class="form-group">
-            <button class="btn btn-primary mr-2" type="submit">Add new forum</button> or <a class="btn btn-secondary ml-2" href="{{ route('home') }}">Go back</a>
+            <button class="btn btn-primary mr-2" type="submit">Add new forum</button> or <a class="btn btn-secondary ml-2" href="{{ route('dashboard.forums.index') }}">Go back</a>
         </div>
     </form>
 @endsection

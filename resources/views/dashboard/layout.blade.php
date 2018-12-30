@@ -21,7 +21,10 @@
 
                     <div class="nav flex-column nav-pills">
                         <a class="nav-link" href="{{ route('dashboard.index') }}">Index</a>
-                        <a class="nav-link" href="{{ route('dashboard.categories.index') }}">Categories</a>
+                        @hasrole('administrator')
+                            <a class="nav-link" href="{{ route('dashboard.categories.index') }}">Categories</a>
+                            <a class="nav-link" href="{{ route('dashboard.forums.index') }}">Forums</a>
+                        @endhasrole
                     </div>
                 </div>
                 <div class="col-9">

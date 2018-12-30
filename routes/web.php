@@ -33,14 +33,6 @@ Route::prefix('moderators')->group(function () {
 // forums
 Route::prefix('forums')->group(function () {
     Route::name('forums.')->group(function () {
-        Route::middleware('role:administrator')->group(function () {
-            Route::get('/create', 'ForumsController@create')->name('create');
-            Route::post('', 'ForumsController@store')->name('store');
-            Route::get('{forum}/edit','ForumsController@edit')->name('edit');
-            Route::patch('{forum}','ForumsController@update')->name('update');
-            Route::delete('{forum}', 'ForumsController@destroy')->name('destroy');
-        });
-
         Route::get('{forum}', 'ForumsController@show')->name('show');
     });
 });
@@ -128,19 +120,51 @@ Route::prefix('users')->group(function () {
     });
 });
 
-// dashboard
 Route::prefix('dashboard')->group(function () {
     Route::name('dashboard.')->group(function () {
-        Route::middleware('role:moderator|administrator')->group(function () {
+        Route::middleware('role:administrator')->group(function () {
             Route::get('', 'Dashboard\\IndexController@index')->name('index');
+
+            Route::prefix('forums')->group(function () {
+                Route::name('forums.')->group(function () {
+                    # GET /dashboard/forums
+                    Route::get('', 'Dashboard\\ForumController@index')->name('index');
+
+                    # GET /dashboard/forums/create
+                    Route::get('create', 'Dashboard\\ForumController@create')->name('create');
+
+                    # POST /dashboard/forums
+                    Route::post('', 'Dashboard\\ForumController@store')->name('store');
+
+                    # GET /dashboard/forums/{forum}/edit
+                    Route::get('{forum}/edit', 'Dashboard\\ForumController@edit')->name('edit');
+
+                    # PATCH /dashboard/forums/{forum}
+                    Route::patch('{forum}', 'Dashboard\\ForumController@update')->name('update');
+
+                    # DELETE /dashboard/forums/{forum}
+                    Route::delete('{forum}', 'Dashboard\\ForumController@destroy')->name('destroy');
+                });
+            });
 
             Route::prefix('categories')->group(function () {
                 Route::name('categories.')->group(function () {
-                    Route::get('create', 'Dashboard\\CategoryController@create')->name('create');
-                    Route::post('', 'Dashboard\\CategoryController@store')->name('store');
+                    # GET /dashboard/categories
                     Route::get('', 'Dashboard\\CategoryController@index')->name('index');
+
+                    # GET /dashboard/categories/create
+                    Route::get('create', 'Dashboard\\CategoryController@create')->name('create');
+
+                    # POST /dashboard/categories
+                    Route::post('', 'Dashboard\\CategoryController@store')->name('store');
+
+                    # GET /dashboard/categories/{category}/edit
                     Route::get('{category}/edit', 'Dashboard\\CategoryController@edit')->name('edit');
+
+                    # PATCH /dashboard/categories/{category}
                     Route::patch('{category}', 'Dashboard\\CategoryController@update')->name('update');
+
+                    # DELETE /dashboard/categories/{category}
                     Route::delete('{category}', 'Dashboard\\CategoryController@destroy')->name('destroy');
                 });
             });

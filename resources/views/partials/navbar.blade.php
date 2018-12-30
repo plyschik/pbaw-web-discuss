@@ -36,9 +36,6 @@
                                 </a>
                             @endhasrole
                             @hasrole('administrator')
-                                <a class="dropdown-item" href="{{ route('forums.create') }}">
-                                    Create forum
-                                </a>
                                 <a class="dropdown-item" href="{{ route('moderators.list') }}">
                                     Manage moderators
                                 </a>
