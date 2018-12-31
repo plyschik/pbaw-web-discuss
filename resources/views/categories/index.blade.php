@@ -3,6 +3,12 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Home</li>
+                </ol>
+            </nav>
+
             @foreach ($categories as $category)
                 <table class="table table-bordered">
                     <thead class="thead-light">

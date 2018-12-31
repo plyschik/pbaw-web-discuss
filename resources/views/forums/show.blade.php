@@ -1,17 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mb-3">
-        <h2>
-            Forum: {{ $forum->name }}
-        </h2>
-        @if ($forum->description)
-            <div class="font-italic">
-                {{ $forum->description }}
-            </div>
-        @endif
-    </div>
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -19,9 +8,22 @@
         </ol>
     </nav>
 
-    @auth
-        <a class="btn btn-block btn-lg btn-primary mb-3" href="{{ route('topics.create', $forum->id) }}">New topic</a>
-    @endauth
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2>{{ $forum->name }}</h2>
+
+            @if ($forum->description)
+                <div class="font-italic">
+                    {{ $forum->description }}
+                </div>
+            @endif
+        </div>
+        <div>
+            @auth
+                <a class="btn btn-primary" href="{{ route('topics.create', $forum->id) }}">Create new topic</a>
+            @endauth
+        </div>
+    </div>
 
     @if ($topics->isEmpty())
         <div class="alert alert-info">

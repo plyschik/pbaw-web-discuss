@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="mb-3">
-        {{ $topic->title }}
-    </h2>
-
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb small">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('forums.show', $topic->forum) }}">{{ $topic->forum->name }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ $topic->title }}</li>
         </ol>
     </nav>
+
+    <h2 class="mb-3">
+        {{ $topic->title }}
+    </h2>
 
     @can('manage', $topic)
         <div class="card mb-3 small">
