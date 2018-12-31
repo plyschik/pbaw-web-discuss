@@ -150,6 +150,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \Genert\BBCode\BBCodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -164,7 +165,7 @@ return [
          * Custom Service Providers...
          */
         App\Providers\FakerProvider::class,
-        App\Providers\ComposerServiceProvider::class
+        App\Providers\ComposerServiceProvider::class,
 
     ],
 
@@ -214,6 +215,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'BBCode' => \Genert\BBCode\Facades\BBCode::class,
 
     ],
 

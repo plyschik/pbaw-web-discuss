@@ -61,7 +61,7 @@
                         </ul>
                     </td>
                     <td class="text-justify">
-                        @markdown($reply->content)
+                        {!! BBCode::convertToHtml($reply->content) !!}
                     </td>
                 </tr>
                 @auth
@@ -129,7 +129,7 @@
                                 </ul>
                             </td>
                             <td class="text-justify">
-                                @markdown($reply->content)
+                                {!! BBCode::convertToHtml($reply->content) !!}
                             </td>
                         </tr>
                         <tr>

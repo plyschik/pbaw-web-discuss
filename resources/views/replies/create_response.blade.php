@@ -5,7 +5,7 @@
 
     <div class="card mb-3">
         <div class="card-body text-justify">
-            @markdown($reply->content)
+            {!! BBCode::convertToHtml($reply->content) !!}
         </div>
         <div class="card-footer">
             Added by <a href="{{ route('users.show', $reply->user) }}">{{ $reply->user->name }}</a>, <time title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</time>.
