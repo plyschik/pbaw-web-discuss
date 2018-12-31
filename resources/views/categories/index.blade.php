@@ -2,22 +2,18 @@
 
 @section('content')
     <div class="row">
-        <div class="col-8">
+        <div class="col-12">
             @foreach ($categories as $category)
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr>
-                            <th colspan="4">
-                                {{ $category->name }}
-                            </th>
+                            <th colspan="4">{{ $category->name }}</th>
                         </tr>
                         <tr class="small">
                             <th colspan="4">
                                 Moderators:
                                 @foreach ($category->users as $user)
-                                    <a class="badge badge-success" href="{{ route('users.show', $user) }}">
-                                        {{ $user->name }}
-                                    </a>
+                                    <a class="badge badge-success" href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
                                 @endforeach
                                 @hasrole('administrator')
                                     <a class="badge badge-primary" href="{{ route('moderators.create', $category) }}">+ new</a>
@@ -26,11 +22,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="font-weight-bold small">
-                            <td class="col-6">Forum</td>
-                            <td class="col-1">Topics</td>
-                            <td class="col-1">Replies</td>
-                            <td class="col-4">Last reply in topic</td>
+                        <tr class="small">
+                            <th class="col-7">Forum</th>
+                            <th class="col-1 text-center">Topics</th>
+                            <th class="col-1 text-center">Posts</th>
+                            <th class="col-3">Last post</th>
                         </tr>
                         @if ($category->forums->isEmpty())
                             <tr class="small">
@@ -41,8 +37,9 @@
                                 <tr class="small">
                                     <td class="align-middle">
                                         <a href="{{ route('forums.show', $forum) }}">{{ $forum->name }}</a>
+
                                         @if ($forum->description)
-                                            <p class="mt-1 mb-0 font-italic">{{ $forum->description }}</p>
+                                            <div class="mt-1 font-italic">{{ $forum->description }}</div>
                                         @endif
                                     </td>
                                     <td class="text-center align-middle">{{ $forum->topics_count }}</td>
@@ -52,14 +49,21 @@
                                             —
                                         @else
                                             <div class="d-block">
-                                                <a href="{{ route('topics.show', $forum->replies->first()->topic) }}">{{ $forum->replies->first()->topic->title }}</a>
+                                                <a href="{{ route('topics.show', $forum->replies->first()->topic) }}">
+                                                    {{ str_limit($forum->replies->first()->topic->title, 30) }}
+                                                </a>
                                             </div>
                                             <div clas="d-block">
-                                                Author: <a href="{{ route('users.show', $forum->replies->first()->user) }}">{{ $forum->replies->first()->user->name }}</a>
+                                                Author:
+                                                <a href="{{ route('users.show', $forum->replies->first()->user) }}">
+                                                    {{ $forum->replies->first()->user->name }}
+                                                </a>
                                             </div>
                                             <div class="d-block">
                                                 <div class="text-muted">
-                                                    <time title="{{ $forum->replies->first()->created_at }}">{{ $forum->replies->first()->created_at->diffForHumans() }}</time>
+                                                    <time title="{{ $forum->replies->first()->created_at }}">
+                                                        {{ $forum->replies->first()->created_at->diffForHumans() }}
+                                                    </time>
                                                 </div>
                                             </div>
                                         @endif
@@ -70,65 +74,29 @@
                     </tbody>
                 </table>
             @endforeach
-        </div>
-        <div class="col-4">
+
             <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fab fa-hotjar"></i> Popular topics
+                <div class="card-header">Statistics</div>
+                <div class="card-body small">
+                    <div class="d-block">
+                        Our members have made a total of <b>{{ number_format(cache('posts_count')) }}</b> posts in <b>{{ number_format(cache('topics_count')) }}</b> threads.
+                    </div>
+                    <div class="d-block">
+                        We currently have <b>{{ number_format(cache('users_count')) }}</b> members registered.
+                    </div>
+                    <div class="d-block">
+                        Please welcome our newest member, <a href="{{ route('users.show', cache('latest_user')) }}">{{ cache('latest_user')->name }}</a>.
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush small">
-                    @foreach (cache('stats.popular_topics') as $topic)
-                        <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
-                            {{ $topic->title }} ({{ $topic->replies_count - 1 }} replies)
-                        </a>
-                    @endforeach
-                </ul>
             </div>
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="far fa-clock"></i> Latest topics
+
+            <div class="d-flex justify-content-between small">
+                <div>
+                    Powered by WebDiscuss, 2018
                 </div>
-                <ul class="list-group list-group-flush small">
-                    @foreach (cache('stats.latest_topics') as $topic)
-                        <a class="list-group-item list-group-item-action" href="{{ route('topics.show', $topic) }}">
-                            {{ $topic->title }} (created <time title="{{ $topic->created_at }}">{{ $topic->created_at->diffForHumans() }}</time>)
-                        </a>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-info-circle"></i> Statistics
+                <div>
+                    Current time: {{ date('d/m/Y H:i:s') }}
                 </div>
-                <ul class="list-group list-group-flush small">
-                    <li class="list-group-item">
-                        Total topics: {{ cache('stats.topics.total') }}
-                    </li>
-                    <li class="list-group-item">
-                        Today topics: {{ cache('stats.topics.today') }}
-                    </li>
-                    <li class="list-group-item">
-                        Total replies: {{ cache('stats.replies.total') }}
-                    </li>
-                    <li class="list-group-item">
-                        Today replies: {{ cache('stats.replies.today') }}
-                    </li>
-                    <li class="list-group-item">
-                        Total topics views: {{ cache('stats.topics.views') }}
-                    </li>
-                    <li class="list-group-item">
-                        Average age of users: {{ cache('stats.users.average_age') }}
-                    </li>
-                    <li class="list-group-item">
-                        Last registered: <a href="{{ route('users.show', cache('stats.users.last_registered')['slug']) }}">{{ cache('stats.users.last_registered')['name'] }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        Last logged in: <a href="{{ route('users.show', cache('stats.users.last_logged_in')['slug']) }}">{{ cache('stats.users.last_logged_in')['name'] }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        The most replies: {{ cache('stats.most_replies')['total'] }} were on: {{ cache('stats.most_replies')['date'] }}
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

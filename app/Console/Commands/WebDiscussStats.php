@@ -44,49 +44,17 @@ class WebDiscussStats extends Command
     public function handle()
     {
         $stats = [
-            'stats.topics.total' => function () {
+            'topics_count' => function () {
                 return Topic::count();
             },
-            'stats.topics.today' => function () {
-                return Topic::whereDate('created_at', Carbon::today())->count();
-            },
-            'stats.topics.views' => function () {
-                return ViewTracker::getViewsCountByType(Topic::class);
-            },
-            'stats.replies.total' => function () {
+            'posts_count' => function () {
                 return Reply::count();
             },
-            'stats.replies.today' => function () {
-                return Reply::whereDate('created_at', Carbon::today())->count();
-            },
-            'stats.users.total' => function () {
+            'users_count' => function () {
                 return User::count();
             },
-            'stats.users.average_age' => function () {
-                return round(User::selectRaw("TIMESTAMPDIFF(YEAR, DATE(date_of_birth), current_date) AS age")->get()->avg('age'));
-            },
-            'stats.users.last_registered' => function () {
+            'latest_user' => function () {
                 return User::latest()->first();
-            },
-            'stats.users.last_logged_in' => function () {
-                return User::latest('last_logged_in')->first();
-            },
-            'stats.most_replies' => function () {
-                $replies = Reply::select('created_at')->get()
-                    ->groupBy(function ($row) {
-                        return Carbon::parse($row->created_at)->format('d-m-Y');
-                    })->sort();
-
-                return [
-                    'date' => $replies->keys()->last(),
-                    'total' => $replies->last()->count()
-                ];
-            },
-            'stats.popular_topics' => function () {
-                return Topic::withCount('replies')->limit(config('webdiscuss.stats.popular_posts_limit'))->latest('replies_count')->get();
-            },
-            'stats.latest_topics' => function () {
-                return Topic::limit(config('webdiscuss.stats.latest_posts_limit'))->latest()->get();
             }
         ];
 

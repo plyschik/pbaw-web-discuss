@@ -16,6 +16,26 @@
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
                     </li>
                 @else
+                    @hasrole('administrator|moderator')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('report.index') }}">Reported posts</a>
+                        </li>
+                    @endhasrole
+
+                    @hasrole('administrator')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('moderators.list') }}">Manage moderators</a>
+                        </li>
+                    @endhasrole
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.stats') }}">Statistics</a>
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -24,22 +44,6 @@
                             <a class="dropdown-item" href="{{ route('users.show', Auth::user()) }}">
                                 My profile
                             </a>
-                            <a class="dropdown-item" href="{{ route('users.stats') }}">
-                                WebDiscuss statistics
-                            </a>
-                            @hasrole('administrator|moderator')
-                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
-                                    Dashboard
-                                </a>
-                                <a class="dropdown-item" href="{{ route('report.index') }}">
-                                    Reported posts
-                                </a>
-                            @endhasrole
-                            @hasrole('administrator')
-                                <a class="dropdown-item" href="{{ route('moderators.list') }}">
-                                    Manage moderators
-                                </a>
-                            @endhasrole
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Logout
                             </a>
