@@ -13,7 +13,11 @@
         @include('partials.navbar')
 
         <div class="container pb-3">
-            @include('flash::message')
+            @if (session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             @yield('content')
         </div>

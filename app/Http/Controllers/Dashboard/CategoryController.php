@@ -28,9 +28,8 @@ class CategoryController extends Controller
 
         Category::create($request->only(['name']));
 
-        flash('Category created.')->success();
-
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')
+            ->with('success', 'Category created.');
     }
 
     public function edit(Category $category)
@@ -46,9 +45,8 @@ class CategoryController extends Controller
 
         $category->update($request->only(['name']));
 
-        flash('Category updated.')->success();
-
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')
+            ->with('success', 'Category updated.');
     }
 
     public function destroy(Category $category)
@@ -57,8 +55,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        flash('Category deleted.')->success();
-
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')
+            ->with('success', 'Category deleted.');
     }
 }

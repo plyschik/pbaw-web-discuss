@@ -90,8 +90,7 @@ class TopicsController extends Controller
         $topic->replies()->delete();
         $topic->delete();
 
-        flash('Topic deleted.')->success();
-
-        return redirect()->route('forums.show', $topic->forum);
+        return redirect()->route('forums.show', $topic->forum)
+            ->with('success', 'Topic deleted.');
     }
 }

@@ -33,9 +33,8 @@ class ForumController extends Controller
 
         Forum::create($request->only(['category_id', 'name', 'description']));
 
-        flash('Forum created.')->success();
-
-        return redirect()->route('dashboard.forums.index');
+        return redirect()->route('dashboard.forums.index')
+            ->with('success', 'Forum created.');
     }
 
     public function edit(Forum $forum)
@@ -53,9 +52,8 @@ class ForumController extends Controller
 
         $forum->update($request->only(['category_id', 'name', 'description']));
 
-        flash('Forum updated.')->success();
-
-        return redirect()->route('dashboard.forums.index');
+        return redirect()->route('dashboard.forums.index')
+            ->with('success', 'Forum updated.');
     }
 
     public function destroy(Forum $forum)
@@ -64,8 +62,7 @@ class ForumController extends Controller
 
         $forum->delete();
 
-        flash('Forum deleted.')->success();
-
-        return redirect()->route('dashboard.forums.index');
+        return redirect()->route('dashboard.forums.index')
+            ->with('success', 'Forum deleted.');
     }
 }
