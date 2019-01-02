@@ -24,6 +24,7 @@
                         @hasrole('administrator')
                             <a class="nav-link" href="{{ route('dashboard.categories.index') }}">Categories</a>
                             <a class="nav-link" href="{{ route('dashboard.forums.index') }}">Forums</a>
+                            <a class="nav-link" href="{{ route('dashboard.reports.index') }}">Raports</a>
                         @endhasrole
                     </div>
                 </div>

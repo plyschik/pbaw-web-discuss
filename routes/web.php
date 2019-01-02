@@ -98,16 +98,6 @@ Route::name('report.')->group(function () {
             Route::post('{reply}', 'ReportController@store')->name('store');
         });
     });
-
-    Route::middleware('role:moderator|administrator')->group(function () {
-        Route::prefix('reports')->group(function () {
-            Route::get('', 'ReportController@index')->name('index');
-            Route::post('{report}/ignore', 'ReportController@ignore')->name('ignore');
-            Route::post('{report}/delete', 'ReportController@delete')->name('delete');
-        });
-
-        Route::get('/users/{user}/reports', 'ReportController@show')->name('show');
-    });
 });
 
 // ban
@@ -166,6 +156,21 @@ Route::prefix('dashboard')->group(function () {
 
                     # DELETE /dashboard/categories/{category}
                     Route::delete('{category}', 'Dashboard\\CategoryController@destroy')->name('destroy');
+                });
+            });
+
+            Route::name('reports.')->group(function () {
+                Route::middleware('role:moderator|administrator')->group(function () {
+                    Route::prefix('reports')->group(function () {
+                        # GET /dashboard/reports
+                        Route::get('', 'Dashboard\\ReportController@index')->name('index');
+
+                        # POST /dashboard/reports/{report}/ignore
+                        Route::post('{report}/ignore', 'Dashboard\\ReportController@ignore')->name('ignore');
+
+                        # POST /dashboard/reports/{report}/delete
+                        Route::post('{report}/delete', 'Dashboard\\ReportController@delete')->name('delete');
+                    });
                 });
             });
         });

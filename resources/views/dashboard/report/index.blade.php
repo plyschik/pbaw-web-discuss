@@ -1,16 +1,9 @@
-@extends('layouts.forum')
+@extends('layouts.dashboard')
 
 @section('content')
-    <div class="row align-items-center mb-3">
-        <div class="col">
-            <h3>Reports for user: {{ $user->name }}</h3>
-        </div>
-        <div class="col-2">
-            <a class="btn btn-block btn-danger" href="{{ route('ban.create', $user->id) }}">Ban user</a>
-        </div>
-    </div>
+    <h3 class="mb-3">Reports</h3>
 
-    @foreach ($reports as $report)
+    @forelse ($reports as $report)
         <div class="card mb-3">
             <div class="card-header">
                 <b>Report reason:</b> {{ $report->reason }}
@@ -26,21 +19,26 @@
                         Posted by <a href="{{ route('users.show', $report->reply->user) }}">{{ $report->reply->user->name }}</a>, <time title="{{ $report->reply->created_at }}">{{ $report->reply->created_at->diffForHumans() }}</time>.
                     </div>
                     <div class="col-2">
-                        <form class="form-inline" action="{{ route('report.ignore', $report) }}" method="POST">
+                        <form class="form-inline" action="{{ route('dashboard.reports.ignore', $report) }}" method="POST">
                             @csrf
                             <button class="btn btn-sm btn-block btn-success confirm-delete" type="submit">Ignore report</button>
                         </form>
                     </div>
                     <div class="col-2">
-                        <form class="form-inline" action="{{ route('report.delete', $report) }}" method="POST">
+                        <form class="form-inline" action="{{ route('dashboard.reports.delete', $report) }}" method="POST">
                             @csrf
                             <button class="btn btn-sm btn-block btn-primary confirm-delete" type="submit">Delete reply</button>
                         </form>
                     </div>
+                    <div class="col-2">
+                        <a class="btn btn-sm btn-block btn-danger" href="{{ route('ban.create', $report->user->id) }}">Ban user</a>
+                    </div>
                 </div>
             </div>
         </div>
-    @endforeach
+    @empty
+        <div class="alert alert-info">No reports.</div>
+    @endforelse
 
     {{ $reports->links() }}
 @endsection

@@ -20,10 +20,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('report.index') }}">Reported posts</a>
-                        </li>
                     @endhasrole
 
                     @hasrole('administrator')

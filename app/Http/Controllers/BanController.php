@@ -26,7 +26,7 @@ class BanController extends Controller
 
         $user->reports()->delete();
 
-        return redirect()->route('report.index')
+        return redirect()->route('dashboard.reports.index')
             ->with('success', 'User banned.');
     }
 }
