@@ -62,7 +62,6 @@ $ php artisan serve
 # Użyte zewnętrzne biblioteki
 * [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
 * [cybercog/laravel-ban](https://github.com/cybercog/laravel-ban)
-* [cyrildewit/eloquent-viewable](https://github.com/cyrildewit/eloquent-viewable)
 * [consoletvs/charts](https://github.com/ConsoleTVs/Charts)
 * [fzaninotto/faker](https://github.com/fzaninotto/Faker)
 

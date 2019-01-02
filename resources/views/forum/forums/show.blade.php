@@ -48,7 +48,7 @@
                             <small>Author: <a href="{{ route('users.show', $topic->user) }}">{{ $topic->user->name }}</a>, {{ $topic->created_at }}</small>
                         </td>
                         <td class="text-center align-middle">{{ --$topic->replies_count }}</td>
-                        <td class="text-center align-middle">{{ $topic->getUniqueViews() }}</td>
+                        <td class="text-center align-middle">{{ $topic->views }}</td>
                         <td class="small align-middle">
                             @if ($topic->replies_count == 0)
                                 —

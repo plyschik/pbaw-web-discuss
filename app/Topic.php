@@ -3,12 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use CyrildeWit\EloquentViewable\Viewable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Topic extends Model
 {
-    use SoftDeletes, Viewable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +19,7 @@ class Topic extends Model
         'channel_id',
         'slug',
         'title',
-        'content'
+        'views'
     ];
 
     public function getRouteKeyName()

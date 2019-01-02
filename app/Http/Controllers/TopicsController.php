@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\IncrementTopicViews;
 use App\Topic;
 use App\Reply;
 use App\Report;
@@ -38,7 +39,7 @@ class TopicsController extends Controller
 
     public function show(Topic $topic)
     {
-        $topic->addView();
+        IncrementTopicViews::dispatch($topic);
 
         $replies = Reply::with([
                 'user' => function ($query) {
