@@ -1,4 +1,4 @@
-@extends('dashboard.layout')
+@extends('layouts.dashboard')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">

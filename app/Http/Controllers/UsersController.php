@@ -62,7 +62,7 @@ class UsersController extends Controller
             ->selectRaw("*, TIMESTAMPDIFF(DAY, DATE(created_at), DATE(expired_at)) AS duration")
             ->paginate(5);
 
-        return view('users.show', compact('user', 'latestTopics', 'topForums', 'usersFrequentlyCommentedPosts', 'numberOfBans', 'lastBan', 'bans'));
+        return view('forum.users.show', compact('user', 'latestTopics', 'topForums', 'usersFrequentlyCommentedPosts', 'numberOfBans', 'lastBan', 'bans'));
     }
 
     public function destroy(User $user)
@@ -77,7 +77,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('forum.users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
@@ -164,7 +164,7 @@ class UsersController extends Controller
         $activityChart->dataset('Number of replies', 'column',
             $activity->values())->color($this->rand_color());
 
-        return view('users.stats', compact('ageChart', 'forumsChart', 'activityChart'));
+        return view('forum.users.stats', compact('ageChart', 'forumsChart', 'activityChart'));
     }
 
     function rand_color()

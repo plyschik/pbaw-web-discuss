@@ -17,6 +17,6 @@ class ForumsController extends Controller
             ->sortByDesc('lastReply.created_at')
             ->paginate(4);
 
-        return view('forums.show', compact('forum','topics'));
+        return view('forum.forums.show', compact('forum','topics'));
     }
 }

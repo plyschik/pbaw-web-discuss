@@ -14,7 +14,7 @@ class ReportController extends Controller
     {
         $users = User::has('reports')->withCount('reports')->paginate(5);
 
-        return view('report.index', compact('users'));
+        return view('forum.report.index', compact('users'));
     }
 
     public function show(User $user)
@@ -26,7 +26,7 @@ class ReportController extends Controller
             ->whereNull('replies.deleted_at')
             ->paginate(4);
 
-        return view('report.show', compact('user', 'reports'));
+        return view('forum.report.show', compact('user', 'reports'));
     }
 
     public function ignore(Report $report)
@@ -52,7 +52,7 @@ class ReportController extends Controller
 
     public function create(Reply $reply)
     {
-        return view('report.create', compact('reply'));
+        return view('forum.report.create', compact('reply'));
     }
 
     public function store(Reply $reply, Request $request)

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.forum')
 
 @section('content')
     <h2 class="mb-3">Ban for user: {{ $user->name }}</h2>

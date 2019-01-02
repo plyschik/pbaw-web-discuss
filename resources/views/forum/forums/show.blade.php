@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.forum')
 
 @section('content')
     <nav aria-label="breadcrumb">

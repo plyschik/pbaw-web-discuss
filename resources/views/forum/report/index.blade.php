@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.forum')
 
 @section('content')
     <h3 class="mb-3">Reports</h3>

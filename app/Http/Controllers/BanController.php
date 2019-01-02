@@ -9,7 +9,7 @@ class BanController extends Controller
 {
     public function create(User $user)
     {
-        return view('ban.create', compact('user'));
+        return view('forum.ban.create', compact('user'));
     }
 
     public function store(User $user, Request $request)

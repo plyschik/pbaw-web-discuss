@@ -16,6 +16,6 @@ class CategoriesController extends Controller
             }]);
         }])->get();
 
-        return view('categories.index', compact('categories'));
+        return view('forum.categories.index', compact('categories'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('dashboard.layout')
+@extends('layouts.dashboard')
 
 @section('content')
     <h3 class="mb-3">Category edit</h3>

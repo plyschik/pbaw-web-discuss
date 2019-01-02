@@ -1,4 +1,4 @@
-@extends('dashboard.layout')
+@extends('layouts.dashboard')
 
 @section('content')
     <h2 class="mb-3">New forum</h2>

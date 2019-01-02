@@ -13,7 +13,7 @@ class ModeratorController extends Controller
     {
         $categories = Category::with('users')->paginate(3);
 
-        return view('users.moderators_list', compact('categories'));
+        return view('forum.users.moderators_list', compact('categories'));
     }
 
     public function create(Category $category)
@@ -22,7 +22,7 @@ class ModeratorController extends Controller
             $query->where('id', $category);
         })->get(['id', 'name']);
 
-        return view('users.create_moderator', compact('category', 'users'));
+        return view('forum.users.create_moderator', compact('category', 'users'));
     }
 
     public function store(Request $request, Category $category)

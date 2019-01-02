@@ -57,14 +57,14 @@ class TopicsController extends Controller
             ->orderBy('created_at')
             ->paginate(3);
 
-        return view('topics.show', compact('topic', 'replies'));
+        return view('forum.topics.show', compact('topic', 'replies'));
     }
 
     public function edit(Topic $topic)
     {
         $forums = Forum::all();
 
-        return view('topics.edit', compact('topic', 'forums'));
+        return view('forum.topics.edit', compact('topic', 'forums'));
     }
 
     public function update(Request $request, Topic $topic)

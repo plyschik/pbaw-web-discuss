@@ -25,7 +25,7 @@ class RepliesController extends Controller
 
     public function edit(Reply $reply)
     {
-        return view('replies.edit', compact('reply'));
+        return view('forum.replies.edit', compact('reply'));
     }
 
     public function update(Request $request, Reply $reply)
@@ -50,7 +50,7 @@ class RepliesController extends Controller
 
     public function createResponse(Reply $reply)
     {
-        return view('replies.create_response', compact('reply'));
+        return view('forum.replies.create_response', compact('reply'));
     }
 
     public function storeResponse(Reply $reply, Request $request)
