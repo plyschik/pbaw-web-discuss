@@ -43,7 +43,7 @@ $ git clone https://github.com/plyschik/pbaw-web-discuss.git
 ```bash
 $ cd pbaw-web-discuss
 ```
-3. Zmień nazwę pliku ```.env.example``` na ```.env```. Następnie dostosuj ustawienia zawarte w pliku *.env* do swojej konfiguracji:
+3. Zmień nazwę pliku ```.env.example``` na ```.env```. Następnie dostosuj ustawienia zawarte w pliku ```.env``` do swojej konfiguracji:
 ```bash
 $ mv .env.example .env
 $ nano .env
@@ -60,7 +60,10 @@ $ php artisan webdiscuss:setup
 ```bash
 * * * * * php artisan schedule:run
 ```
-7. Część zadań systemowych jest przystosowana do kolejkowania (kolejkowanie jest domyślnie wyłączone, zadania wykonują się od razu). Aby włączyć kolejkowanie zadań skonfiguruj ustawienia w pliku ```config/queue.php```.
+7. [OPCJONALNE] Część zadań systemowych jest przystosowana do kolejkowania (kolejkowanie jest domyślnie wyłączone, zadania wykonują się od razu). Aby włączyć kolejkowanie zadań skonfiguruj ustawienia w pliku ```config/queue.php```:
+```bash
+nano config/queue.php
+```
 8. Uruchom serwer WWW:
 ```bash
 $ php artisan serve
