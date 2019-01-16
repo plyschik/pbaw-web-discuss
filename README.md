@@ -34,30 +34,37 @@ WebDiscuss to prosty system forum internetowego stworzony w oparciu o framework 
 * MySQL,
 * spełnienie [wymagań](https://laravel.com/docs/5.7/installation#server-requirements) frameworka Laravel.
 
-## Instalacja
+## Instalacja (Linux)
 1. Sklonuj repozytorium:
 ```bash
 $ git clone https://github.com/plyschik/pbaw-web-discuss.git
 ```
-
-2. Dostosuj ustawienia w plik .env (konfiguracja połączenia z bazą danych oraz serwerem pocztowym).
-3. Pobierz zależności:
+2. Przejdź do katalogu z projektem:
+```bash
+$ cd pbaw-web-discuss
+```
+3. Zmień nazwę pliku *.env.example* na *.env*. Następnie dostosuj ustawienia zawarte w pliku *.env* do swojej konfiguracji:
+```bash
+$ mv .env.example .env
+$ nano .env
+``` 
+4. Pobierz zależności:
 ```bash
 $ composer install 
 ```
-4. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu:
+5. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu (stworzenie struktury bazy danych i jej wypełnienie, utworzenie konta administratora, utworzenie wstępnych statystyk):
 ```bash
 $ php artisan webdiscuss:setup
 ```
-5. Skonfiguruj CRON (Linux) lub harmonogram zadań (Windows), który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
+6. Skonfiguruj CRON, który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
 ```bash
 * * * * * php artisan schedule:run
 ```
-6. Uruchom serwer WWW:
+7. Uruchom serwer WWW:
 ```bash
 $ php artisan serve
 ```
-7. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
+8. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
 # Użyte zewnętrzne biblioteki
 * [spatie/laravel-permission](https://github.com/spatie/laravel-permission)

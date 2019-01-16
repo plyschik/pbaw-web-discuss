@@ -5,10 +5,8 @@ namespace App\Console\Commands;
 use App\User;
 use App\Topic;
 use App\Reply;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use CyrildeWit\EloquentViewable\ViewTracker;
 
 class WebDiscussStats extends Command
 {

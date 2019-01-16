@@ -12,11 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (App::environment('production')) {
-            $this->call(RolesAndPermissionsSeeder::class);
-        } else {
+        $this->call(RolesAndPermissionsSeeder::class);
+
+        if (App::environment('local')) {
             $this->call([
-                RolesAndPermissionsSeeder::class,
                 UsersSeeder::class,
                 CategoriesSeeder::class,
                 ForumsSeeder::class,

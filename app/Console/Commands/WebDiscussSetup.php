@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\User;
 use App\Category;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class WebDiscussSetup extends Command
 {
@@ -40,18 +40,13 @@ class WebDiscussSetup extends Command
      */
     public function handle()
     {
-        if (User::count() > 0) {
+        if (Schema::hasTable('migrations')) {
             $this->error('This command should be executed only once, but you can rerun this command.');
 
             if (!$this->confirm('Do you wish to rerun this command?')) {
                 return;
             }
         }
-
-        $this->callSilent('migrate:fresh', [
-            '--force' => true,
-            '--seed' => true
-        ]);
 
         $this->line('');
         $this->line('--------------------');
@@ -61,7 +56,18 @@ class WebDiscussSetup extends Command
         $this->line('--------------------');
         $this->line('');
 
-        $this->info('Create new administrator account');
+        $this->line('Database schema creating...');
+
+        $this->callSilent('migrate:fresh', [
+            '--force' => true,
+            '--seed' => true
+        ]);
+
+        $this->line('');
+        $this->info('Database schema created.');
+
+        $this->line('');
+        $this->line('Create new administrator account:');
 
         $username = $this->ask('Username');
         $email = $this->ask('Email address');
@@ -74,18 +80,21 @@ class WebDiscussSetup extends Command
             'email_verified_at' => now()
         ])->assignRole('administrator');
 
+        $this->line('');
+        $this->info('Administrator account created.');
+
         $category = Category::create([
             'name' => 'Test category'
         ]);
 
         $category->users()->attach($user);
 
-        $channel = $category->channels()->create([
-            'name' => 'Test channel',
-            'description' => 'Test channel description.',
+        $forum = $category->forums()->create([
+            'name' => 'Test forum',
+            'description' => 'Test forum description.',
         ]);
 
-        $topic = $channel->topics()->create([
+        $topic = $forum->topics()->create([
             'user_id' => $user->id,
             'title' => 'Test topic'
         ]);
@@ -96,6 +105,9 @@ class WebDiscussSetup extends Command
             'is_topic' => 1
         ]);
 
+        $this->callSilent('webdiscuss:stats');
+
+        $this->line('');
         $this->info('Installation complete!');
     }
 }
