@@ -107,6 +107,8 @@ class WebDiscussSetup extends Command
 
         $this->callSilent('webdiscuss:stats');
 
+        $this->callSilent('key:generate');
+
         $this->line('');
         $this->info('Installation complete!');
     }

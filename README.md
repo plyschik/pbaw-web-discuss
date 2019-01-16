@@ -43,28 +43,29 @@ $ git clone https://github.com/plyschik/pbaw-web-discuss.git
 ```bash
 $ cd pbaw-web-discuss
 ```
-3. Zmień nazwę pliku *.env.example* na *.env*. Następnie dostosuj ustawienia zawarte w pliku *.env* do swojej konfiguracji:
+3. Zmień nazwę pliku ```.env.example``` na ```.env```. Następnie dostosuj ustawienia zawarte w pliku *.env* do swojej konfiguracji:
 ```bash
 $ mv .env.example .env
 $ nano .env
 ``` 
 4. Pobierz zależności:
 ```bash
-$ composer install 
+$ composer install
 ```
 5. Uruchom poniższe polecenie, aby przeprowadzić wstępną konfigurację systemu (stworzenie struktury bazy danych i jej wypełnienie, utworzenie konta administratora, utworzenie wstępnych statystyk):
 ```bash
 $ php artisan webdiscuss:setup
 ```
-6. Skonfiguruj CRON, który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu.
+6. Skonfiguruj CRON, który będzie uruchamiał polecenie: ```php artisan schedule:run``` co minutę w celu wykonania operacji cyklicznych związanych z działaniem systemu:
 ```bash
 * * * * * php artisan schedule:run
 ```
-7. Uruchom serwer WWW:
+7. Część zadań systemowych jest przystosowana do kolejkowania (kolejkowanie jest domyślnie wyłączone, zadania wykonują się od razu). Aby włączyć kolejkowanie zadań skonfiguruj ustawienia w pliku ```config/queue.php```.
+8. Uruchom serwer WWW:
 ```bash
 $ php artisan serve
 ```
-8. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
+9. System działa pod adresem: [127.0.0.1:8000](http://127.0.0.1:8000).
 
 # Użyte zewnętrzne biblioteki
 * [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
