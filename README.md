@@ -62,7 +62,7 @@ $ php artisan webdiscuss:setup
 ```
 7. [OPCJONALNE] Część zadań systemowych jest przystosowana do kolejkowania (kolejkowanie jest domyślnie wyłączone, zadania wykonują się od razu). Aby włączyć kolejkowanie zadań skonfiguruj ustawienia w pliku ```config/queue.php```:
 ```bash
-nano config/queue.php
+$ nano config/queue.php
 ```
 8. Uruchom serwer WWW:
 ```bash

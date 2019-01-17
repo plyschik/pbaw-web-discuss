@@ -12,10 +12,10 @@
 
     <table class="table">
         <thead class="thead-light">
-            <th class="col-1">ID</th>
-            <th class="col-5">Name</th>
-            <th class="col-3">Created at</th>
-            <th class="col-3"></th>
+            <th class="table-col-1">ID</th>
+            <th class="table-col-5">Name</th>
+            <th class="table-col-3">Created at</th>
+            <th class="table-col-3"></th>
         </thead>
         <tbody>
             @foreach ($categories as $category)

@@ -31,10 +31,10 @@
                     </thead>
                     <tbody>
                         <tr class="small">
-                            <th class="col-7">Forum</th>
-                            <th class="col-1 text-center">Topics</th>
-                            <th class="col-1 text-center">Posts</th>
-                            <th class="col-3">Last post</th>
+                            <th class="table-col-7">Forum</th>
+                            <th class="table-col-1 text-center">Topics</th>
+                            <th class="table-col-1 text-center">Posts</th>
+                            <th class="table-col-3">Last post</th>
                         </tr>
                         @if ($category->forums->isEmpty())
                             <tr class="small">

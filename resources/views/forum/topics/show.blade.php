@@ -37,10 +37,10 @@
         <table class="table table-bordered small">
             <thead class="thead-light">
                 <tr>
-                    <th class="col-3">
+                    <th class="table-col-3">
                         <a href="{{ route('users.show', $reply->user) }}">{{ $reply->user->name }}</a>
                     </th>
-                    <th class="col-9 text-right">
+                    <th class="table-col-9 text-right">
                         {{ $reply->created_at }}
                     </th>
                 </tr>
@@ -105,17 +105,17 @@
                 <table class="table table-bordered small">
                     <thead class="thead-light">
                         <tr>
-                            <th class="col-3">
+                            <th class="table-col-3">
                                 <a href="{{ route('users.show', $reply->user) }}">{{ $reply->user->name }}</a>
                             </th>
-                            <th class="col-9 text-right">
+                            <th class="table-col-9 text-right">
                                 {{ $reply->created_at }}
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="col-3" rowspan="2">
+                            <td @auth rowspan="2" @endauth>
                                 <ul class="list-unstyled mb-0">
                                     <li>
                                         Role: <span class="text-muted">{{ $reply->user->roles->first()->name }}</span>
@@ -132,31 +132,33 @@
                                 {!! BBCode::convertToHtml($reply->content) !!}
                             </td>
                         </tr>
-                        <tr>
-                            <td class="p-1" colspan="2">
-                                <ul class="nav justify-content-end">
-                                    @auth
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="{{ route('report.create', $reply) }}">Report</a>
-                                        </li>
-                                    @endauth
-
-                                    @can('manage', $reply)
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="{{ route('replies.edit', $reply) }}">Edit</a>
-                                        </li>
-
-                                        <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
-                                            @method('DELETE')
-                                            @csrf
+                        @auth
+                            <tr>
+                                <td class="p-1" colspan="2">
+                                    <ul class="nav justify-content-end">
+                                        @auth
                                             <li class="nav-item">
-                                                <a class="nav-link active" href="#" onclick="if (confirm('Are you sure?')) { event.target.parentNode.parentNode.submit(); } else { return false; }">Delete</a>
+                                                <a class="nav-link active" href="{{ route('report.create', $reply) }}">Report</a>
                                             </li>
-                                        </form>
-                                    @endcan
-                                </ul>
-                            </td>
-                        </tr>
+                                        @endauth
+
+                                        @can('manage', $reply)
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="{{ route('replies.edit', $reply) }}">Edit</a>
+                                            </li>
+
+                                            <form class="form-inline" action="{{ route('replies.destroy', $reply) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#" onclick="if (confirm('Are you sure?')) { event.target.parentNode.parentNode.submit(); } else { return false; }">Delete</a>
+                                                </li>
+                                            </form>
+                                        @endcan
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endauth
                     </tbody>
                 </table>
             </div>
